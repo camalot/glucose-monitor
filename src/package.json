@@ -1,0 +1,37 @@
+{
+  "name": "glucose-monitor",
+  "version": "1.0.0",
+  "description": "Tracking for Calories/A1C/Glucose",
+  "author": "Ryan Conrad <camalot@gmail.com>",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/www.js",
+    "exec": "npm run build && npm update && nodemon ./dist/www.js",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cli-color": "^2.0.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-handlebars": "^8.0.2",
+    "fatsecret.js": "^1.0.9",
+    "hbs": "^4.2.0",
+    "mongodb": "^6.8.0",
+    "nodemon": "^3.1.4"
+  },
+  "devDependencies": {
+    "@types/cli-color": "^2.0.6",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.1",
+    "chai": "^4.2.0",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "mocha": "^10.1.0",
+    "supertest": "^3.4.2",
+    "supertest-as-promised": "^4.0.2"
+  }
+}

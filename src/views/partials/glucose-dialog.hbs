@@ -1,0 +1,30 @@
+<!-- Glucose Modal -->
+<div class="modal fade" id="addReadingModal" tabindex="-1" aria-labelledby="addReadingModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addReadingModalLabel">Add Glucose Reading</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="dateTime" class="form-label">Date and Time</label>
+            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime" required>
+            <div class="invalid-feedback">
+              Please provide a valid date and time.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="bloodGlucose" class="form-label">Blood Glucose (mg/dL)</label>
+            <input type="number" class="form-control" id="bloodGlucose" name="bloodGlucose" min="0" step="0.1" required>
+            <div class="invalid-feedback">
+              Please provide a valid blood glucose value.
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

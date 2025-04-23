@@ -1,0 +1,12 @@
+const FoodController = require('../../../api/v1/controllers/FoodController.ts.ignore');
+const { Router } = require('express');
+
+const router = Router();
+
+router.route('/api/v1/autocomplete')
+  .get(FoodController.autocomplete);
+
+router.route('/api/v1/food/search/:query')
+  .get(FoodController.search);
+
+module.exports = router;
