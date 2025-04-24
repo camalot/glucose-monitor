@@ -1,6 +1,6 @@
 import Food from "../../structures/Food";
-import { APIError, APIErrorCode } from "../../APIError";
-import BaseClient from "../../BaseClient"
+import { APIError, APIErrorCode } from "../APIError";
+import BaseClient from "../BaseClient"
 
 export function getFoodFactory(client: BaseClient) {
   // return function to send request
@@ -11,7 +11,7 @@ export function getFoodFactory(client: BaseClient) {
   }) => {
     try {
       // send request
-      const response = await client.doRequest("food.get.v2", {
+      const response = await client.doRequest("food.get.v4", {
         food_id: params.foodId,
         region: params.region,
         language: params.language

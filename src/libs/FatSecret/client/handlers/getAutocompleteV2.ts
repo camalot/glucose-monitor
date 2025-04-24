@@ -3,7 +3,7 @@ import valueToArray from "../../utility/valueToArray";
 import { APIError, APIErrorCode } from "../APIError";
 import BaseClient from "../BaseClient"
 
-export function getAutocompleteFactory(client: BaseClient) {
+export function getAutocompleteV2Factory(client: BaseClient) {
   // return function to send request
   return async (params: {
     expression: string;
@@ -13,7 +13,7 @@ export function getAutocompleteFactory(client: BaseClient) {
   }) => {
     try {
       // send request
-      const response = await client.doRequest("foods.autocomplete", {
+      const response = await client.doRequest("foods.autocomplete.v2", {
         expression: params.expression,
         max_results: params.maxResults,
         region: params.region,

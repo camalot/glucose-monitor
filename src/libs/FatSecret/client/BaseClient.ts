@@ -22,6 +22,7 @@ export default class BaseClient {
     // set options 
     this.options = options;
 
+
     // create an axios client instance
     this.axios = axios.create({});
 

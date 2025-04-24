@@ -1,6 +1,6 @@
 import BarcodeFood from "../../structures/BarcodeFood";
-import { APIError, APIErrorCode } from "../../APIError";
-import BaseClient from "../../BaseClient"
+import { APIError, APIErrorCode } from "../APIError";
+import BaseClient from "../BaseClient"
 
 export function getFoodFromBarcodeFactory(client: BaseClient) {
   // return function to send request

@@ -1,7 +1,7 @@
 import FoodSearchResults from "../../structures/FoodSearchResults";
 import BaseClient from "../BaseClient";
 
-export function getFoodSearchFactory(client: BaseClient) {
+export function getFoodSearchV3Factory(client: BaseClient) {
   // return function to send request
   return async (params: {
     searchExpression?: string;
@@ -12,7 +12,7 @@ export function getFoodSearchFactory(client: BaseClient) {
   }) => {
     try {
       // send request
-      const response = await client.doRequest("foods.search.v2", {
+      const response = await client.doRequest("foods.search.v3", {
         search_expression: params.searchExpression,
         page_number: params.pageNumber,
 
