@@ -11,22 +11,17 @@ interface Setting {
   value: any;
 }
 
-class SettingsMongoClient extends DatabaseMongoClient {
-  private collectionName: string;
-  private collection: Collection<Setting> | null;
+class SettingsMongoClient extends DatabaseMongoClient<Setting> {
 
   constructor() {
     super();
     this.collectionName = 'settings';
-    this.collection = null;
   }
 
   async list(): Promise<Setting[]> {
     const method = 'list';
     try {
       await this.connect();
-      if (!this.db) throw new Error('Database connection is not initialized.');
-      this.collection = this.db.collection<Setting>(this.collectionName);
       const result = await this.collection.find().toArray();
       return result;
     } catch (err: any) {

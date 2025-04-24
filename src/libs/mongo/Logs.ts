@@ -7,14 +7,11 @@ interface LogData {
   [key: string]: any;
 }
 
-class LogsMongoClient extends DatabaseMongoClient {
-  private collectionName: string;
-  private collection: Collection | null;
+class LogsMongoClient extends DatabaseMongoClient<LogData> {
 
   constructor() {
     super();
     this.collectionName = 'logs';
-    this.collection = null;
   }
 
   async debug(source: string, message: string, data?: LogData): Promise<boolean> {
@@ -79,7 +76,6 @@ class LogsMongoClient extends DatabaseMongoClient {
       await this.connect();
       const timestamp = Math.floor(Date.now() / 1000);
       if (!this.db) throw new Error('Database connection is not initialized.');
-      this.collection = this.db.collection(this.collectionName);
 
       const dbLogLevel = this._logLevels()[config.log.level.db];
       const consoleLogLevel = this._logLevels()[config.log.level.console];

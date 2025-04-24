@@ -2,15 +2,37 @@ import config from '../../../config';
 import * as fs from 'fs';
 import LogsMongoClient from '../../../libs/mongo/Logs';
 import GlucoseMongoClient from '../../../libs/mongo/Glucose';
+import GlucoseEntry from '../../../models/GlucoseEntry';
 import { Request, Response } from 'express';
 
-const logger = new LogsMongoClient();
-const glucose = new GlucoseMongoClient();
-const MODULE = 'GlucoseController';
+class GlucoseController {
+  private logger = new LogsMongoClient();
+  private MODULE = 'GlucoseController';
 
-async function record(req: Request, res: Response): Promise<void> {
+async get(req: Request, res: Response): Promise<void> {
+  const METHOD = 'get';
+  try {
+    const glucose = new GlucoseMongoClient();
+    console.log("get all");
+    const entries = await glucose.getAll();
+    console.log("return entries");
+    await res.status(200).json(entries);
+    return;
+  } catch (err: any) {
+    await this.logger.error(`${this.MODULE}.${METHOD}`, err.message, {
+      stack: err.stack,
+      headers: req.headers,
+      body: req.body,
+    });
+    await res.status(500).json({ error: 'Internal server error' });
+    return;
+  }
+}
+
+async record(req: Request, res: Response): Promise<void> {
   const METHOD = 'record';
   try {
+    const glucose = new GlucoseMongoClient();
     const { bloodGlucose, recordedAt } = req.body;
 
     if (!bloodGlucose || !recordedAt) {
@@ -18,17 +40,13 @@ async function record(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    const entry = {
-      bloodGlucose: parseFloat(bloodGlucose),
-      recordedAt: new Date(recordedAt),
-    };
-
-    await glucose.recordGlucose(entry);
+    const entry: GlucoseEntry = new GlucoseEntry(bloodGlucose, recordedAt);
+    await glucose.record(entry);
 
     res.status(201).json({ message: 'Glucose entry recorded successfully.' });
     return;
   } catch (err: any) {
-    await logger.error(`${MODULE}.${METHOD}`, err.message, {
+    await this.logger.error(`${this.MODULE}.${METHOD}`, err.message, {
       stack: err.stack,
       headers: req.headers,
       body: req.body,
@@ -37,24 +55,6 @@ async function record(req: Request, res: Response): Promise<void> {
     return;
   }
 }
+}
 
-export default {
-  record,
-};
-
-// const config = require('../../../config');
-// const fs = require('fs');
-// const LogsMongoClient = require('../../../libs/mongo/Logs');
-// const GluecoseMongoClient = require('../../../libs/mongo/Glucose');
-
-// const logger = new LogsMongoClient();
-// const glucose = new GlucoseMongoClient();
-// const MODULE = 'GlucoseController';
-
-// async function record() {
-
-// }
-
-// module.exports = {
-//   record,
-// };
+export default GlucoseController;

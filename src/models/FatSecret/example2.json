@@ -1,0 +1,354 @@
+{
+  "food": {
+    "food_id": "1641",
+    "food_name": "Chicken Breast",
+    "food_type": "Generic",
+    "food_sub_categories": {
+      "food_sub_category": [
+        "Chicken Breast",
+        "Chicken"
+      ]
+    },
+    "food_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten",
+    "food_images": {
+      "food_image": [
+        {
+          "image_url": "https://www.foodimagedb.com/food-images/bc47e77b-3a5c-4a8e-aa6c-786646a8934a_1024x1024.png",
+          "image_type": "1"
+        },
+        {
+          "image_url": "https://www.foodimagedb.com/food-images/bc47e77b-3a5c-4a8e-aa6c-786646a8934a_400x400.png",
+          "image_type": "1"
+        },
+        {
+          "image_url": "https://www.foodimagedb.com/food-images/bc47e77b-3a5c-4a8e-aa6c-786646a8934a_72x72.png",
+          "image_type": "1"
+        }
+      ]
+    },
+    "food_attributes": {
+      "allergens": {
+        "allergen": [
+          {
+            "id": "850",
+            "name": "Milk",
+            "value": "0"
+          },
+          {
+            "id": "26216",
+            "name": "Lactose",
+            "value": "0"
+          },
+          {
+            "id": "51582",
+            "name": "Egg",
+            "value": "0"
+          },
+          {
+            "id": "76948",
+            "name": "Fish",
+            "value": "0"
+          },
+          {
+            "id": "102314",
+            "name": "Gluten",
+            "value": "0"
+          },
+          {
+            "id": "127680",
+            "name": "Nuts",
+            "value": "0"
+          },
+          {
+            "id": "153046",
+            "name": "Peanuts",
+            "value": "0"
+          },
+          {
+            "id": "178412",
+            "name": "Shellfish",
+            "value": "0"
+          },
+          {
+            "id": "203778",
+            "name": "Soy",
+            "value": "0"
+          },
+          {
+            "id": "279876",
+            "name": "Sesame",
+            "value": "0"
+          }
+        ]
+      },
+      "preferences": {
+        "preference": [
+          {
+            "id": "229144",
+            "name": "Vegetarian",
+            "value": "0"
+          },
+          {
+            "id": "254510",
+            "name": "Vegan",
+            "value": "0"
+          }
+        ]
+      }
+    },
+    "servings": {
+      "serving": [
+        {
+          "serving_id": "50321",
+          "serving_description": "100 g",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten?portionid=50321&portionamount=100.000",
+          "metric_serving_amount": "100.000",
+          "metric_serving_unit": "g",
+          "number_of_units": "100.000",
+          "measurement_description": "g",
+          "calories": "195",
+          "carbohydrate": "0",
+          "protein": "29.55",
+          "fat": "7.72",
+          "saturated_fat": "2.172",
+          "polyunsaturated_fat": "1.646",
+          "monounsaturated_fat": "3.005",
+          "cholesterol": "83",
+          "sodium": "393",
+          "potassium": "243",
+          "fiber": "0",
+          "sugar": "0",
+          "vitamin_a": "28",
+          "vitamin_c": "0",
+          "calcium": "14",
+          "iron": "1.06"
+        },
+        {
+          "serving_id": "5034",
+          "serving_description": "1/2 small (yield after cooking, bone removed)",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten?portionid=5034&portionamount=0.500",
+          "metric_serving_amount": "84.000",
+          "metric_serving_unit": "g",
+          "number_of_units": "0.500",
+          "measurement_description": "small breast (yield after cooking, bone removed)",
+          "calories": "164",
+          "carbohydrate": "0",
+          "protein": "24.82",
+          "fat": "6.48",
+          "saturated_fat": "1.824",
+          "polyunsaturated_fat": "1.383",
+          "monounsaturated_fat": "2.524",
+          "cholesterol": "70",
+          "sodium": "330",
+          "potassium": "204",
+          "fiber": "0",
+          "sugar": "0",
+          "vitamin_a": "24",
+          "vitamin_c": "0",
+          "calcium": "12",
+          "iron": "0.89"
+        },
+        {
+          "serving_id": "4833",
+          "serving_description": "1 oz boneless, cooked",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten?portionid=4833&portionamount=1.000",
+          "metric_serving_amount": "28.350",
+          "metric_serving_unit": "g",
+          "number_of_units": "1.000",
+          "measurement_description": "oz, boneless, cooked",
+          "calories": "55",
+          "carbohydrate": "0",
+          "protein": "8.38",
+          "fat": "2.19",
+          "saturated_fat": "0.616",
+          "polyunsaturated_fat": "0.467",
+          "monounsaturated_fat": "0.852",
+          "cholesterol": "24",
+          "sodium": "111",
+          "potassium": "69",
+          "fiber": "0",
+          "sugar": "0",
+          "vitamin_a": "8",
+          "vitamin_c": "0",
+          "calcium": "4",
+          "iron": "0.30"
+        },
+        {
+          "serving_id": "5035",
+          "serving_description": "1/2 medium (yield after cooking, bone removed)",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten?portionid=5035&portionamount=0.500",
+          "metric_serving_amount": "98.000",
+          "metric_serving_unit": "g",
+          "number_of_units": "0.500",
+          "measurement_description": "medium breast (yield after cooking, bone removed)",
+          "calories": "191",
+          "carbohydrate": "0",
+          "protein": "28.96",
+          "fat": "7.57",
+          "saturated_fat": "2.128",
+          "polyunsaturated_fat": "1.613",
+          "monounsaturated_fat": "2.945",
+          "cholesterol": "81",
+          "sodium": "385",
+          "potassium": "238",
+          "fiber": "0",
+          "sugar": "0",
+          "vitamin_a": "27",
+          "vitamin_c": "0",
+          "calcium": "14",
+          "iron": "1.04"
+        },
+        {
+          "serving_id": "5036",
+          "serving_description": "1/2 large (yield after cooking, bone removed)",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten?portionid=5036&portionamount=0.500",
+          "metric_serving_amount": "111.000",
+          "metric_serving_unit": "g",
+          "number_of_units": "0.500",
+          "measurement_description": "large breast (yield after cooking, bone removed)",
+          "calories": "216",
+          "carbohydrate": "0",
+          "protein": "32.80",
+          "fat": "8.57",
+          "saturated_fat": "2.411",
+          "polyunsaturated_fat": "1.827",
+          "monounsaturated_fat": "3.335",
+          "cholesterol": "92",
+          "sodium": "436",
+          "potassium": "270",
+          "fiber": "0",
+          "sugar": "0",
+          "vitamin_a": "31",
+          "vitamin_c": "0",
+          "calcium": "16",
+          "iron": "1.18"
+        },
+        {
+          "serving_id": "5041",
+          "serving_description": "1 oz boneless (yield after cooking)",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten?portionid=5041&portionamount=1.000",
+          "metric_serving_amount": "18.000",
+          "metric_serving_unit": "g",
+          "number_of_units": "1.000",
+          "measurement_description": "oz, boneless, raw (yield after cooking)",
+          "calories": "35",
+          "carbohydrate": "0",
+          "protein": "5.32",
+          "fat": "1.39",
+          "saturated_fat": "0.391",
+          "polyunsaturated_fat": "0.296",
+          "monounsaturated_fat": "0.541",
+          "cholesterol": "15",
+          "sodium": "71",
+          "potassium": "44",
+          "fiber": "0",
+          "sugar": "0",
+          "vitamin_a": "5",
+          "vitamin_c": "0",
+          "calcium": "3",
+          "iron": "0.19"
+        },
+        {
+          "serving_id": "5040",
+          "serving_description": "1 oz raw (yield after cooking, bone removed)",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten?portionid=5040&portionamount=1.000",
+          "metric_serving_amount": "15.000",
+          "metric_serving_unit": "g",
+          "number_of_units": "1.000",
+          "measurement_description": "oz, raw (yield after cooking, bone removed)",
+          "calories": "29",
+          "carbohydrate": "0",
+          "protein": "4.43",
+          "fat": "1.16",
+          "saturated_fat": "0.326",
+          "polyunsaturated_fat": "0.247",
+          "monounsaturated_fat": "0.451",
+          "cholesterol": "12",
+          "sodium": "59",
+          "potassium": "36",
+          "fiber": "0",
+          "sugar": "0",
+          "vitamin_a": "4",
+          "vitamin_c": "0",
+          "calcium": "2",
+          "iron": "0.16"
+        },
+        {
+          "serving_id": "4834",
+          "serving_description": "1 cup cooked, diced",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten?portionid=4834&portionamount=1.000",
+          "metric_serving_amount": "135.000",
+          "metric_serving_unit": "g",
+          "number_of_units": "1.000",
+          "measurement_description": "cup, cooked, diced",
+          "calories": "263",
+          "carbohydrate": "0",
+          "protein": "39.89",
+          "fat": "10.42",
+          "saturated_fat": "2.932",
+          "polyunsaturated_fat": "2.222",
+          "monounsaturated_fat": "4.056",
+          "cholesterol": "112",
+          "sodium": "531",
+          "potassium": "328",
+          "fiber": "0",
+          "sugar": "0",
+          "vitamin_a": "38",
+          "vitamin_c": "0",
+          "calcium": "19",
+          "iron": "1.43"
+        },
+        {
+          "serving_id": "5039",
+          "serving_description": "1 oz, with bone cooked (yield after bone removed)",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten?portionid=5039&portionamount=1.000",
+          "metric_serving_amount": "24.000",
+          "metric_serving_unit": "g",
+          "number_of_units": "1.000",
+          "measurement_description": "oz, with bone, cooked (yield after bone removed)",
+          "calories": "47",
+          "carbohydrate": "0",
+          "protein": "7.09",
+          "fat": "1.85",
+          "saturated_fat": "0.521",
+          "polyunsaturated_fat": "0.395",
+          "monounsaturated_fat": "0.721",
+          "cholesterol": "20",
+          "sodium": "94",
+          "potassium": "58",
+          "fiber": "0",
+          "sugar": "0",
+          "vitamin_a": "7",
+          "vitamin_c": "0",
+          "calcium": "3",
+          "iron": "0.25"
+        },
+        {
+          "serving_id": "5043",
+          "serving_description": "1 serving (98 g)",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/generic/chicken-breast-ns-as-to-skin-eaten?portionid=5043&portionamount=1.000",
+          "metric_serving_amount": "98.000",
+          "metric_serving_unit": "g",
+          "number_of_units": "1.000",
+          "measurement_description": "serving (98g)",
+          "calories": "191",
+          "carbohydrate": "0",
+          "protein": "28.96",
+          "fat": "7.57",
+          "saturated_fat": "2.128",
+          "polyunsaturated_fat": "1.613",
+          "monounsaturated_fat": "2.945",
+          "cholesterol": "81",
+          "sodium": "385",
+          "potassium": "238",
+          "fiber": "0",
+          "sugar": "0",
+          "vitamin_a": "27",
+          "vitamin_c": "0",
+          "calcium": "14",
+          "iron": "1.04"
+        }
+      ]
+    }
+  }
+}
