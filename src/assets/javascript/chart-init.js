@@ -1,20 +1,32 @@
+const chartInstances = {};
 class DataChart {
   constructor() {};
+  
   initialize(id, options) {
 
     const ctx = document.getElementById(id).getContext('2d');
+
+    if (chartInstances[id]) {
+      chartInstances[id].destroy();
+    }
 
     // Example glucose data
     const data = options.data;
 
     // Prepare data for the chart
-    const labels = data.map(entry => entry.time);
+    // get local time offset from UTC
+    const offset = new Date().getTimezoneOffset() * 60000;
+    const localTime = data.map(entry => new Date(entry.time).getTime() + offset);
+    const ltISO8601 = localTime.map(time => new Date(time).toISOString());
+    const labels = ltISO8601;
     const values = data.map(entry => entry.value);
 
     console.log(labels);
 
+
+
     // Create the chart
-    new Chart(ctx, {
+    const chart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
@@ -53,5 +65,12 @@ class DataChart {
         }
       }
     });
+    chartInstances[id] = chart;
+
+    $(`.chart.${id}`)
+      .addClass('bg-body-tertiary')
+      .removeClass('placeholder-glow')
+      .removeClass('bg-dark');
+    $(`.chart.${id} .chart-canvas`).removeClass('placeholder');
   }
 }

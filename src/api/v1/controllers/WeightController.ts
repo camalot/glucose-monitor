@@ -9,7 +9,8 @@ export default class WeightController {
   public async getChartData(req: Request, resp: Response, next: NextFunction): Promise<void> {
     try {
       resp.json([
-        { time: '2025-04-24T13:00:00.000Z', value: 335 }
+        { time: '2025-04-24T13:00:00.000Z', value: 335 },
+        { time: '2025-04-25T04:47:58.000Z', value: 335 }
       ]);
     } catch (error) {
       next(error);
