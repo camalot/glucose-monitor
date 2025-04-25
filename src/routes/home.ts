@@ -9,16 +9,3 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 export default router;
-
-// const config = require('../config');
-// const { Router } = require('express');
-// const SettingsMongoClient = require('../libs/mongo/Settings')
-
-// const router = Router();
-
-
-// router.get('/', async (req, resp) => {
-//   await resp.render("index", {});
-// });
-
-// module.exports = router;

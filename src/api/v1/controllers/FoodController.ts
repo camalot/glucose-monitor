@@ -22,64 +22,109 @@ class FoodController {
   private logger = new LogsMongoClient();
   private MODULE = 'FoodController';
 
-  
+  async list(req: Request, resp: Response, next: NextFunction): Promise<void> {
+    const METHOD = 'list';
+    const count = req.params.count || 3;
 
-async createClient(): Promise<FatSecret.Client> {
-  const client = new FatSecret.Client({
-    credentials: {
-      clientId: config.fatsecret.clientId,
-      clientSecret: config.fatsecret.clientSecret,
-      scope: ['basic'], // your scopes
-    },
-  });
+    // await this.logger.info(`${this.MODULE}.${METHOD}`, `Request received`);
+    try {
+      let data = [
+        {
+          time: new Date().toISOString(),
+          food: {
+            name: 'Sample Food Name',
+            calories: 100,
+            carbohydrates: 20
+          }
+        },
 
-  
-  return client;
-}
-
-async getById(req: Request, resp: Response, next: NextFunction): Promise<any> {
-  const foodId: number = parseInt(req.params.id);
-  const client = await this.createClient();
-
-  try {
-    const response = await client.getFood({ foodId: String(foodId) });
-    return await resp.json(response);
-  } catch (error) {
-    await this.logger.error(`${this.MODULE}.getById`, error.message, { stack: error.stack });
-    await next(error);
-
-    return;
+        {
+          time: new Date().toISOString(),
+          food: {
+            name: 'Another Food Name',
+            calories: 200,
+            carbohydrates: 30
+          }
+        }
+      ];
+      await resp.json(data);
+    } catch (error) {
+      await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
+      await next(error);
+    }
   }
-}
 
-async autocomplete(req: Request, resp: Response, next: NextFunction): Promise<AutocompleteResponse> {
-  const query = req.query.q;
-  const client = await this.createClient();
-  try {
-    const response = await client.getAutocompleteV2({ expression: String(query) });
-    return await resp.json(response);
-  } catch (error: any) {
-    await this.logger.error(`${this.MODULE}.autocomplete`, error.message, { stack: error.stack });
-    await next(error);
+  async createClient(): Promise<FatSecret.Client> {
+    console.log("Create before promise");
+    // return a Promise
+    return new Promise<FatSecret.Client>((resolve, reject) => {
+      try {
+        console.log("Creating client...");
+        const client = new FatSecret.Client({
+          credentials: {
+            clientId: config.fatsecret.clientId,
+            clientSecret: config.fatsecret.clientSecret,
+            scope: config.fatsecret.scopes as ("basic" | "premier" | "barcode" | "localization")[], // your scopes
+          },
+        });
+        console.log("Client created");
+        return resolve(client);
+      } catch (error) {
 
-    return;
+        console.log(error);
+        reject(error);
+      }
+    });
   }
-}
 
-  async search(req: Request, resp: Response, next: NextFunction): Promise<SearchResponse> {
-  const client = await this.createClient();
-  try {
-    const query = req.query.q;
+  async getById(req: Request, resp: Response, next: NextFunction): Promise<void> {
+    const METHOD = 'getById';
+    const foodId: number = parseInt(req.params.id);
     const client = await this.createClient();
 
-    const response = await client.getFoodSearchV1({ searchExpression: String(query) });
-    return await resp.json(response);
-  } catch (error: any) {
-    await this.logger.error(`${this.MODULE}.search`, error.message, { stack: error.stack });
-    await next(error);
-    return;
+    try {
+      const response = await client.getFood({ foodId: String(foodId) });
+      await resp.json(response);
+    } catch (error) {
+      await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
+      await next(error);
+
+      return;
+    }
   }
-}
+
+  async autocomplete(req: Request, resp: Response, next: NextFunction): Promise<void> {
+    const METHOD = 'autocomplete';
+    const query = req.query.q;
+    console.log("Received autocomplete request with query:", query);
+    const client = await this.createClient();
+    try {
+      console.log("autocomplete");
+      const response = await client.getAutocompleteV2({ expression: String(query) });
+      await resp.json(response);
+    } catch (error: any) {
+      console.log(error);
+      await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
+      await next(error);
+
+      return;
+    }
+  }
+
+  async search(req: Request, resp: Response, next: NextFunction): Promise<void> {
+    const METHOD = 'search';
+    const client = await this.createClient();
+    try {
+      const query = req.query.q;
+
+      const response = await client.getFoodSearchV1({ searchExpression: String(query) });
+      await resp.json(response);
+    } catch (error: any) {
+      await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
+      await next(error);
+      return;
+    }
+  }
 }
 
 export default FoodController;

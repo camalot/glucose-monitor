@@ -35,7 +35,11 @@ async function scripts(req: Request, res: Response): Promise<void> {
   const METHOD = 'scripts';
   try {
     // Combine scripts into one file and send
-    const scripts = ['form-validator.js'];
+    const scripts = [
+      'form-validator.js',
+      'weight-chart.js',
+      'on-ready.js',
+    ];
 
     res.setHeader('Content-Type', 'application/javascript');
 

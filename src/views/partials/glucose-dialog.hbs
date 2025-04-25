@@ -8,20 +8,22 @@
       </div>
       <div class="modal-body">
         <form class="needs-validation" novalidate>
-          <div class="mb-3">
-            <label for="dateTime" class="form-label">Date and Time</label>
-            <input type="datetime-local" class="form-control" id="dateTime" name="dateTime" required>
-            <div class="invalid-feedback">
-              Please provide a valid date and time.
-            </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+            <input placeholder="Select Reading Time" type="datetime-local" class="form-control" id="GlucoseRecordedAt" name="RecordedAt" required>
           </div>
-          <div class="mb-3">
-            <label for="bloodGlucose" class="form-label">Blood Glucose (mg/dL)</label>
-            <input type="number" class="form-control" id="bloodGlucose" name="bloodGlucose" min="0" step="0.1" required>
-            <div class="invalid-feedback">
-              Please provide a valid blood glucose value.
-            </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" title="Blood Glucose"><i class="fa-solid fa-droplet"></i></span>
+            <input type="number" class="form-control" id="BloodGlucose" name="Value" min="0" step="0.1" required>
+            <span class="input-group-text">mg/dL</span>
           </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"><i class="fa-solid fa-comments"></i></span>
+            <textarea rows="3" placeholder="Additional Notes" class="form-control" id="GlucoseAdditionalNotes" name="Notes"></textarea>
+          </div>
+
+          
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>

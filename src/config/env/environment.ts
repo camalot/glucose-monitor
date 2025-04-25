@@ -84,6 +84,7 @@ const config = {
   fatsecret: {
     clientId: getEnvVarString('GM_FATSECRET_CLIENT_ID', ''),
     clientSecret: getEnvVarString('GM_FATSECRET_CLIENT_SECRET', ''),
+    scopes: ['basic', 'premier'] as ("basic" | "premier" | "barcode" | "localization")[],
   },
   metrics: {
     requireToken: getEnvVarBooleanDefault('GM_METRICS_REQUIRE_TOKEN', true),

@@ -6,6 +6,7 @@ import BarcodedFood from "./structures/BarcodeFood";
 import Food from "./structures/Food";
 import FoodSearchResults from "./structures/FoodSearchResults";
 import Serving from "./structures/Serving";
+import { ICredentials } from "./client/BaseClient";
 
 // define the calorie
 createUnit({
@@ -19,7 +20,6 @@ createUnit({
 export default {
   Client,
   APIErrorCode,
-
   Food,
   BarcodedFood,
   FoodSearchResults,
@@ -28,5 +28,5 @@ export default {
 
 export {
   APIErrorCode, BarcodedFood, Client, Food, FoodSearchResults,
-  Serving
+  Serving, ICredentials
 };

@@ -1,0 +1,44 @@
+ <!-- Modal for Adding Meal Information -->
+<div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="addFoodModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addFoodModalLabel">Add Food Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="needs-validation" novalidate>
+          <div class="input-group mb-3">
+            {{!-- <span class="input-group-text invalid-feedback"><i aria-placeholder="Please provide a valid meal time." class="fa-solid fa-triangle-exclamation"></i></span> --}}
+            <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+            <input placeholder="Select Meal Time" type="datetime-local" class="form-control" id="FoodRecordedAt" name="RecordedAt" required>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" title="Food Item"><i class="fa-solid fa-utensils"></i></span>
+            <input placeholder="Food Item" class="form-control" id="FoodName" name="Name" required />
+            <button class="input-group-text btn btn-outline-primary" type="button" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"><i title="Calories" aria-placeholder="Calories" class="fa-solid fa-bolt"></i></span>
+            <input type="number" class="form-control" id="Calories" name="Calories" placeholder="Calories" required />
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"><i title="Carbohydrates" aria-placeholder="Carbohydrates" class="fa-solid fa-bolt"></i></span>
+            <input type="number" class="form-control" id="Carbs" name="Carbs" placeholder="Carbohydrates" required />
+            <span class="input-group-text">g</span>
+          </div>
+
+
+          <div class="input-group mb-3">
+            <span class="input-group-text"><i class="fa-solid fa-comments"></i></span>
+            <textarea rows="3" placeholder="Additional Notes" class="form-control" id="FoodAdditionalNotes" name="Notes"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,38 +1,29 @@
 
 
         <div class="inner cover">
-          <h1 class="title-header"><i class="fa fa-link"></i>{{title}}</h1>
+          <h1 class="title-header"><i class="fa fa-droplet me-4"></i>{{title}}</h1>
 
           <div class="row">
-            {{#if config.tokens.required}}
-            <div class="col-lg-12">
-              <div class="input-group mb-3 input-group-lg">
-                {{!-- {{#if config.tokens.create.enabled}}
-                <div class="input-group-prepend">
-                  <button class="btn btn-success btn-token btn-lg" type="button" title="Generate New Token">GENERATE</button>
-                </div>
-                {{/if}}
-                <input id="token" type="password" class="form-control" placeholder="ACCESS TOKEN">
-                <div class="input-group-append">
-                  <button class="btn btn-info btn-token-showhide btn-token-hidden btn-lg" type="button" title="Show Token"
-                  ><i class="fa-regular fa-eye"></i></button><button 
-                  class="btn btn-copy btn-info btn-token-copy btn-lg" type="button" title="Copy Token"
-                  ><i class="fa-solid fa-copy"></i></button>
-                </div> --}}
-              </div>
+            <div class="col-lg-4">
+              {{> a1c }}
             </div>
-            {{/if}}
-            <div class="col-lg-12">
-              {{!-- <div class="input-group mb-3 input-group-lg">
-                <input id="url" type="text" class="form-control" placeholder="PASTE A LINK...">
-                <div class="input-group-append">
-                  <button class="btn btn-shorten btn-info btn-lg" type="button" title="Shorten Url">SHORTEN</button>
-                </div>
-              </div> --}}
+            <div class="col-lg-4">
+              {{> glucose-reading }}
             </div>
-
-            <div class="col-lg-12">
-              <div id="link"></div>
+            <div class="col-lg-4">
+              {{> food-entry }}
+            </div>
+          </div>
+          {{!-- <div class="row">
+            <div class="col-lg-12"></div>
+          </div> --}}
+            
+          <div class="row">
+            <div class="col-lg-6">
+              {{> glucose-chart }}
+            </div>
+            <div class="col-lg-6">
+              {{> weight-chart }}
             </div>
           </div>
         </div>
@@ -41,4 +32,13 @@
 
         {{!-- include the partial --}}
         {{> glucose-dialog }}
-        {{> meal-dialog }}
+        {{> food-dialog }}
+        {{> weight-dialog}}
+
+        {{#section "head"}}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js?path=dist"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+        {{/section}}
+
+        {{#section "scripts"}}
+        {{/section}}

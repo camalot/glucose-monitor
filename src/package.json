@@ -6,25 +6,29 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "start": "node ./dist/www.js",
+    "build": "tsc && copyfiles -u 1 assets/**/* dist/assets && copyfiles -u 1 views/**/* dist/views",
+    "start": "npm run build && node ./dist/www.js",
     "exec": "npm run build && npm update && nodemon ./dist/www.js",
     "test": "mocha"
   },
   "dependencies": {
+    "axios": "^1.8.4",
     "body-parser": "^1.20.2",
     "cli-color": "^2.0.4",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-handlebars": "^8.0.2",
+    "mathjs": "^14.4.0",
     "mongodb": "^6.8.0",
     "nodemon": "^3.1.4"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.4",
     "@types/cli-color": "^2.0.6",
     "@types/express": "^5.0.1",
     "@types/node": "^22.14.1",
     "chai": "^4.2.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",

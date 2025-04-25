@@ -6,13 +6,13 @@
 
 html,
 body {
-  height: 100%;
-  background-color: #03a9f4;
+  /*height: 100%;*/
+  /*background-color: #03a9f4;*/
   overflow: hidden;
 }
 
 body {
-  color: #fff;
+  /* color: #fff; */
   text-align: center;
   font-family: 'Raleway', sans-serif;
 }
@@ -20,11 +20,12 @@ body {
 .title-header {
   text-transform: uppercase;
   padding-left: 2em;
+  font-weight: bold;
 }
 
 .btn {
   border: none;
-  border-radius: 0;
+  /* border-radius: 0; */
   padding: 10px 20px;
   color: #ddd;
 }
@@ -58,7 +59,7 @@ body {
   background-color: var(--darkreader-bg--bs-body-bg, #181a1b);
   border: var(--darkreader-border--bs-border-width) solid var(--darkreader-border--bs-border-color);
 }
-
+/*
 .site-wrapper {
   display: table;
   width: 100%;
@@ -69,12 +70,12 @@ body {
 .site-wrapper-inner {
   display: table-cell;
   vertical-align: top;
-}
+}*/
 
 .main-container {
   margin-right: auto;
   margin-left: auto;
-  margin-top: 80px;
+  /* margin-top: 80px; */
 }
 
 .inner {
@@ -83,6 +84,29 @@ body {
 
 .inner h4 {
   padding-bottom: 30px;
+}
+
+.reading-entry.card {
+  min-height: 280px;
+}
+
+.reading-entry .reading-entry-body {
+  width: 100%;
+  min-height: 100px;
+}
+
+.reading-entry .reading-entry-value {
+  font-weight: bold;
+  font-size: 7em;
+}
+
+.reading-entry-body .unit-label {
+  font-size: 1em;
+}
+
+.card-title.reading-entry-label {
+  font-size: 2em;
+  width: 100%;
 }
 
 .glyphicon-link {
@@ -104,6 +128,7 @@ body {
   margin-right: 20px;
 }
 
+/*
 @media (min-width: 768px) {
   .main-container {
     width: 100%;
@@ -115,3 +140,4 @@ body {
     width: 800px;
   }
 }
+*/

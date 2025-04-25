@@ -1,7 +1,7 @@
 class Glucose {
   constructor() { }
 
-  calculateA1C(entries: number[]): number {
+  static calculateA1C(entries: number[]): number {
     if (!Array.isArray(entries) || entries.length === 0) {
       throw new Error("Invalid entries: must be a non-empty array");
     }
@@ -13,7 +13,7 @@ class Glucose {
     return a1c;
   }
 
-  getAverage(entries: number[]): number {
+  static getAverage(entries: number[]): number {
     if (!Array.isArray(entries) || entries.length === 0) {
       throw new Error("Invalid entries: must be a non-empty array");
     }
@@ -22,7 +22,7 @@ class Glucose {
     return total / entries.length;
   }
 
-  convertMGDLToMMOLL(mgdl: number): number {
+  static convertMGDLToMMOLL(mgdl: number): number {
     if (typeof mgdl !== 'number' || mgdl < 0) {
       throw new Error("Invalid mg/dL value: must be a non-negative number");
     }
@@ -31,7 +31,7 @@ class Glucose {
     return mmolL;
   }
 
-  convertMMOLLToMGDL(mmoll: number): number {
+  static convertMMOLLToMGDL(mmoll: number): number {
     if (typeof mmoll !== 'number' || mmoll < 0) {
       throw new Error("Invalid mmol/L value: must be a non-negative number");
     }

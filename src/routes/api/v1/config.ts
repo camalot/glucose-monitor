@@ -4,10 +4,10 @@ import { Router, Request, Response } from 'express';
 
 const router = Router();
 
-router.route('/assets/javascript/config.js')
+router.route('/javascript/config.js')
   .get(ScriptsController.config);
 
-router.route('/assets/javascript/scripts.js')
+router.route('/javascript/scripts.js')
   .get(ScriptsController.scripts);
 
 export default router;

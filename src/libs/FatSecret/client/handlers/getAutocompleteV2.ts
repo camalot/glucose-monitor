@@ -12,6 +12,7 @@ export function getAutocompleteV2Factory(client: BaseClient) {
     language?: string;
   }) => {
     try {
+      console.log("autocomplete.v2");
       // send request
       const response = await client.doRequest("foods.autocomplete.v2", {
         expression: params.expression,

@@ -53,7 +53,7 @@ console.log('View engine set to hbs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(path.resolve(), 'assets')));
+app.use(express.static(path.join(__dirname, 'assets')));
 
 app.get('/', ui.default.allow, (req: Request, res: Response) => {
   return res.render('index', { title: 'Glucose Monitor', config });
