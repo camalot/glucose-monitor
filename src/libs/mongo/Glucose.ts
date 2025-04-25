@@ -17,7 +17,7 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
       console.log("GlucoseMongoClient connecting");
       await this.connect();
       console.log("get all entries from db");
-      const entries = await this.collection.find({}).toArray();
+      const entries = await this.collection.find({}, { sort: { timestamp: 1 }}).toArray();
       console.log("got result");
       return entries;
     } catch (error) {
@@ -31,7 +31,7 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
       console.log("GlucoseMongoClient connecting");
       await this.connect();
       console.log("get only entries from db");
-      const entries = await this.collection.find({}).limit(limit).toArray();
+      const entries = await this.collection.find({}, { sort: { timestamp: 1 } }).limit(limit).toArray();
       entries.forEach(entry => {
         entry.id = entry._id.toString();
         delete entry._id;

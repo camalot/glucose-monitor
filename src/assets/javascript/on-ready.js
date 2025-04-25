@@ -3,6 +3,12 @@ $(() => {
   dataLoader.loadData();
 });
 
+// reload data every 30 seconds
+setInterval(() => {
+  const dataLoader = new DataLoader();
+  dataLoader.loadData();
+}, 30000);
+
 class DataLoader {
   constructor() {}
 
