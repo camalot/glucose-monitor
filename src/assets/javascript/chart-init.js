@@ -32,10 +32,10 @@ class DataChart {
           x: {
             type: 'time',
             time: {
-              parser: "yyyy-MM-dd'T'HH:mm:ss.nnn'Z'", // Parse ISO date strings
-              tooltipFormat: 'MMM d, YYYY, h:mm A', // Format for tooltips
+              parser: "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", // Parse ISO date strings
+              tooltipFormat: 'MMM d, yyyy, h:mm a', // Format for tooltips
               displayFormats: {
-                hour: 'MMM d, h:mm A', // Format for the X-axis labels
+                hour: 'MMM d, h:mm a', // Format for the X-axis labels
               }
             },
             title: {

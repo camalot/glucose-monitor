@@ -3,14 +3,14 @@
     "allowJs": true, // Allow JavaScript files
     "checkJs": false, // Disable type-checking for JavaScript files
     "outDir": "src/dist", // Output directory for compiled files
-    "module": "commonjs", // Module system for Node.js
-    "target": "es6", // Target ECMAScript version
+    "target": "ES6", // Target ECMAScript version
+    "module": "commonjs",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.js"
+    "src/**/*.js",
   ], // Include both .ts and .js files
   "exclude": [
     "src/node_modules",
