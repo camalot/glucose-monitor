@@ -8,15 +8,92 @@
       </div>
       <div class="modal-body">
         <form class="needs-validation" novalidate>
-          <div class="input-group mb-3">
+          <div class="input-group">
             {{!-- <span class="input-group-text invalid-feedback"><i aria-placeholder="Please provide a valid meal time." class="fa-solid fa-triangle-exclamation"></i></span> --}}
             <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
             <input placeholder="Select Meal Time" type="datetime-local" class="form-control" id="FoodRecordedAt" name="RecordedAt" required>
           </div>
-          <div class="input-group mb-3">
+          <div class="float-end">
+            <a href="https://www.fatsecret.com" title="powered by FatSecret">
+              <img src="https://platform.fatsecret.com/api/static/images/powered_by_fatsecret.svg" border="0"/>
+            </a>
+          </div>
+          <div class="input-group mb-2">
             <span class="input-group-text" title="Food Item"><i class="fa-solid fa-utensils"></i></span>
-            <input placeholder="Food Item" class="form-control" id="FoodName" name="Name" required />
-            <button class="input-group-text btn btn-outline-primary" type="button" title="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <input 
+              data-autocomplete="/api/v1/food/autocomplete"
+              data-autocomplete-param="q"
+              placeholder="Food Item" 
+              class="form-control" 
+              id="FoodName" 
+              name="Name"
+              list="foodSuggestions"
+              autocomplete="off"
+              required />
+            
+            <button 
+              id="searchFoodButton" 
+              data-search="/api/v1/food/search"
+              data-search-param="q"
+              data-search-field="#FoodName"
+              class="input-group-text btn btn-outline-primary" 
+              type="button" title="Search [powered by FatSecret]"><i 
+              class="fa-solid fa-magnifying-glass"></i></button>
+            {{!-- <datalist id="foodSuggestions"></datalist> --}}
+            <ul id="foodSuggestions" data-autocomplete-list="FoodName" class="dropdown-menu w-100 d-none"></ul>
+          </div>
+
+          <div class="fatsecret-search-results mb-2">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Subheading</div>
+                  Content for list item
+                </div>
+                <span class="badge text-bg-primary rounded-pill">14</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Subheading</div>
+                  Content for list item
+                </div>
+                <span class="badge text-bg-primary rounded-pill">14</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Subheading</div>
+                  Content for list item
+                </div>
+                <span class="badge text-bg-primary rounded-pill">14</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Subheading</div>
+                  Content for list item
+                </div>
+                <span class="badge text-bg-primary rounded-pill">14</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Subheading</div>
+                  Content for list item
+                </div>
+                <span class="badge text-bg-primary rounded-pill">14</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
+                <div class="ms-2 me-auto">
+                  <div class="fw-bold">Subheading</div>
+                  Content for list item
+                </div>
+                <span class="badge text-bg-primary rounded-pill">14</span>
+              </li>
+            </ul>
           </div>
 
           <div class="input-group mb-3">
@@ -30,7 +107,6 @@
             <span class="input-group-text">g</span>
           </div>
 
-
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="fa-solid fa-comments"></i></span>
             <textarea rows="3" placeholder="Additional Notes" class="form-control" id="FoodAdditionalNotes" name="Notes"></textarea>
@@ -41,4 +117,31 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<div class="d-none" data-type="template">
+  <li class="dropdown-item" data-template="foodSuggestions" data-bind="value" data-bind-value-attr="data-value">
+    <img 
+      height="16"
+      width="16"
+      src="" 
+      class="food-suggestion-image mr-2" 
+      data-bind="img" 
+      data-bind-img-attr="src"
+      data-bind-source-attr="alt"
+    />
+    <span class="food-suggestion-name" data-bind="value"></span>
+  </li>
+</div>
+
+<div class="d-none" data-type="template">
+  <li class="list-group-item d-flex justify-content-between align-items-start" data-template="foodItem">
+    <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Subheading</div>
+      Content for list item
+    </div>
+    <span class="badge text-bg-primary rounded-pill">14</span>
+  </li>
 </div>

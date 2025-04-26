@@ -2,6 +2,7 @@ import Time from '../libs/time';
 
 class MealEntry {
   id?: string;
+  name: string;
   description: string;
   calories: number;
   carbs: number;
@@ -9,27 +10,36 @@ class MealEntry {
   protein: number;
   sodium: number;
   cholesterol: number;
-  recordedAt: Date;
+  timestamp: number;
+  notes: string;
+  fatsecret_id?: number;
 
   constructor(
+    name: string,
     description: string,
     calories?: number,
     carbs?: number,
-    recordedAt?: Date,
+    timestamp?: number,
     fat?: number,
     protein?: number,
     sodium?: number,
     cholesterol?: number,
+    notes?: string,
+    fatsecret_id?: number,
     id?: string
   ) {
+    this.name = name;
     this.description = description;
-    this.calories = calories || 0;
-    this.carbs = carbs || 0;
-    this.recordedAt = recordedAt || Time.toUtc(new Date());
-    this.fat = fat || 0;
-    this.protein = protein || 0;
-    this.sodium = sodium || 0;
-    this.cholesterol = cholesterol || 0;
+    this.calories = calories || -1;
+    this.carbs = carbs || -1;
+    this.timestamp = timestamp || Time.toUnixTime(new Date());
+    this.fat = fat || -1;
+    this.protein = protein || -1;
+    this.sodium = sodium || -1;
+    this.cholesterol = cholesterol || -1;
+    this.notes = notes || "";
+
+    this.fatsecret_id = fatsecret_id || null;
     this.id = id;
   }
 }

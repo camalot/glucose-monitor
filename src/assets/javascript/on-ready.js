@@ -1,16 +1,164 @@
 $(() => {
   const dataLoader = new DataLoader();
   dataLoader.loadData();
+  const autocomplete = new AutocompleteLoader();
+  autocomplete.initialize();
+  const foodSearch = new FoodSearchLoader(); 
+  foodSearch.initialize();
 });
 
 // reload data every 30 seconds
 setInterval(() => {
-  const dataLoader = new DataLoader();
-  dataLoader.loadData();
+  // if tab not active or visible, return
+  if (!document.hidden) {
+    $(".loader-spinner").removeClass("d-none").fadeIn(300, () => {
+      $(this).addClass("d-flex");
+      const dataLoader = new DataLoader();
+      dataLoader.loadData();
+    });
+    $(".loader-spinner").fadeOut(300, () => {
+      $(this).removeClass("d-flex").addClass("d-none");
+    });
+  }
 }, 30000);
 
+class FoodSearchLoader {
+  initialize() {
+    const fsrContainer = $(".fatsecret-search-results");
+    fsrContainer.addClass("d-none");
+    $("ul", fsrContainer).empty();
+
+    $("#searchFoodButton").on("click", (event) => {
+      const target = $(event.currentTarget);
+      console.log(target);
+
+      const searchField = target.data("search-field");
+      console.log(`searchField: ${searchField}`);
+      const searchValue = $(searchField).val();
+      console.log("Search button clicked for food:", searchValue);
+
+
+      const searchUrl = target.data("search");
+      const searchParam = target.data("search-param");
+
+      // perform search. 
+      // populate fsrContainer.ul
+      // - setup click on each item.
+      // - hide fsrContainer on item click
+      // ensure fsrContainer visible
+
+      console.log(`search url: ${searchUrl}?${searchParam}=${searchValue}`); 
+
+      $.ajax({
+        url: searchUrl,
+        method: 'GET',
+        data: { [searchParam]: searchValue },
+        success: (data) => {
+
+          console.log("Search results:", data);
+
+        },
+        error: (error) => {
+          console.error("Error during search:", error);
+        }
+      });
+    });
+  }
+}
+
+class AutocompleteLoader {
+  initialize() {
+    $('[list][data-autocomplete]').each((item) => {
+      const dlId = $(item).attr('list');
+      const dl = $(`#${dlId}`);
+      dl.off("change").on('change', (event) => {
+
+        const selectedValue = $(event.target).val();
+        console.log(`Selected value from data list: ${selectedValue}`);
+      });
+    });
+
+    $(document).on("click", (event) => {
+      const target = $("[data-autocomplete-list]");
+      if (target.length) {
+        $(target).addClass("d-none").empty();
+      }
+    });
+
+    $("[data-autocomplete]")
+      .off("input focus active")
+      // on tab key, if suggestion list is visible, tab the results into the input field
+      .on("keydown", (event) => {
+        if (event.key === "Tab") {
+          const target = $(event.target);
+          const suggestions = $("[data-autocomplete-list]:visible");
+          if (suggestions.length) {
+            event.preventDefault();
+            // continue to go to the next with every tab
+
+            const firstSuggestion = suggestions.find("li:first");
+            if (firstSuggestion.length) {
+              const selectedValue = firstSuggestion.text().trim();
+              target.val(selectedValue);
+              suggestions.addClass("d-none").removeClass("d-block mt-5");
+              suggestions.empty();
+              $(event.target).focus();
+            }
+          }
+        }
+      })
+      .on("input focus active", (event) => {
+        const field = $(event.target);
+        const query = field.val().toLowerCase();
+        const dataListId = field.attr('list');
+        const suggestions = $(`#${dataListId}`);
+
+        const url = field.data('autocomplete');
+        const qParam = field.data('autocomplete-param');
+
+        // cancel existing call if more input is entered
+        if (this.currentRequest) {
+          this.currentRequest.abort();
+        }
+
+        if (query.length === 0) {
+          suggestions.empty();
+          return;
+        }
+
+        this.currentRequest = $.ajax({
+          url: url, // Use the url variable instead of field.data('autocomplete')
+          method: 'GET',
+          data: { [qParam]: query },
+          success: (data) => {
+            if (data.length > 0) {
+              suggestions.removeClass("d-none").addClass("d-block mt-5");
+            }
+            suggestions.empty();
+            data.forEach(item => {
+              const listItem = Templates.render(suggestions, 'foodSuggestions', item);
+              listItem.on("click", (event) => {
+                const selectedValue = $(event.currentTarget).find('[data-bind="value"]').text();
+                $("#FoodName").val(selectedValue);
+                suggestions.addClass("d-none").removeClass("d-block mt-5");
+                suggestions.empty();
+                field.focus();
+              });
+              // const option = document.createElement('option');
+              // option.value = item.value;
+              // suggestions.append(option);
+            });
+            if (data.length === 0) {
+              suggestions.addClass("d-none").removeClass("d-block mt-5");
+            }
+          }
+        });
+      });
+  }
+}
+
 class DataLoader {
-  constructor() {}
+  constructor() { }
 
   loadData() {
     this.loadA1C();
@@ -58,7 +206,7 @@ class DataLoader {
         console.error('Error fetching food data:', error);
       }
     })
-    
+
   }
 
   loadGlucose() {
@@ -120,7 +268,7 @@ class DataLoader {
       }
     });
   }
-  
+
   loadCharts() {
     // get chart data and initialize charts.
     let charts = {

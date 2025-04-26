@@ -3,11 +3,11 @@ import Time from "../libs/time";
 export default class WeightEntry {
   id?: string; 
   value: number; 
-  recordedAt: Date; 
+  timestamp: number; 
 
-  constructor(weight: number, recordedAt?: Date, id?: string) {
+  constructor(weight: number, timestamp?: number, id?: string) {
     this.value = weight;
-    this.recordedAt = recordedAt || Time.toUtc(new Date());
+    this.timestamp = timestamp || Time.toUnixTime(new Date());
     this.id = id;
   }
 }

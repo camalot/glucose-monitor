@@ -33,8 +33,8 @@ class DataChart {
         datasets: [{
           label: options.label || 'N/A',
           data: values,
-          borderColor: options.borderColor || 'rgba(75, 192, 192, 1)',
-          backgroundColor: options.backgroundColor || 'rgba(75, 192, 192, 0.2)',
+          borderColor: options.borderColor || '#0d6efd',
+          backgroundColor: options.backgroundColor || '#212529',
           borderWidth: options.borderWidth || 2,
           tension: options.tension || 0.4, // Smooth curve
         }]

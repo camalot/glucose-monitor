@@ -22,10 +22,21 @@ export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> 
 
   }
 
-  async get(): Promise<WeightEntry[]> {
+  async getLimit(count: number = 10): Promise<WeightEntry[]> {
     try {
       await this.connect();
-      return await this.collection.find().toArray();
+      return await this.collection
+        .find({}, { sort: { timestamp: 1 }, limit: count }).toArray();
+    } catch (error) {
+      console.error("Error retrieving weight entries:", error);
+      return [];
+    }
+  }
+
+  async getAll(): Promise<WeightEntry[]> {
+    try {
+      await this.connect();
+      return await this.collection.find({}, { sort: { timestamp: 1 } }).toArray();
     } catch(error) {
       console.error("Error retrieving weight entries:", error);
       return [];

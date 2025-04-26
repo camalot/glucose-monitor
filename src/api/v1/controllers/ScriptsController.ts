@@ -38,6 +38,7 @@ async function scripts(req: Request, res: Response): Promise<void> {
     const scripts = [
       'form-validator.js',
       'weight-chart.js',
+      'templates.js',
       'on-ready.js',
     ];
 

@@ -4,20 +4,6 @@ import { Request, Response, NextFunction } from 'express';
 
 import LogsMongoClient from '../../../libs/mongo/Logs';
 
-interface AutocompleteResponse {
-  // Define the structure of the autocomplete response if known
-  [key: string]: any;
-}
-
-
-interface SearchResponse {
-  // Define the structure of the search response if known
-  [key: string]: any;
-}
-
-interface FoodResponse {
-
-}
 class FoodController {
   private logger = new LogsMongoClient();
   private MODULE = 'FoodController';
@@ -25,8 +11,6 @@ class FoodController {
   async list(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = 'list';
     const count = req.params.count || 3;
-
-    // await this.logger.info(`${this.MODULE}.${METHOD}`, `Request received`);
     try {
       let data = [
         {
@@ -54,7 +38,7 @@ class FoodController {
     }
   }
 
-  async createClient(): Promise<FatSecret.Client> {
+  private async createClient(): Promise<FatSecret.Client> {
     console.log("Create before promise");
     // return a Promise
     return new Promise<FatSecret.Client>((resolve, reject) => {
@@ -99,9 +83,18 @@ class FoodController {
     console.log("Received autocomplete request with query:", query);
     const client = await this.createClient();
     try {
-      console.log("autocomplete");
       const response = await client.getAutocompleteV2({ expression: String(query) });
-      await resp.json(response);
+      // map array to array of objects with `{ name: 'name', source: 'fatsecret' }`
+      
+      const mappedResponse = response.map(item => ({
+        value: item,
+        source: 'fatsecret',
+        img: '/images/fatsecret-16x16.png'
+      }));
+
+      // get local items
+
+      await resp.json(mappedResponse);
     } catch (error: any) {
       console.log(error);
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
@@ -116,11 +109,11 @@ class FoodController {
     const client = await this.createClient();
     try {
       const query = req.query.q;
-
-      const response = await client.getFoodSearchV1({ searchExpression: String(query) });
+      console.log(`query: ${query}`);
+      const response = await client.getFoodSearchV3({ searchExpression: String(query) });
       await resp.json(response);
     } catch (error: any) {
-      await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
+      // await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
       return;
     }

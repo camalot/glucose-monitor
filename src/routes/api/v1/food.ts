@@ -12,8 +12,11 @@ router.route('/api/v1/food/autocomplete')
     foodController.autocomplete(req, res, next);
   });
 
-// router.route('/api/v1/food/search/')
-//   .get(foodController.search);
+router.route('/api/v1/food/search/')
+  .get((req: Request, res: Response, next: NextFunction) => {
+    console.log("Received search request");
+    foodController.search(req, res, next);
+  });
 
 router.route('/api/v1/food/list/:count')
   .get((req: Request, res: Response, next: NextFunction) => {

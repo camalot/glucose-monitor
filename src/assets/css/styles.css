@@ -86,13 +86,24 @@ body {
   padding-bottom: 30px;
 }
 
-.reading-entry.card {
-  min-height: 280px;
+ul.dropdown-menu li.dropdown-item,
+ul.dropdown-menu li.dropdown-item img,
+ul.dropdown-menu li.dropdown-item span {
+  cursor: pointer;
 }
 
-.reading-entry .reading-entry-body {
-  width: 100%;
-  min-height: 100px;
+.modal-dialog .fatsecret-search-results {
+  margin-top: -.5rem !important;
+  max-height: 150px;
+  overflow-y: auto; /* Added to enable scrolling if content exceeds max height */
+}
+
+.modal-dialog .fatsecret-search-results ul {
+  padding: 0; /* Added to remove default padding from the list */
+}
+
+.reading-entry.card {
+  min-height: 280px;
 }
 
 .reading-entry .reading-entry-value {
