@@ -123,7 +123,7 @@ export default class Serving {
     }
 
     // create function to convert provided nutrition number to units
-    const toUnit = (unit: string, n?: number) => n ? math.unit(n, unit) : undefined;
+    const toUnit = (unit: string, n?: number) => n ? math.unit(n, unit) : null;
 
     // TODO: Make this look cleaner :3
     // convert nutritional information as math.js units
@@ -202,14 +202,15 @@ export default class Serving {
 
   // serialize
   toJSON() {
+    console.log(this);
     return {
       id: this.id,
       description: this.description,
       url: this.url,
 
       measurementDescription: this.measurementDescription,
-      metricServingAmount: this.metricServingAmount?.toNumber(),
-      metricServingUnit: this.metricServingAmount?.formatUnits(),
+      metricServingAmount: this.metricServingAmount ? this.metricServingAmount?.toNumber() : null,
+      metricServingUnit: this.metricServingAmount ? this.metricServingAmount?.formatUnits() : null,
       numberOfUnits: this.numberOfUnits,
 
       calories: this.calories?.toNumber(),

@@ -109,8 +109,14 @@ class FoodController {
     const client = await this.createClient();
     try {
       const query = req.query.q;
+      const max_results = req.query.max_results || 20;
       console.log(`query: ${query}`);
-      const response = await client.getFoodSearchV3({ searchExpression: String(query) });
+      const response = await client.getFoodSearchV3({ 
+        searchExpression: String(query), 
+        maxResults: Number(max_results),
+        pageNumber: req.query.page_number ? Number(req.query.page_number) : undefined,
+        language: req.query.language ? String(req.query.language) : undefined
+      });
       await resp.json(response);
     } catch (error: any) {
       // await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });

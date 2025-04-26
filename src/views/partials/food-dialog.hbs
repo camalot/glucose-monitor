@@ -1,5 +1,5 @@
  <!-- Modal for Adding Meal Information -->
-<div class="modal fade" id="addFoodModal" tabindex="-1" aria-labelledby="addFoodModalLabel" aria-hidden="true">
+<div class="modal modal-xl fade" id="addFoodModal" tabindex="-1" aria-labelledby="addFoodModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -26,7 +26,7 @@
               placeholder="Food Item" 
               class="form-control" 
               id="FoodName" 
-              name="Name"
+              name="name"
               list="foodSuggestions"
               autocomplete="off"
               required />
@@ -131,17 +131,25 @@
       data-bind-img-attr="src"
       data-bind-source-attr="alt"
     />
-    <span class="food-suggestion-name" data-bind="value"></span>
+    <span class="food-suggestion-name text-truncate" data-bind="value"></span>
   </li>
 </div>
 
 <div class="d-none" data-type="template">
   <li class="list-group-item d-flex justify-content-between align-items-start" data-template="foodItem">
-    <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
+    <div class="ms-2 me-1"><i class="fa fa-bowl-food"></i></div>
     <div class="ms-2 me-auto">
-      <div class="fw-bold">Subheading</div>
-      Content for list item
+      <div class="fw-bold text-truncate" data-bind="name">Subheading</div>
     </div>
-    <span class="badge text-bg-primary rounded-pill">14</span>
+    
   </li>
+</div>
+
+<div class="d-none" data-type="template">
+  <div data-template="foodServing">
+    <div data-bind="description" class="badge text-bg-primary"></div>
+    <div class="clearfix"></div>
+    <div data-class-not-if="calories" data-class-not-if-class="d-none">Calories: <span data-bind="calories"></span> <span>kcal</span></div>
+    <div data-class-not-if="carbohydrate" data-class-not-if-class="d-none">Carbohydrates: <span data-bind="carbohydrate"></span> <span>g</span></div>
+  </div>
 </div>

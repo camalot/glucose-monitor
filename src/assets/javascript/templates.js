@@ -20,6 +20,21 @@ class Templates {
     $(parent).empty();
   }
 
+  static classSetter(target, data) {
+    if (target) {
+      let ifNotClassTarget = target.data('class-not-if');
+      let ifNotClassName = target.data('class-not-if-class');
+      let ifClassTarget = target.data('class-if');
+      let ifClassName = target.data('class-if-class');
+      if (data[ifNotClassTarget] && ifNotClassName) {
+        target.addClass(ifNotClassName);
+      }
+      if (data[ifClassTarget] && ifClassName) {
+        target.addClass(ifClassName);
+      }
+    }
+  }
+
   static render(parent, templateId, data) {
     console.log(`templateId: ${templateId}`);
     console.log(data);
@@ -40,7 +55,7 @@ class Templates {
         const target = clonedTemplate.find(`[data-bind="${key}"]`);
         const targetAttr = target.data(`bind-${key}-attr`);
         if(target) {
-          console.log(target);
+          Templates.classSetter(target, data);
           if (targetAttr) {
             console.log(`bind: ${targetAttr} => ${data[key]}`);
             target.attr(targetAttr, data[key]);

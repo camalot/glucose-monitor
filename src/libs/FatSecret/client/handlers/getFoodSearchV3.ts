@@ -1,4 +1,4 @@
-import FoodSearchResults from "../../structures/FoodSearchResults";
+import FoodSearchResultsV3 from "../../structures/FoodSearchResultsV3";
 import BaseClient from "../BaseClient";
 
 export function getFoodSearchV3Factory(client: BaseClient) {
@@ -23,7 +23,7 @@ export function getFoodSearchV3Factory(client: BaseClient) {
       });
       console.log(response.data.foods_search);
       // return search results as foodSearchResult object
-      return FoodSearchResults.fromResponse(response.data?.foods_search?.results);
+      return FoodSearchResultsV3.fromResponse(response.data.foods_search);
     } catch (err: unknown) {
       console.log(err);
       // else, rethrow error

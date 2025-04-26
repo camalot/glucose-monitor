@@ -50,13 +50,30 @@ class FoodSearchLoader {
       console.log(`search url: ${searchUrl}?${searchParam}=${searchValue}`); 
 
       $.ajax({
-        url: searchUrl,
+        url: `${searchUrl}?${searchParam}=${searchValue}`,
         method: 'GET',
-        data: { [searchParam]: searchValue },
+        data: { },
         success: (data) => {
 
           console.log("Search results:", data);
+          // find the form
+          const form = target.closest("form");
 
+          // foodItem template
+
+          // .fatsecret-search-results
+          const fsrContainer = $(".fatsecret-search-results");
+          const fsrList = $("ul.list-group", fsrContainer);
+          fsrList.empty();
+          
+          for (const item of data.foods) {
+            const serving = item.servings.length > 0 ? item.servings[0] : null;
+            
+            const renderedItem = Templates.render(fsrList, 'foodItem', item);
+            const renderedItemData = Templates.render(renderedItem, 'foodServing', serving);
+          };
+          
+          fsrContainer.removeClass("d-none");
         },
         error: (error) => {
           console.error("Error during search:", error);
