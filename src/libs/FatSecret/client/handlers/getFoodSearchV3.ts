@@ -14,7 +14,7 @@ export function getFoodSearchV3Factory(client: BaseClient) {
       console.log("begin foods.search.v3");
       // send request
       const response = await client.doRequest("foods.search.v3", {
-        search_expression: decodeURI(params.searchExpression),
+        search_expression: decodeURIComponent(params.searchExpression),
         page_number: params.pageNumber,
 
         max_results: params.maxResults,
