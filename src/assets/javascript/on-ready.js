@@ -68,9 +68,11 @@ class FoodSearchLoader {
           
           for (const item of data.foods) {
             const serving = item.servings.length > 0 ? item.servings[0] : null;
-            
+            item.serving = serving;
+            item.serving_description = serving ? serving.description : '';
             const renderedItem = Templates.render(fsrList, 'foodItem', item);
-            const renderedItemData = Templates.render(renderedItem, 'foodServing', serving);
+            // const foodServingContainer = $(".food-serving", renderedItem);
+            const renderedItemData = Templates.render(renderedItem, 'foodServing', item.serving);
           };
           
           fsrContainer.removeClass("d-none");
@@ -185,7 +187,10 @@ class DataLoader {
   }
 
   loadFoods() {
-    let template = $('.food-item-template');
+
+
+
+    // let template = $('.food-item-template');
     console.log('Loading food data...');
     $.ajax({
       url: '/api/v1/food/list/3',
@@ -197,26 +202,34 @@ class DataLoader {
         list.empty();
 
         data.forEach(item => {
-          let clone = template.clone().removeClass('food-item-template').removeClass('d-none');
-          console.log(item);
-          clone.find('.food-item-name .label').text(item.food.name);
-          clone.find('.food-item-calories .label').text('Calories:');
-          clone.find('.food-item-calories .value').text(item.food.calories || 0);
-          clone.find('.food-item-calories .unit').text('kcal');
+          const itemData = {
+            name: item.food.name,
+            calories: item.food?.calories || 0,
+            carbohydrates: item.food?.carbohydrates || 0,
+            time: item.time
+          }
 
-          clone.find('.food-item-carbs .label').text('Carbs:');
-          clone.find('.food-item-carbs .value').text(item.food.carbohydrates);
-          clone.find('.food-item-carbs .unit').text('g');
+          Templates.render(list, "foodEntryItem", itemData);
+          // let clone = template.clone().removeClass('food-item-template').removeClass('d-none');
+          // console.log(item);
+          // clone.find('.food-item-name .label').text(item.food.name);
+          // clone.find('.food-item-calories .label').text('Calories:');
+          // clone.find('.food-item-calories .value').text(item.food.calories || 0);
+          // clone.find('.food-item-calories .unit').text('kcal');
 
-          clone.find('.food-item-time').text(item.time);
-          $('.food-list').append(clone);
+          // clone.find('.food-item-carbs .label').text('Carbs:');
+          // clone.find('.food-item-carbs .value').text(item.food.carbohydrates);
+          // clone.find('.food-item-carbs .unit').text('g');
 
-          $card
-            .addClass('bg-body-tertiary')
-            .removeClass('bg-dark')
-            .removeClass("placeholder-glow");
-          $('.placeholder', $card).removeClass('placeholder');
+          // clone.find('.food-item-time').text(item.time);
+          // $('.food-list').append(clone);
+
         });
+        $card
+          .addClass('bg-body-tertiary')
+          .removeClass('bg-dark')
+          .removeClass("placeholder-glow");
+        $('.placeholder', $card).removeClass('placeholder');
       },
       error: (error) => {
         console.log(error);

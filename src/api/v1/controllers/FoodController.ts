@@ -29,6 +29,15 @@ class FoodController {
             calories: 200,
             carbohydrates: 30
           }
+        },
+
+        {
+          time: new Date().toISOString(),
+          food: {
+            name: 'Third Food Name',
+            calories: 230,
+            carbohydrates: 5
+          }
         }
       ];
       await resp.json(data);

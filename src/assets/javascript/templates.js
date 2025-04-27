@@ -36,6 +36,9 @@ class Templates {
   }
 
   static render(parent, templateId, data) {
+    if (!data) {
+      return;
+    }
     console.log(`templateId: ${templateId}`);
     console.log(data);
     const template = Templates.find(templateId).clone();
@@ -54,7 +57,7 @@ class Templates {
         // find the `data-bind-attr` attribute and set its text
         const target = clonedTemplate.find(`[data-bind="${key}"]`);
         const targetAttr = target.data(`bind-${key}-attr`);
-        if(target) {
+        if (target) {
           Templates.classSetter(target, data);
           if (targetAttr) {
             console.log(`bind: ${targetAttr} => ${data[key]}`);

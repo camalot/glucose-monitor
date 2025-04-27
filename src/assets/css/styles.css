@@ -17,10 +17,8 @@ body {
   font-family: 'Raleway', sans-serif;
 }
 
-.title-header {
-  text-transform: uppercase;
-  padding-left: 2em;
-  font-weight: bold;
+.mt-6 {
+  margin-top: 3.6rem !important;
 }
 
 .btn {
@@ -28,6 +26,10 @@ body {
   /* border-radius: 0; */
   padding: 10px 20px;
   color: #ddd;
+}
+
+.chart .card-body {
+  max-height: 400px !important;  /* Added !important to ensure the style is applied */
 }
 
 .btn:hover,
@@ -38,27 +40,18 @@ body {
   color: #fff;
 }
 
-.btn-shorten {
-  color: #ddd;
-  background-color: #673ab7;
+.btn.btn-card-top-right {
+  z-index: 2 !important;  /* Added z-index for stacking context */
+  margin-top: -.5rem !important;
+  margin-right: -.5rem !important;
 }
 
-.btn-shorten:hover, .btn-shorten:focus, .btn-shorten:active, .btn-shorten.active {
-  background-color: #522e92;
+.btn.btn-card-bottom-right {
+  z-index: 2 !important;  /* Added z-index for stacking context */
+  margin-bottom: -.5rem !important;
+  margin-right: -.5rem !important;
 }
 
-.btn-copy {
-}
-
-.btn-token {
-  background-color: #4caf50;
-}
-
-.btn-token-showhide, .btn-token-showhide:hover, .btn-token-showhide:focus, .btn-token-showhide:active, .btn-token-showhide.active {
-  color: var(--darkreader-text--bs-body-color, #e8e6e3);
-  background-color: var(--darkreader-bg--bs-body-bg, #181a1b);
-  border: var(--darkreader-border--bs-border-width) solid var(--darkreader-border--bs-border-color);
-}
 /*
 .site-wrapper {
   display: table;
@@ -104,6 +97,7 @@ ul.dropdown-menu li.dropdown-item span {
 
 .reading-entry.card {
   min-height: 280px;
+  max-height: 280px;
 }
 
 .reading-entry .reading-entry-value {

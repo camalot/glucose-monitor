@@ -1,32 +1,58 @@
-<div class="food reading-entry card bg-dark mb-3 placeholder-glow" aria-hidden="true">
-  <div class="card-body">
-    <h5 class="card-title placeholder reading-entry-label object-fit-fill">Food Entry</h5>
-    <div class="card-text">
-      <ul class="food-list list-group list-group-flush reading-entry-body">
-        <li class="list-group-item placeholder">An item</li>
-        <li class="list-group-item placeholder">A second item</li>
-        <li class="list-group-item placeholder">A third item</li>
-      </ul>
+<div class="position-relative">
+  <!-- Add Food Entry Button -->
+  <button type="button" 
+    class="btn-card-top-right btn btn-secondary btn-sm rounded-circle position-absolute top-0 end-0 m-2" 
+    data-bs-toggle="modal" data-bs-target="#addFoodModal" title="Add Food Entry">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+  <div class="food reading-entry card bg-dark mb-3 placeholder-glow overflow-y-auto p-0" aria-hidden="true">
+
+    <div class="card-body pt-1 pb-0">
+      <h5 class="card-title placeholder reading-entry-label object-fit-fill p-0 m-0 text-uppercase">Meals</h5>
+      <div class="card-text">
+        <ul class="food-list list-group list-group-flush reading-entry-body p-0 m-0">
+        </ul>
+      </div>
     </div>
+  </div>
+
+  <div class="d-none" data-type="template">
+    <li class="list-group-item p-0 m-0" data-template="foodEntryItem">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="text-start">
+              <i class="fa-solid fa-bowl-food me-2"></i>
+              <span class="label h5" data-bind="name"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="d-inline">
+              <span class="label">Calories:</span>
+              <div class="badge">
+                <span class="value" data-bind="calories"></span>
+                <span class="unit">kcal</span>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="d-inline">
+              <span class="label">Carbs:</span>
+              <div class="badge">
+                <span class="value" data-bind="carbohydrates"></span>
+                <span class="unit">g</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="xfood-item-time" data-bind="time"></div>
+          </div>
+        </div>
+      </div>
+    </li>
   </div>
 </div>
-
-<li class="food-item-template d-none list-group-item">
-  <div class="food-item-name">
-    <i class="fa-solid fa-bowl-food"></i>
-    <span class="label"></span>
-  </div>
-  <div>
-    <div class="food-item-calories d-inline me-2">
-      <span class="label"></span>
-      <span class="value"></span>
-      <span class="unit"></span>
-    </div>
-    <div class="food-item-carbs d-inline">
-      <span class="label"></span>
-      <span class="value"></span>
-      <span class="unit"></span>
-    </div>
-  </div>
-  <div class="food-item-time"></div>
-</li>

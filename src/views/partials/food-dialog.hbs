@@ -1,4 +1,4 @@
- <!-- Modal for Adding Meal Information -->
+<!-- Modal for Adding Meal Information -->
 <div class="modal modal-xl fade" id="addFoodModal" tabindex="-1" aria-labelledby="addFoodModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -8,108 +8,89 @@
       </div>
       <div class="modal-body">
         <form class="needs-validation" novalidate>
-          <div class="input-group">
-            {{!-- <span class="input-group-text invalid-feedback"><i aria-placeholder="Please provide a valid meal time." class="fa-solid fa-triangle-exclamation"></i></span> --}}
-            <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
-            <input placeholder="Select Meal Time" type="datetime-local" class="form-control" id="FoodRecordedAt" name="RecordedAt" required>
-          </div>
-          <div class="float-end">
-            <a href="https://www.fatsecret.com" title="powered by FatSecret">
-              <img src="https://platform.fatsecret.com/api/static/images/powered_by_fatsecret.svg" border="0"/>
-            </a>
-          </div>
-          <div class="input-group mb-2">
-            <span class="input-group-text" title="Food Item"><i class="fa-solid fa-utensils"></i></span>
-            <input 
-              data-autocomplete="/api/v1/food/autocomplete"
-              data-autocomplete-param="q"
-              placeholder="Food Item" 
-              class="form-control" 
-              id="FoodName" 
-              name="name"
-              list="foodSuggestions"
-              autocomplete="off"
-              required />
-            
-            <button 
-              id="searchFoodButton" 
-              data-search="/api/v1/food/search"
-              data-search-param="q"
-              data-search-field="#FoodName"
-              class="input-group-text btn btn-outline-primary" 
-              type="button" title="Search [powered by FatSecret]"><i 
-              class="fa-solid fa-magnifying-glass"></i></button>
-            {{!-- <datalist id="foodSuggestions"></datalist> --}}
-            <ul id="foodSuggestions" data-autocomplete-list="FoodName" class="dropdown-menu w-100 d-none"></ul>
-          </div>
 
-          <div class="fatsecret-search-results mb-2">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
-                <div class="ms-2 me-auto">
-                  <div class="fw-bold">Subheading</div>
-                  Content for list item
-                </div>
-                <span class="badge text-bg-primary rounded-pill">14</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
-                <div class="ms-2 me-auto">
-                  <div class="fw-bold">Subheading</div>
-                  Content for list item
-                </div>
-                <span class="badge text-bg-primary rounded-pill">14</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
-                <div class="ms-2 me-auto">
-                  <div class="fw-bold">Subheading</div>
-                  Content for list item
-                </div>
-                <span class="badge text-bg-primary rounded-pill">14</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
-                <div class="ms-2 me-auto">
-                  <div class="fw-bold">Subheading</div>
-                  Content for list item
-                </div>
-                <span class="badge text-bg-primary rounded-pill">14</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
-                <div class="ms-2 me-auto">
-                  <div class="fw-bold">Subheading</div>
-                  Content for list item
-                </div>
-                <span class="badge text-bg-primary rounded-pill">14</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="ms-2 me-auto"><i class="fa fa-bowl-food"></i></div>
-                <div class="ms-2 me-auto">
-                  <div class="fw-bold">Subheading</div>
-                  Content for list item
-                </div>
-                <span class="badge text-bg-primary rounded-pill">14</span>
-              </li>
-            </ul>
-          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="input-group">
+                  {{! <span class="input-group-text invalid-feedback"><i aria-placeholder="Please provide a valid meal time." class="fa-solid fa-triangle-exclamation"></i></span> }}
+                  <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
 
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i title="Calories" aria-placeholder="Calories" class="fa-solid fa-bolt"></i></span>
-            <input type="number" class="form-control" id="Calories" name="Calories" placeholder="Calories" required />
-          </div>
+                  <div class="form-floating">
+                    <input placeholder="Enter Meal Time" type="datetime-local" class="form-control" id="FoodRecordedAt" name="RecordedAt" required />
+                    <label for="FoodRecordedAt">Enter Meal Time</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
 
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i title="Carbohydrates" aria-placeholder="Carbohydrates" class="fa-solid fa-bolt"></i></span>
-            <input type="number" class="form-control" id="Carbs" name="Carbs" placeholder="Carbohydrates" required />
-            <span class="input-group-text">g</span>
-          </div>
+                <div class="float-end">
+                  <a href="https://www.fatsecret.com" title="powered by FatSecret">
+                    <img src="https://platform.fatsecret.com/api/static/images/powered_by_fatsecret.svg" border="0" />
+                  </a>
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text" title="Food Item"><i class="fa-solid fa-utensils"></i></span>
 
-          <div class="input-group mb-3">
-            <span class="input-group-text"><i class="fa-solid fa-comments"></i></span>
-            <textarea rows="3" placeholder="Additional Notes" class="form-control" id="FoodAdditionalNotes" name="Notes"></textarea>
+                  <div class="form-floating">
+                    <input data-autocomplete="/api/v1/food/autocomplete" data-autocomplete-param="q" placeholder="Food Item" class="form-control" id="FoodName" name="name" list="foodSuggestions" autocomplete="off" required />
+                    <label for="FoodName">Food Item</label>
+                  </div>
+
+                  <button id="searchFoodButton" data-search="/api/v1/food/search" data-search-param="q" data-search-field="#FoodName" class="input-group-text btn btn-primary" type="button" title="Search [powered by FatSecret]"><i class="fa-solid fa-magnifying-glass"></i></button>
+                  {{! <datalist id="foodSuggestions"></datalist> }}
+                  <ul id="foodSuggestions" data-autocomplete-list="FoodName" class="dropdown-menu w-100 d-none mt-6"></ul>
+                </div>
+
+                <div class="fatsecret-search-results mb-2">
+                  <ul class="list-group list-group-flush"></ul>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i title="Calories" aria-placeholder="Calories" class="fa-solid fa-bolt"></i></span>
+                  <div class="form-floating">
+                    <input type="number" class="form-control" id="Calories" name="Calories" placeholder="Calories" required />
+                    <label for="Calories">Calories</label>
+                  </div>
+                  <span class="input-group-text">kcal</span>
+                </div>
+              </div>
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i title="Carbohydrates" aria-placeholder="Carbohydrates" class="fa-solid fa-bolt"></i></span>
+                  <div class="form-floating">
+                    <input type="number" class="form-control" id="Carbs" name="Carbs" placeholder="Carbohydrates" required />
+                    <label for="Carbs">Carbohydrates</label>
+                  </div>
+                  <span class="input-group-text">g</span>
+                </div>
+              </div>
+              <div class="col">
+
+              </div>
+            </div>
+            {{! <div class="row">
+              <div class="col">
+                
+              </div>
+            </div> }}
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa-solid fa-comments"></i></span>
+                  <div class="form-floating">
+                    <textarea rows="5" placeholder="Additional Notes" class="form-control" id="FoodAdditionalNotes" name="Notes"></textarea>
+                    <label for="FoodAdditionalNotes">Additional Notes</label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <button type="submit" class="btn btn-primary">Submit</button>
@@ -119,37 +100,49 @@
   </div>
 </div>
 
-
 <div class="d-none" data-type="template">
   <li class="dropdown-item" data-template="foodSuggestions" data-bind="value" data-bind-value-attr="data-value">
-    <img 
-      height="16"
-      width="16"
-      src="" 
-      class="food-suggestion-image mr-2" 
-      data-bind="img" 
-      data-bind-img-attr="src"
-      data-bind-source-attr="alt"
-    />
+    <img height="16" width="16" src="" class="food-suggestion-image mr-2" data-bind="img" data-bind-img-attr="src" data-bind-source-attr="alt" />
     <span class="food-suggestion-name text-truncate" data-bind="value"></span>
   </li>
 </div>
-
+{{! d-flex justify-content-between align-items-start }}
 <div class="d-none" data-type="template">
-  <li class="list-group-item d-flex justify-content-between align-items-start" data-template="foodItem">
-    <div class="ms-2 me-1"><i class="fa fa-bowl-food"></i></div>
+  <li class="list-group-item text-start" data-template="foodItem">
+    <div class="ms-0 me-2 float-start"><i class="fa fa-bowl-food"></i></div>
     <div class="ms-2 me-auto">
       <div class="fw-bold text-truncate" data-bind="name">Subheading</div>
+      <div data-bind="serving_description" class="badge top-0 mt-2 me-2 text-bg-primary position-absolute end-0"></div>
     </div>
-    
+    <div class="clearfix"></div>
   </li>
 </div>
 
 <div class="d-none" data-type="template">
-  <div data-template="foodServing">
-    <div data-bind="description" class="badge text-bg-primary"></div>
-    <div class="clearfix"></div>
-    <div data-class-not-if="calories" data-class-not-if-class="d-none">Calories: <span data-bind="calories"></span> <span>kcal</span></div>
-    <div data-class-not-if="carbohydrate" data-class-not-if-class="d-none">Carbohydrates: <span data-bind="carbohydrate"></span> <span>g</span></div>
+  <div data-template="foodServing" class="container p-2">
+    <div class="row justify-content-start">
+      <div class="col-6">
+        <div data-class-not-if="calories" data-class-not-if-class="d-none">Calories: <span data-bind="calories"></span> <span>kcal</span></div>
+      </div>
+      <div class="col-6">
+        <div data-class-not-if="carbohydrate" data-class-not-if-class="d-none">Carbohydrates: <span data-bind="carbohydrate"></span> <span>g</span></div>
+      </div>
+    </div>
+    <div class="row justify-content-start">
+      <div class="col-6">
+        <div data-class-not-if="protein" data-class-not-if-class="d-none">Protein: <span data-bind="protein"></span> <span>g</span></div>
+      </div>
+      <div class="col-6">
+        <div data-class-not-if="fat" data-class-not-if-class="d-none">Fat: <span data-bind="fat"></span> <span>g</span></div>
+      </div>
+    </div>
+    <div class="row justify-content-start">
+      <div class="col-6">
+        <div data-class-not-if="cholesterol" data-class-not-if-class="d-none">Cholesterol: <span data-bind="cholesterol"></span> <span>g</span></div>
+      </div>
+      <div class="col-6">
+        <div data-class-not-if="sodium" data-class-not-if-class="d-none">Sodium: <span data-bind="sodium"></span> <span>g</span></div>
+      </div>
+    </div>
   </div>
 </div>
