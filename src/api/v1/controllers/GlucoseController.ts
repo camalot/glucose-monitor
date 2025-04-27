@@ -17,7 +17,7 @@ export default class GlucoseController {
   }
   private logger = new LogsMongoClient();
   private MODULE = this.constructor.name;
-  
+
   async chart(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
     try {
@@ -56,14 +56,16 @@ export default class GlucoseController {
       const entries = await db.getAfter(threeMonthsAgo);
       console.log(entries);
       entries.forEach(entry => {
-        reduced.push(entry.value);
-        // store the date if it is the most recent compared to latestDate
-        if (moment.unix(entry.timestamp)
-              .tz(Time.DEFAULT_TIMEZONE)
-                .isAfter(moment(latestDate).tz(Time.DEFAULT_TIMEZONE))
-           ) {
-          latestDate = moment.unix(entry.timestamp)
-            .tz(Time.DEFAULT_TIMEZONE).toISOString();
+        if (entry.value > 0) {
+          reduced.push(entry.value);
+          // store the date if it is the most recent compared to latestDate
+          if (moment.unix(entry.timestamp)
+            .tz(Time.DEFAULT_TIMEZONE)
+            .isAfter(moment(latestDate).tz(Time.DEFAULT_TIMEZONE))
+          ) {
+            latestDate = moment.unix(entry.timestamp)
+              .tz(Time.DEFAULT_TIMEZONE).toISOString();
+          }
         }
       });
 
@@ -131,14 +133,22 @@ export default class GlucoseController {
     const METHOD = Reflection.getCallingMethodName();
     try {
       const glucose = new GlucoseMongoClient();
-      const { bloodGlucose, recordedAt } = req.body;
+      const { value, time, notes } = req.body;
 
-      if (!bloodGlucose || !recordedAt) {
-        res.status(400).json({ error: 'Missing required fields: bloodGlucose or recordedAt' });
+
+      if (!value || !time) {
+        res.status(400).json({ error: 'Missing required fields: value or time' });
         return;
       }
 
-      const entry: GlucoseEntry = new GlucoseEntry(bloodGlucose, recordedAt);
+      const timestamp = moment(time).tz(Time.DEFAULT_TIMEZONE).unix();
+      console.log({
+        timestamp,
+        value,
+        notes,
+        time
+      });
+      const entry: GlucoseEntry = new GlucoseEntry(value, timestamp, notes);
       await glucose.record(entry);
 
       await res.status(201).json({ message: 'Glucose entry recorded successfully.' });
