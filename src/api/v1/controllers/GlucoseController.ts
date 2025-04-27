@@ -6,10 +6,17 @@ import GlucoseEntry from '../../../models/GlucoseEntry';
 import GlucoseUtils from '../../../libs/glucose';
 import Reflection from '../../../libs/reflection';
 import { Request, Response, NextFunction } from 'express';
+// import moment from 'moment'
+import moment from 'moment-timezone'
 
 export default class GlucoseController {
+  constructor() {
+    // set the default timezone for moment
+    moment.tz.setDefault("America/Chicago");
+  }
   private logger = new LogsMongoClient();
   private MODULE = this.constructor.name;
+  
   async chart(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
     try {
@@ -19,7 +26,7 @@ export default class GlucoseController {
       // loop data array and convert time from unixtime to iso string
       data = data.map(entry => ({
         ...entry,
-        time: new Date(entry.timestamp * 1000).toISOString(),
+        time: moment.tz(entry.timestamp * 1000, "America/Chicago").toISOString(),
       }));
 
       await resp.json(data);
@@ -47,7 +54,7 @@ export default class GlucoseController {
 
       const a1cValue = GlucoseUtils.calculateA1C(reduced).toFixed(2);
       // set as ISO 8601 string
-      const currentTime = new Date().toISOString();
+      const currentTime = moment().toISOString();
       resp.json({ time: currentTime, value: a1cValue });
     } catch (error) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, {
@@ -70,7 +77,7 @@ export default class GlucoseController {
       if (data) {
         entry = {
           id: data ? data.id : null,
-          time: data ? new Date(data.timestamp * 1000).toISOString() : null,
+          time: data ? moment.tz(data.timestamp * 1000, "America/Chicago").toISOString() : null,
           value: data ? data.value : null
         }
       } else {
