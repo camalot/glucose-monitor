@@ -13,13 +13,22 @@ $(() => {
 setInterval(() => {
   // if tab not active or visible, return
   if (!document.hidden) {
-    $(".loader-spinner").removeClass("d-none").fadeIn(300, () => {
-      $(this).addClass("d-flex");
+    const $spinner = $(".loader-spinner");
+    DataLoader.setBackground($spinner, 'bg-info');
+    $spinner.attr('title', 'Loading data...');
+    $spinner.removeClass("d-none").fadeIn(300, () => {
+
+      $spinner.addClass("d-flex");
       const dataLoader = new DataLoader();
-      dataLoader.loadData();
-    });
-    $(".loader-spinner").fadeOut(300, () => {
-      $(this).removeClass("d-flex").addClass("d-none");
+      dataLoader.loadData().then(() => {
+        $spinner.fadeOut(300, () => {
+          $spinner.removeClass("d-flex").addClass("d-none");
+        });
+      }).catch((error) => {
+        console.error("Error loading data:", error);
+        DataLoader.setBackground($spinner, 'bg-danger');
+        $spinner.attr('title', 'Error loading data');
+      });
     });
   }
 }, 30000);
@@ -181,6 +190,21 @@ class AutocompleteLoader {
 class DataLoader {
   constructor() { }
 
+  static setBackground(card, background = 'bg-body-tertiary') {
+    card
+      .removeClass("placeholder-glow")
+      .removeClass('bg-dark')
+      .removeClass('bg-success')
+      .removeClass('bg-primary')
+      .removeClass("bg-danger")
+      .removeClass('bg-warning')
+      .removeClass('bg-secondary')
+      .removeClass('bg-body-tertiary')
+      .removeClass('bg-info')
+      .addClass(background);
+    $('.placeholder', card).removeClass('placeholder');
+  }
+
   async loadData() {
     return new Promise(async (resolve, reject) => {
       try {
@@ -201,36 +225,41 @@ class DataLoader {
     return new Promise(async (resolve, reject) => {
       // let template = $('.food-item-template');
       console.log('Loading food data...');
+      let $card = $('.food.reading-entry');
+      DataLoader.setBackground($card, 'bg-dark');
       $.ajax({
         url: '/api/v1/food/list/3',
         method: 'GET',
         success: (data) => {
-          console.log('Food data fetched successfully:', data);
-          let $card = $('.food.reading-entry');
-          let list = $('.food-list', $card);
-          list.empty();
+          try {
+            console.log('Food data fetched successfully:', data);
+            let list = $('.food-list', $card);
+            list.empty();
 
-          data.forEach(item => {
-            const itemData = {
-              name: item.food.name,
-              calories: item.food?.calories || 0,
-              carbohydrates: item.food?.carbohydrates || 0,
-              time: moment(item.time).fromNow()
-            }
+            data.forEach(item => {
+              const itemData = {
+                name: item.food.name,
+                calories: item.food?.calories || 0,
+                carbohydrates: item.food?.carbohydrates || 0,
+                time: moment(item.time).fromNow()
+              }
 
-            Templates.render(list, "foodEntryItem", itemData);
-          });
-          $card
-            .addClass('bg-body-tertiary')
-            .removeClass('bg-dark')
-            .removeClass("placeholder-glow");
-          $('.placeholder', $card).removeClass('placeholder');
-          resolve();
+              Templates.render(list, "foodEntryItem", itemData);
+            });
+            DataLoader.setBackground($card, 'bg-body-tertiary');
+            resolve();
+          } catch (err) {
+            console.error('Error fetching food data:', err);
+            DataLoader.setBackground($card, 'bg-danger');
+            // reject(err);
+            resolve();
+          }
         },
         error: (error) => {
-          console.log(error);
           console.error('Error fetching food data:', error);
-          reject(error);
+          DataLoader.setBackground($card, 'bg-danger');
+          // reject(error);
+          resolve();
         }
       });
     });
@@ -238,33 +267,38 @@ class DataLoader {
 
   async loadGlucose() {
     return new Promise(async (resolve, reject) => {
+      let $card = $('.glucose.reading-entry');
+      DataLoader.setBackground($card, 'bg-dark');
       $.ajax({
         url: '/api/v1/glucose/last',
         method: 'GET',
-        success: function (data) {
-          console.log('Glucose data fetched successfully:', data);
-          let $card = $('.glucose.reading-entry');
-          $('.reading-entry-value', $card).text(data.value);
-          $('.last-updated', $card).text(moment(data.time).fromNow());
-          $card.removeClass("placeholder-glow");
-          $('.placeholder', $card).removeClass('placeholder');
+        success: (data) => {
+          try {
+            console.log('Glucose data fetched successfully:', data);
+            $('.reading-entry-value', $card).text(data.value);
+            $('.last-updated', $card).text(moment(data.time).fromNow());
+            // get glucose card bg color
 
-          // get glucose card bg color
-          $card.removeClass('bg-dark');
-          if (data.value < 80) {
-            $card.addClass('bg-primary');
-          } else if (data.value >= 80 && data.value <= 180) {
-            $card.addClass('bg-success');
-          } else {
-            $card.addClass('bg-danger');
+            if (data.value < 80) {
+              DataLoader.setBackground($card, 'bg-primary');
+            } else if (data.value >= 80 && data.value <= 180) {
+              DataLoader.setBackground($card, 'bg-success');
+            } else {
+              DataLoader.setBackground($card, 'bg-danger');
+            }
+            resolve();
+          } catch (err) {
+            console.error('Error fetching glucose data:', err);
+            DataLoader.setBackground($card, 'bg-danger');
+            // reject(err);
+            resolve();
           }
-          resolve();
         },
         error: function (error) {
           console.error('Error fetching glucose data:', error);
-          $card.removeClass('bg-dark');
-          $card.addClass('bg-danger');
-          reject(error);
+          DataLoader.setBackground($card, 'bg-danger');
+          // reject(error);
+          resolve();
         }
       });
     });
@@ -272,33 +306,38 @@ class DataLoader {
 
   async loadA1C() {
     return new Promise(async (resolve, reject) => {
+      let $card = $('.a1c.reading-entry');
+      DataLoader.setBackground($card, 'bg-dark');
       $.ajax({
         url: '/api/v1/glucose/a1c',
         method: 'GET',
         success: function (data) {
-          console.log('A1C data fetched successfully:', data);
-          let $card = $('.a1c.reading-entry');
-          $('.reading-entry-value', $card).text(data.value);
-          $('.last-updated', $card).text(moment(data.time).fromNow());
-          $card.removeClass("placeholder-glow");
-          $('.placeholder', $card).removeClass('placeholder');
+          try {
+            console.log('A1C data fetched successfully:', data);
+            $('.reading-entry-value', $card).text(data.value);
+            $('.last-updated', $card).text(moment(data.time).fromNow());
 
-          // get glucose card bg color
-          $card.removeClass('bg-dark');
-          if (data.value < 5.7) {
-            $card.addClass('bg-success');
-          } else if (data.value >= 5.7 && data.value <= 6.4) {
-            $card.addClass('bg-warning');
-          } else {
-            $card.addClass('bg-danger');
+            // get glucose card bg color
+            if (data.value < 5.7) {
+              DataLoader.setBackground($card, 'bg-success');
+            } else if (data.value >= 5.7 && data.value <= 6.4) {
+              DataLoader.setBackground($card, 'bg-warning');
+            } else {
+              DataLoader.setBackground($card, 'bg-danger');
+            }
+            resolve();
+          } catch (err) {
+            console.error('Error fetching glucose data:', err);
+            DataLoader.setBackground($card, 'bg-danger');
+            // reject(err);
+            resolve();
           }
-          resolve();
         },
         error: function (error) {
           console.error('Error fetching glucose data:', error);
-          $card.removeClass('bg-dark');
-          $card.addClass('bg-danger');
-          reject(error);
+          DataLoader.setBackground($card, 'bg-danger');
+          // reject(error);
+          resolve();
         }
       });
     });
@@ -306,23 +345,30 @@ class DataLoader {
 
   async loadCarbsCard() {
     return new Promise(async (resolve, reject) => {
+      let $card = $('.carbs.reading-entry');
+      DataLoader.setBackground($card, "bg-dark");
       $.ajax({
         url: '/api/v1/food/carbs/today',
         method: 'GET',
         success: function (data) {
-          console.log('Carbs data fetched successfully:', data);
-          let $card = $('.carbs.reading-entry');
-          $('.reading-entry-value', $card).text(data.totalCarbs);
-          $('.last-updated', $card).text(moment(data.time).fromNow());
-          $card.removeClass("placeholder-glow").removeClass("bg-dark").addClass("bg-body-tertiary");
-          $('.placeholder', $card).removeClass('placeholder');
-          resolve();
+          try {
+            console.log('Carbs data fetched successfully:', data);
+            $('.reading-entry-value', $card).text(data.totalCarbs);
+            $('.last-updated', $card).text(moment(data.time).fromNow());
+            DataLoader.setBackground($card, "bg-body-tertiary");
+            resolve();
+          } catch (err) {
+            console.error('Error fetching carbs data:', err);
+            DataLoader.setBackground($card, "bg-danger");
+            // reject(err);
+            resolve();
+          }
         },
         error: function (error) {
           console.error('Error fetching carbs data:', error);
-          let $card = $('.carbs.reading-entry');
-          $card.removeClass('bg-dark').addClass('bg-danger');
-          reject(error);
+          DataLoader.setBackground($card, "bg-danger");
+          // reject(error);
+          resolve();
         }
       });
     });
@@ -330,24 +376,30 @@ class DataLoader {
 
   async loadCaloriesCard() {
     return new Promise(async (resolve, reject) => {
+      let $card = $('.calories.reading-entry');
+      DataLoader.setBackground($card, "bg-dark");
       $.ajax({
         url: '/api/v1/food/calories/today',
         method: 'GET',
         success: function (data) {
-          console.log('Calories data fetched successfully:', data);
-          let $card = $('.calories.reading-entry');
-          $('.reading-entry-value', $card).text(data.totalCalories);
-          $('.last-updated', $card).text(moment(data.time).fromNow());
-          $card.removeClass("placeholder-glow").removeClass("bg-dark").addClass("bg-body-tertiary");
-          $('.placeholder', $card).removeClass('placeholder');
-          resolve();
+          try {
+            console.log('Calories data fetched successfully:', data);
+            $('.reading-entry-value', $card).text(data.totalCalories);
+            $('.last-updated', $card).text(moment(data.time).fromNow());
+            DataLoader.setBackground($card, "bg-body-tertiary");
+            resolve();
+          } catch (err) {
+            console.error('Error processing calories data:', err);
+            DataLoader.setBackground($card, "bg-danger");
+            // reject(err);
+            resolve();
+          }
         },
         error: function (error) {
           console.error('Error fetching calories data:', error);
-          let $card = $('.calories.reading-entry');
-          $card.removeClass('bg-dark');
-          $card.addClass('bg-danger');
-          reject(error);
+          DataLoader.setBackground($card, "bg-danger");
+          // reject(error);
+          resolve();
         }
       });
     });
@@ -376,27 +428,37 @@ class DataLoader {
 
       for (let chartId in charts) {
         let chart = charts[chartId];
+        let $card = $(`.chart.${chartId}`);
+        DataLoader.setBackground($card, 'bg-dark');
         $.ajax({
           url: chart.url,
           method: 'GET',
           success: function (data) {
-            console.log('Data fetched successfully:', data);
-            const dataChart = new DataChart();
-            dataChart.initialize(chartId, {
-              data: data,
-              label: chart.options.label,
-              yAxisLabel: chart.options.yAxisLabel
-            });
+            try {
+              console.log('Data fetched successfully:', data);
+              const dataChart = new DataChart();
+              dataChart.initialize(chartId, {
+                data: data,
+                label: chart.options.label,
+                yAxisLabel: chart.options.yAxisLabel
+              });
 
-            $(`.chart.${chartId}`)
-              .addClass('bg-body-tertiary')
-              .removeClass('placeholder-glow')
-              .removeClass('bg-dark');
-            $(`.chart.${chartId} .chart-canvas`).removeClass('placeholder');
+              // $(`.chart.${chartId}`)
+              //   .addClass('bg-body-tertiary')
+              //   .removeClass('placeholder-glow')
+              //   .removeClass('bg-dark');
+
+              DataLoader.setBackground($card, "bg-body-tertiary");
+              $(`.chart.${chartId} .chart-canvas`).removeClass('placeholder');
+            } catch (err) {
+              console.error('Error fetching data:', err);
+              DataLoader.setBackground($card, "bg-danger");
+            }
           },
           error: function (error) {
             console.error('Error fetching data:', error);
-            reject(error);
+
+            DataLoader.setBackground($(`.chart.${chartId}`), "bg-danger");
           }
         });
       }
