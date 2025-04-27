@@ -1,15 +1,17 @@
 import config from '../../../config';
 import * as FatSecret from '../../../libs/FatSecret';
+import Reflection from '../../../libs/reflection';
+
 import { Request, Response, NextFunction } from 'express';
 
 import LogsMongoClient from '../../../libs/mongo/Logs';
 
-class FoodController {
+export default class FoodController {
   private logger = new LogsMongoClient();
-  private MODULE = 'FoodController';
+  private MODULE = this.constructor.name;
 
   async list(req: Request, resp: Response, next: NextFunction): Promise<void> {
-    const METHOD = 'list';
+    const METHOD = Reflection.getCallingMethodName();
     const count = req.params.count || 3;
     try {
       let data = [
@@ -47,7 +49,30 @@ class FoodController {
     }
   }
 
+  async getTotalCaloriesToday(req: Request, resp: Response, next: NextFunction): Promise<void> {
+    const METHOD = Reflection.getCallingMethodName();
+    try {
+      const totalCalories = 0;
+      await resp.json({ totalCalories });
+    } catch(error) {
+      await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
+      await next(error);
+    }
+  }
+
+  async getTotalCarbsToday(req: Request, resp: Response, next: NextFunction): Promise<void> {
+    const METHOD = Reflection.getCallingMethodName();
+    try {
+      const totalCarbs = 0;
+      await resp.json({ totalCarbs });
+    } catch (error) {
+      await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
+      await next(error);
+    }
+  }
+
   private async createClient(): Promise<FatSecret.Client> {
+    const METHOD = Reflection.getCallingMethodName();
     console.log("Create before promise");
     // return a Promise
     return new Promise<FatSecret.Client>((resolve, reject) => {
@@ -71,7 +96,7 @@ class FoodController {
   }
 
   async getById(req: Request, resp: Response, next: NextFunction): Promise<void> {
-    const METHOD = 'getById';
+    const METHOD = Reflection.getCallingMethodName();
     const foodId: number = parseInt(req.params.id);
     const client = await this.createClient();
 
@@ -87,7 +112,7 @@ class FoodController {
   }
 
   async autocomplete(req: Request, resp: Response, next: NextFunction): Promise<void> {
-    const METHOD = 'autocomplete';
+    const METHOD = Reflection.getCallingMethodName();
     const query = req.query.q;
     console.log("Received autocomplete request with query:", query);
     const client = await this.createClient();
@@ -114,7 +139,7 @@ class FoodController {
   }
 
   async search(req: Request, resp: Response, next: NextFunction): Promise<void> {
-    const METHOD = 'search';
+    const METHOD = Reflection.getCallingMethodName();
     const client = await this.createClient();
     try {
       const query = req.query.q;
@@ -134,5 +159,3 @@ class FoodController {
     }
   }
 }
-
-export default FoodController;

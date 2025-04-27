@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": true, // Allow JavaScript files
     "checkJs": false, // Disable type-checking for JavaScript files
-    "outDir": "src/dist", // Output directory for compiled files
+    "outDir": "app", // Output directory for compiled files
     "target": "ES6", // Target ECMAScript version
     "module": "commonjs",
     "esModuleInterop": true,
@@ -17,6 +17,6 @@
     "src/**/*.ts.ignore",
     "src/**/*.js.ignore",
     "src/**/*.spec.ts",
-    "src/dist/**/*"
+    "app/**/*"
   ]
 }

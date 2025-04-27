@@ -1,4 +1,4 @@
-class Time {
+export default class Time {
   static toUnixTime(dateTime: Date) {
     let utcDateTime;
     // check if dateTime is UTC
@@ -31,4 +31,3 @@ class Time {
   }
 }
 
-export default Time;

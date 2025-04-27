@@ -4,11 +4,12 @@
   "description": "Tracking for Calories/A1C/Glucose",
   "author": "Ryan Conrad <camalot@gmail.com>",
   "license": "MIT",
-  "main": "index.js",
+  "main": "./app/www.js",
   "scripts": {
-    "build": "tsc && copyfiles -u 1 assets/**/* dist/assets && copyfiles -u 1 views/**/* dist/views",
-    "start": "npm run build && node ./dist/www.js",
-    "exec": "npm run build && npm update && nodemon ./dist/www.js",
+    "sync": "node package-sync.js",
+    "build": "npm run sync && npm install --prefix ./app && tsc && copyfiles -u 2 ./src/assets/**/* ./app/assets/ && copyfiles -u 2 ./src/views/**/* ./app/views/ && copyfiles -u 0 .env ./app/",
+    "start": "npm run build && node ./app/www.js",
+    "exec": "npm run build && npm update && nodemon ./app/www.js",
     "test": "mocha"
   },
   "dependencies": {
@@ -30,7 +31,6 @@
     "@types/express": "^5.0.1",
     "@types/node": "^22.14.1",
     "chai": "^4.2.0",
-    "copyfiles": "^2.4.1",
     "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",

@@ -9,18 +9,28 @@ const foodController = new FoodController();
 router.route('/api/v1/food/autocomplete')
   .get((req: Request, res: Response, next: NextFunction) => {
     console.log("Received autocomplete request");
-    foodController.autocomplete(req, res, next);
+    foodController.autocomplete(req, res, next).catch(next);
   });
 
 router.route('/api/v1/food/search/')
   .get((req: Request, res: Response, next: NextFunction) => {
     console.log("Received search request");
-    foodController.search(req, res, next);
+    foodController.search(req, res, next).catch(next);
   });
 
 router.route('/api/v1/food/list/:count')
   .get((req: Request, res: Response, next: NextFunction) => {
-    foodController.list(req, res, next);
+    foodController.list(req, res, next).catch(next);
+  });
+
+router.route('/api/v1/food/carbs/today')
+  .get((req: Request, res: Response, next: NextFunction) => {
+    foodController.getTotalCarbsToday(req, res, next).catch(next);
+  });
+
+router.route('/api/v1/food/calories/today')
+  .get((req: Request, res: Response, next: NextFunction) => {
+    foodController.getTotalCaloriesToday(req, res, next).catch(next);
   });
 
 // router.route('/api/v1/food/:id')

@@ -4,14 +4,14 @@ import LogsMongoClient from '../../../libs/mongo/Logs';
 import GlucoseMongoClient from '../../../libs/mongo/Glucose';
 import GlucoseEntry from '../../../models/GlucoseEntry';
 import GlucoseUtils from '../../../libs/glucose';
+import Reflection from '../../../libs/reflection';
 import { Request, Response, NextFunction } from 'express';
 
-class GlucoseController {
+export default class GlucoseController {
   private logger = new LogsMongoClient();
-  private MODULE = 'GlucoseController';
-
+  private MODULE = this.constructor.name;
   async chart(req: Request, resp: Response, next: NextFunction): Promise<void> {
-    const METHOD = 'chart';
+    const METHOD = Reflection.getCallingMethodName();
     try {
       const db = new GlucoseMongoClient();
       await db.connect();
@@ -34,8 +34,7 @@ class GlucoseController {
   }
 
   async a1c(req: Request, resp: Response, next: NextFunction): Promise<void> {
-
-    const METHOD = 'a1c';
+    const METHOD = Reflection.getCallingMethodName();
     try {
       const db = new GlucoseMongoClient();
       await db.connect();
@@ -61,7 +60,7 @@ class GlucoseController {
   }
 
   async last(req: Request, resp: Response, next: NextFunction): Promise<void> {
-    const METHOD = 'last';
+    const METHOD = Reflection.getCallingMethodName();
 
     try {
       const db = new GlucoseMongoClient();
@@ -89,7 +88,7 @@ class GlucoseController {
   }
 
   async get(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const METHOD = 'get';
+    const METHOD = Reflection.getCallingMethodName();
     try {
       const glucose = new GlucoseMongoClient();
       console.log("get all");
@@ -109,7 +108,7 @@ class GlucoseController {
   }
 
   async record(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const METHOD = 'record';
+    const METHOD = Reflection.getCallingMethodName();
     try {
       const glucose = new GlucoseMongoClient();
       const { bloodGlucose, recordedAt } = req.body;
@@ -135,5 +134,3 @@ class GlucoseController {
     }
   }
 }
-
-export default GlucoseController;

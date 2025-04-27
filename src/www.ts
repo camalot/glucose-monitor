@@ -20,8 +20,8 @@ app.engine(
   'hbs',
   hbsEngine({
     extname: 'hbs',
-    layoutsDir: path.join(__dirname, '../views/layouts'),
-    partialsDir: path.join(__dirname, '../views/partials'),
+    layoutsDir: path.join(__dirname, 'views/layouts'),
+    partialsDir: path.join(__dirname, 'views/partials'),
     helpers: {
       section: function (this: any, name: string, context: any): null {
         if (!this._sections) {
@@ -47,7 +47,7 @@ app.engine(
 );
 
 app.set('view engine', 'hbs');
-app.set('views', path.join(path.resolve(), 'views'));
+app.set('views', path.join(__dirname, 'views'));
 console.log('View engine set to hbs');
 
 app.use(bodyParser.json());
