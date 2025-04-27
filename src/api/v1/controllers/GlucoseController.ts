@@ -6,13 +6,14 @@ import GlucoseEntry from '../../../models/GlucoseEntry';
 import GlucoseUtils from '../../../libs/glucose';
 import Reflection from '../../../libs/reflection';
 import { Request, Response, NextFunction } from 'express';
+import Time from '../../../libs/time';
 // import moment from 'moment'
 import moment from 'moment-timezone'
 
 export default class GlucoseController {
   constructor() {
     // set the default timezone for moment
-    moment.tz.setDefault("America/Chicago");
+    moment.tz.setDefault(Time.DEFAULT_TIMEZONE);
   }
   private logger = new LogsMongoClient();
   private MODULE = this.constructor.name;
@@ -23,10 +24,12 @@ export default class GlucoseController {
       const db = new GlucoseMongoClient();
       await db.connect();
       let data = await db.getLimit(10);
+      let tzOffset = moment().tz(Time.DEFAULT_TIMEZONE).utcOffset();
       // loop data array and convert time from unixtime to iso string
       data = data.map(entry => ({
         ...entry,
-        time: moment.tz(entry.timestamp * 1000, "America/Chicago").toISOString(),
+        time: moment.unix(entry.timestamp).tz(Time.DEFAULT_TIMEZONE).toISOString(),
+        tz_offset: tzOffset
       }));
 
       await resp.json(data);
@@ -45,17 +48,27 @@ export default class GlucoseController {
     try {
       const db = new GlucoseMongoClient();
       await db.connect();
-      const reduced = [];
+      const reduced: number[] = [];
 
-      const entries = await db.getAll();
+      // get 3 months ago
+      const threeMonthsAgo = moment().subtract(3, 'months').toDate();
+      let latestDate = moment.unix(0).tz(Time.DEFAULT_TIMEZONE).toISOString();
+      const entries = await db.getAfter(threeMonthsAgo);
+      console.log(entries);
       entries.forEach(entry => {
         reduced.push(entry.value);
+        // store the date if it is the most recent compared to latestDate
+        if (moment.unix(entry.timestamp)
+              .tz(Time.DEFAULT_TIMEZONE)
+                .isAfter(moment(latestDate).tz(Time.DEFAULT_TIMEZONE))
+           ) {
+          latestDate = moment.unix(entry.timestamp)
+            .tz(Time.DEFAULT_TIMEZONE).toISOString();
+        }
       });
 
       const a1cValue = GlucoseUtils.calculateA1C(reduced).toFixed(2);
-      // set as ISO 8601 string
-      const currentTime = moment().toISOString();
-      resp.json({ time: currentTime, value: a1cValue });
+      resp.json({ time: latestDate, value: a1cValue });
     } catch (error) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, {
         stack: error.stack,
@@ -77,7 +90,7 @@ export default class GlucoseController {
       if (data) {
         entry = {
           id: data ? data.id : null,
-          time: data ? moment.tz(data.timestamp * 1000, "America/Chicago").toISOString() : null,
+          time: data ? moment.unix(data.timestamp).tz(Time.DEFAULT_TIMEZONE).toISOString() : null,
           value: data ? data.value : null
         }
       } else {

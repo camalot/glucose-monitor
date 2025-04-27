@@ -1,4 +1,5 @@
 export default class Time {
+  static DEFAULT_TIMEZONE = "America/Chicago";
   static toUnixTime(dateTime: Date) {
     let utcDateTime;
     // check if dateTime is UTC
@@ -30,4 +31,3 @@ export default class Time {
     return parsedDate;
   }
 }
-

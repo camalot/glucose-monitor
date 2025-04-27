@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const health_1 = __importDefault(require("./health"));
+const config_1 = __importDefault(require("./api/v1/config"));
+const test_1 = __importDefault(require("./api/v1/test"));
+const home_1 = __importDefault(require("./home"));
+const glucose_1 = __importDefault(require("./api/v1/glucose"));
+const food_1 = __importDefault(require("./api/v1/food"));
+const weight_1 = __importDefault(require("./api/v1/weight"));
+const express_1 = require("express");
+const router = (0, express_1.Router)();
+router.use('/', health_1.default);
+router.use('/', config_1.default);
+router.use('/', home_1.default);
+router.use('/', glucose_1.default);
+router.use('/', test_1.default);
+router.use('/', food_1.default);
+router.use('/', weight_1.default);
+exports.default = router;

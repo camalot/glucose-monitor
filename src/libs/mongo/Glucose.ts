@@ -3,6 +3,7 @@ import config from '../../config/env';
 import clc from 'cli-color';
 import GlucoseEntry from '../../models/GlucoseEntry';
 import { Collection } from 'mongodb';
+import moment from 'moment-timezone';
 
 class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
 
@@ -26,12 +27,24 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
     }
   }
 
+  async getAfter(start: Date): Promise<GlucoseEntry[]> {
+    try {
+      await this.connect();
+      let ts = moment(start).unix()
+      const entries = await this.collection.find({ timestamp: { "$gt": ts } }, { sort: { timestamp: 1 } }).toArray();
+      return entries;
+    } catch (error) {
+      console.error("Error fetching glucose entries:", error);
+      throw error;
+    }
+  }
+
   async getLimit(limit: number = 10): Promise<GlucoseEntry[]> {
     try {
       console.log("GlucoseMongoClient connecting");
       await this.connect();
       console.log("get only entries from db");
-      const entries = await this.collection.find({}, { sort: { timestamp: 1 } }).limit(limit).toArray();
+      const entries = await this.collection.find({}, { sort: { timestamp: -1 } }).limit(limit).toArray();
       entries.forEach(entry => {
         entry.id = entry._id.toString();
         delete entry._id;

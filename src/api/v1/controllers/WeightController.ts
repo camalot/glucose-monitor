@@ -3,6 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import Reflection from '../../../libs/reflection';
 import LogsMongoClient from '../../../libs/mongo/Logs';
 import WeightMongoClient from '../../../libs/mongo/Weight';
+import moment from 'moment-timezone'
+import Time from '../../../libs/time';
 
 export default class WeightController {
   private logger = new LogsMongoClient();
@@ -14,9 +16,11 @@ export default class WeightController {
     try {
       await this.db.connect();
       const data = await this.db.getLimit(10);
+      let tzOffset = moment().tz(Time.DEFAULT_TIMEZONE).utcOffset();
       const mapped = data.map(entry => ({
         ...entry,
-        time: new Date(entry.timestamp * 1000).toISOString(),
+        time: moment.unix(entry.timestamp).tz(Time.DEFAULT_TIMEZONE).toISOString(),
+        tz_offset: tzOffset
       }));
       resp.json(mapped);
     } catch (error) {

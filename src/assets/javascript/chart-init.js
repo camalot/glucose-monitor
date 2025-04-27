@@ -12,13 +12,9 @@ class DataChart {
 
     // Example glucose data
     const data = options.data;
+    // offset the time from `entry.tz_offset`
+    const labels = data.map(entry => moment(entry.time).add(entry.tz_offset, 'minutes').toISOString());
 
-    // Prepare data for the chart
-    // get local time offset from UTC
-    const offset = new Date().getTimezoneOffset() * 60000;
-    const localTime = data.map(entry => new Date(entry.time).getTime() + offset);
-    const ltISO8601 = localTime.map(time => new Date(time).toISOString());
-    const labels = ltISO8601;
     const values = data.map(entry => entry.value);
 
     console.log(labels);

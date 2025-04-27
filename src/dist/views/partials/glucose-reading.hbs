@@ -1,0 +1,20 @@
+<div class="position-relative">
+  <!-- Add Glucose Entry Button -->
+  <button type="button" 
+    class="btn-card-top-right btn btn-secondary btn-sm rounded-circle position-absolute top-0 end-0 m-2" 
+    data-bs-toggle="modal" data-bs-target="#addReadingModal" title="Add Glucose Entry">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+  <div class="glucose reading-entry card bg-dark mb-3 placeholder-glow" aria-hidden="true">
+    <div class="card-body pt-1">
+      <h5 class="card-title reading-entry-label placeholder">Glucose Level</h5>
+      <div class="card-text">
+        <div class="reading-entry-body text-center object-fit-fill placeholder">
+          <span class="reading-entry-value">0.0</span>
+          <span class="unit-label">mg/dL</span>
+          <div class="last-updated"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

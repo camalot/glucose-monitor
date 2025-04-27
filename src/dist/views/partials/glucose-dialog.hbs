@@ -1,0 +1,57 @@
+<!-- Glucose Modal -->
+<div class="modal modal-xl fade" id="addReadingModal" tabindex="-1" aria-labelledby="addReadingModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addReadingModalLabel">Add Glucose Reading</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="needs-validation" novalidate>
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                  <div class="form-floating">
+                    <input placeholder="Select Reading Time" type="datetime-local" class="form-control" id="GlucoseRecordedAt" name="RecordedAt" required>
+                    <label for="GlucoseRecordedAt">Select Reading Time</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" title="Blood Glucose"><i class="fa-solid fa-droplet"></i></span>
+                  <div class="form-floating">
+                    <input type="number" placeholder="Blood Glucose Level" class="form-control" id="BloodGlucose" name="Value" min="0" step="0.1" required>
+                    <label for="BloodGlucose">Blood Glucose Level</label>
+                  </div>
+                  <span class="input-group-text">mg/dL</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa-solid fa-comments"></i></span>
+                  <div class="form-floating">
+                    <textarea rows="3" placeholder="Additional Notes" class="form-control" id="GlucoseAdditionalNotes" name="Notes"></textarea>
+                    <label for="GlucoseAdditionalNotes">Additional Notes</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

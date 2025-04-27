@@ -1,0 +1,52 @@
+ <!-- Modal for Adding Weight Information -->
+<div class="modal modal-xl fade" id="addWeightModal" tabindex="-1" aria-labelledby="addWeightModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addWeightModalLabel">Add Weight Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="needs-validation" novalidate>
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                  <div class="form-floating">
+                    <input placeholder="Select Reading Time" type="datetime-local" class="form-control" id="WeightRecordedAt" name="WeightRecordedAt" required>
+                    <label for="WeightRecordedAt">Select Reading Time</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i title="Weight" aria-placeholder="Weight" class="fa-solid fa-weight-scale"></i></span>
+                  <div class="form-floating">
+                    <input min="0" step="0.1" title="Weight" type="number" class="form-control" id="weight" name="weight" placeholder="Weight" required />
+                    <label for="weight">Weight</label>
+                  </div>
+                  <span class="input-group-text">lb</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa-solid fa-comments"></i></span>
+                  <div class="form-floating">
+                    <textarea rows="3" placeholder="Additional Notes" class="form-control" id="WeightAdditionalNotes" name="Notes"></textarea>
+                    <label for="WeightAdditionalNotes">Additional Notes</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,61 +2,50 @@
 
         <div class="inner cover">
           <h1 class="title-header"><i class="fa fa-droplet me-4"></i>{{title}}</h1>
+          <div class="xcontainer">
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="xcontainer">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      {{> a1c-card }}
+                    </div>
+                    <div class="col-lg-3">
+                      {{> glucose-card }}
+                    </div>
+                    <div class="col-lg-3">
+                      {{> carbs-card }}
+                    </div>
+                    <div class="col-lg-3">
+                      {{> calories-card }}
+                    </div>
 
-          <div class="row">
-            <div class="col-lg-2">
-              {{> a1c-card }}
-            </div>
-            <div class="col-lg-2">
-              {{> glucose-card }}
-            </div>
-            <div class="col-lg-2">
-              {{> carbs-card }}
-            </div>
-            <div class="col-lg-2">
-              {{> calories-card }}
-            </div>
-            <div class="col-lg-4">
-              {{> foodentry-card }}
-            </div>
-          </div>
-          {{!-- <div class="row">
-            <div class="col-lg-12"></div>
-          </div> --}}
-          {{!-- <div class="row">
-            <div class="col">
-              <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="glucose-tab" data-bs-toggle="tab" data-bs-target="#glucose-tab-pane" type="button" role="tab" aria-controls="glucose-tab-pane" aria-selected="true">Glucose</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#weight-tab-pane" type="button" role="tab" aria-controls="weight-tab-pane" aria-selected="false">Weight</button>
-                </li>
-
-              </ul>
-              <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" 
-                  id="glucose-tab-pane" 
-                  role="tabpanel" aria-labelledby="glucose-tab" tabindex="0">
-                  {{> glucose-chart }} 
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      {{> glucose-chart }}
+                    </div>
+                    <div class="col-lg-6">
+                      {{> weight-chart }}
+                    </div>
+                  </div>
                 </div>
-                <div class="tab-pane fade" 
-                  id="weight-tab-pane" 
-                  role="tabpanel" 
-                  aria-labelledby="weight-tab" tabindex="0">
-                  {{> weight-chart }}
+              </div>
+              <div class="col-lg-4">
+                <div class="xcontainer h-100">
+                  <div class="row h-100">
+                    <div class="col-lg-12">
+                      {{> foodentry-card }}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div> --}}
-          <div class="row">
-            <div class="col-lg-4">
-              {{> glucose-chart }}
-            </div>
-            <div class="col-lg-4">
-              {{> weight-chart }}
-            </div>
           </div>
+          
+          
+      
+          
         </div>
 
         {{> menu-button }}

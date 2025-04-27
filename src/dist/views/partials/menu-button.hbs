@@ -1,0 +1,37 @@
+<!-- Floating Button with Dropdown -->
+<div class="btn-group dropup position-fixed" style="bottom: 20px; right: 20px;">
+  <button 
+    type="button" 
+    class="btn btn-primary btn-lg rounded-circle" 
+    style="width: 60px; height: 60px;" 
+    data-bs-toggle="dropdown" 
+    aria-expanded="false">
+    <i class="fa fa-plus"></i>
+  </button>
+  <ul class="dropdown-menu">
+    <li>
+      <button 
+        class="dropdown-item" 
+        data-bs-toggle="modal" 
+        data-bs-target="#addReadingModal">
+        <span><i class="fa-solid fa-droplet me-2"></i>Glucose Entry</span>
+      </button>
+    </li>
+    <li>
+      <button 
+        class="dropdown-item" 
+        data-bs-toggle="modal" 
+        data-bs-target="#addFoodModal">
+        <span><i class="fa-solid fa-utensils me-2"></i>Food Entry</span>
+      </button>
+    </li>
+    <li>
+      <button 
+        class="dropdown-item" 
+        data-bs-toggle="modal" 
+        data-bs-target="#addWeightModal">
+        <span><i class="fa-solid fa-weight-scale me-2"></i>Weight Entry</span>
+      </button>
+    </li>
+  </ul>
+</div>
