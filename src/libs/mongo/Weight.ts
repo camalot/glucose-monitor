@@ -12,12 +12,12 @@ export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> 
     console.log("WeightMongoClient initialized");
   }
 
-  async add(entry: WeightEntry): Promise<void> {
+  async record(entry: WeightEntry): Promise<void> {
     try{
       await this.connect();
       await this.collection.insertOne(entry);
     } catch(error) {
-      console.error("Error adding weight entry:", error);
+      console.error("Error recording weight entry:", error);
     }
 
   }

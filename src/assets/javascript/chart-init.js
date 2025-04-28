@@ -34,9 +34,10 @@ class DataChart {
         datasets: [{
           label: options.label || 'N/A',
           data: values,
+          fill: true,
           color: options.color || '#dee2e6',
           borderColor: options.borderColor || '#0d6efd',
-          backgroundColor: options.backgroundColor || '#212529',
+          backgroundColor: options.backgroundColor || '#0d6efd99',
           borderWidth: options.borderWidth || 2,
           tension: options.tension || 0.4, // Smooth curve
 
@@ -45,7 +46,7 @@ class DataChart {
       options: {
         color: options.color || '#dee2e6',
         borderColor: options.borderColor || '#0d6efd',
-        backgroundColor: options.backgroundColor || '#212529',
+        backgroundColor: options.backgroundColor || '#0d6efd99',
         borderWidth: options.borderWidth || 2,
         tension: options.tension || 0.4, // Smooth curve
 

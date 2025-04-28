@@ -11,5 +11,10 @@ router.route('/api/v1/weight/chart')
     weightController.getChartData(req, resp, next).catch(next);
   });
 
+router.route('/api/v1/weight')
+  .post((req: Request, res: Response, next: NextFunction) => {
+    weightController.record(req, res, next).catch(next);
+  });
+
 
 export default router;

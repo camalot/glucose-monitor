@@ -1,7 +1,6 @@
-import Time from '../libs/time';
+import moment from 'moment-timezone';
 
 class MealEntry {
-  id?: string;
   name: string;
   description: string;
   calories: number;
@@ -26,13 +25,12 @@ class MealEntry {
     cholesterol?: number,
     notes?: string,
     fatsecret_id?: number,
-    id?: string
   ) {
     this.name = name;
     this.description = description;
     this.calories = calories || -1;
     this.carbs = carbs || -1;
-    this.timestamp = timestamp || Time.toUnixTime(new Date());
+    this.timestamp = timestamp || moment().unix();
     this.fat = fat || -1;
     this.protein = protein || -1;
     this.sodium = sodium || -1;
@@ -40,7 +38,6 @@ class MealEntry {
     this.notes = notes || "";
 
     this.fatsecret_id = fatsecret_id || null;
-    this.id = id;
   }
 }
 

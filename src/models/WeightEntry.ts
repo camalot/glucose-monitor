@@ -1,13 +1,13 @@
-import Time from "../libs/time";
+import moment from "moment-timezone";
 
 export default class WeightEntry {
-  id?: string; 
   value: number; 
   timestamp: number; 
+  notes?: string;
 
-  constructor(weight: number, timestamp?: number, id?: string) {
+  constructor(weight: number, timestamp?: number, notes?: string) {
     this.value = weight;
-    this.timestamp = timestamp || Time.toUnixTime(new Date());
-    this.id = id;
+    this.timestamp = timestamp || moment().unix();
+    this.notes = notes;
   }
 }

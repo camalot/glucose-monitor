@@ -44,11 +44,8 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
       console.log("GlucoseMongoClient connecting");
       await this.connect();
       console.log("get only entries from db");
-      const entries = await this.collection.find({}, { sort: { timestamp: -1 } }).limit(limit).toArray();
-      entries.forEach(entry => {
-        entry.id = entry._id.toString();
-        delete entry._id;
-      });
+      // ignore _id from result
+      const entries = await this.collection.find({}, { projection: { _id: 0 }, sort: { timestamp: -1 } }).limit(limit).toArray();
       console.log("got result");
       return entries;
     } catch (error) {
@@ -59,10 +56,8 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
 
   async getLatest(): Promise<GlucoseEntry | null> {
     try {
-      const latestEntry = await this.collection.find().sort({ timestamp: -1 }).limit(1).toArray();
+      const latestEntry = await this.collection.find({}, { projection: { _id: 0 }, sort: { timestamp: -1 } }).limit(1).toArray();
       if (latestEntry.length > 0) {
-        latestEntry[0].id = latestEntry[0]._id.toString();
-        delete latestEntry[0]._id;
         return latestEntry[0];
       }
       return null;

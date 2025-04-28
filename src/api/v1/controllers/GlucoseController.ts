@@ -91,7 +91,6 @@ export default class GlucoseController {
       let entry = null;
       if (data) {
         entry = {
-          id: data ? data.id : null,
           time: data ? moment.unix(data.timestamp).tz(Time.DEFAULT_TIMEZONE).toISOString() : null,
           value: data ? data.value : null
         }
