@@ -1,5 +1,8 @@
+import config from '../config'
+
 export default class Time {
-  static DEFAULT_TIMEZONE = "America/Chicago";
+  static DEFAULT_TIMEZONE = config.timezone;
+  
   static toUnixTime(dateTime: Date) {
     let utcDateTime;
     // check if dateTime is UTC
