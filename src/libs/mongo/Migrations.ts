@@ -18,7 +18,8 @@ export default class MigrationsMongoClient extends DatabaseMongoClient<Migration
 
       console.log(`Recording migration for ID: ${id}`);
       const migrationEntry = new MigrationEntry(id);
-
+      await this.connect();
+      await this.collection.insertOne(migrationEntry);
       return migrationEntry;
     } catch (error) {
       console.error(`Error recording migration for ID: ${id}`, error);
