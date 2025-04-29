@@ -12,6 +12,7 @@ import routes from './routes';
 import * as ui from './middleware/ui';
 import * as FileNotFoundHandler from './libs/express/handlers/FileNotFoundHandler';
 import * as ErrorHandler from './libs/express/handlers/ErrorHandler';
+import MigrationRunner from './libs/migrations';
 
 const app = express();
 const logger = new LogsMongoClient();
@@ -65,6 +66,10 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use('/', routes);
+
+// setup the MigrationRunner
+const migrationRunner = new MigrationRunner();
+migrationRunner.initialize();
 
 // app.use(FileNotFoundHandler('Page Not Found', 404));
 

@@ -1,7 +1,7 @@
 import configs from '../../../config';
 import * as fs from 'fs';
 import LogsMongoClient from '../../../libs/mongo/Logs';
-import Reflection from '../../../libs/reflection';
+import Reflection from '../../../libs/Reflection';
 import { Request, Response, NextFunction } from 'express';
 import path from 'path';
 

@@ -3,10 +3,10 @@ import * as fs from 'fs';
 import LogsMongoClient from '../../../libs/mongo/Logs';
 import GlucoseMongoClient from '../../../libs/mongo/Glucose';
 import GlucoseEntry from '../../../models/GlucoseEntry';
-import GlucoseUtils from '../../../libs/glucose';
-import Reflection from '../../../libs/reflection';
+import GlucoseUtils from '../../../libs/Glucose';
+import Reflection from '../../../libs/Reflection';
 import { Request, Response, NextFunction } from 'express';
-import Time from '../../../libs/time';
+import Time from '../../../libs/Time';
 // import moment from 'moment'
 import moment from 'moment-timezone'
 

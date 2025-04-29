@@ -2,7 +2,7 @@ import DatabaseMongoClient from './Database'
 import config from '../../config/env';
 import clc from 'cli-color';
 import GlucoseEntry from '../../models/GlucoseEntry';
-import { Collection } from 'mongodb';
+import { Collection, InsertManyResult, InsertOneResult } from 'mongodb';
 import moment from 'moment-timezone';
 
 class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
@@ -68,13 +68,26 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
     }
   }
 
-  async record(data: GlucoseEntry): Promise<void> {
+  async record(data: GlucoseEntry): Promise<InsertOneResult<GlucoseEntry>> {
     try {
       await this.connect();
-      await this.collection.insertOne(data);
+      const result = await this.collection.insertOne(data);
       console.log(clc.green('Glucose entry recorded successfully.'));
+      return result
     } catch (error) {
       console.error(clc.red('Error recording glucose entry:'), error);
+      throw error;
+    }
+  }
+
+  async recordMany(data: GlucoseEntry[]): Promise<InsertManyResult<GlucoseEntry>> {
+    try {
+      await this.connect();
+      const result = await this.collection.insertMany(data);
+      console.log('Multiple glucose entries recorded successfully.');
+      return result;
+    } catch (error) {
+      console.error('Error recording multiple glucose entries:', error);
       throw error;
     }
   }

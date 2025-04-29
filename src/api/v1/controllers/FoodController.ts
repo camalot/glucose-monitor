@@ -1,6 +1,6 @@
 import config from '../../../config';
 import * as FatSecret from '../../../libs/FatSecret';
-import Reflection from '../../../libs/reflection';
+import Reflection from '../../../libs/Reflection';
 
 import { Request, Response, NextFunction } from 'express';
 

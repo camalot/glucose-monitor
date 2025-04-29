@@ -1,10 +1,10 @@
 import config from '../../../config';
 import { Request, Response, NextFunction } from 'express';
-import Reflection from '../../../libs/reflection';
+import Reflection from '../../../libs/Reflection';
 import LogsMongoClient from '../../../libs/mongo/Logs';
 import WeightMongoClient from '../../../libs/mongo/Weight';
 import moment from 'moment-timezone'
-import Time from '../../../libs/time';
+import Time from '../../../libs/Time';
 import WeightEntry from '../../../models/WeightEntry';
 
 export default class WeightController {
