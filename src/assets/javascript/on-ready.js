@@ -5,51 +5,35 @@ $(() => {
   autocomplete.initialize();
   const foodSearch = new FoodSearchLoader();
   foodSearch.initialize();
+  const unitDropdown = new UnitDropdownInitializer();
+  unitDropdown.initialize();
+  const refreshRate = new RefreshRateInitializer();
+  refreshRate.initialize();
 
-  $("button[data-role='refresh-rate'].dropdown-item").on("click", changeRefreshRate);
-  $("button[data-role='refresh']").on("click", reloadData);
-
-  const savedRefreshRate = localStorage.getItem('refreshRate');
-  if (savedRefreshRate != null) {
-    $("button[data-role='refresh-rate'].dropdown-item").removeClass("active");
-    const targetMenuItem = $(`button[data-role='refresh-rate'][data-value='${savedRefreshRate}']`);
-    targetMenuItem.trigger("click");
-  }
-
-  $("button[data-role='timeframe'].dropdown-item").on("click", changeTimeframeRate);
-
-  const savedTimeframeRate = localStorage.getItem('timeframeRate');
-  if (savedTimeframeRate != null) {
-    $("button[data-role='timeframe'].dropdown-item").removeClass("active");
-    const targetMenuItem = $(`button[data-role='timeframe'][data-value='${savedTimeframeRate}']`);
-    targetMenuItem.trigger("click");
-  }
-
-  if (!savedTimeframeRate) {
-    const defaultTimeframe = $("button[data-role='timeframe'][data-value='90d']");
-    defaultTimeframe.trigger("click");
-  }
+  const timeframe = new TimeframeInitializer();
+  timeframe.initialize();
+  
 });
 
 let refreshTimer = null;
 
 function reloadData() {
-    // if tab not active or visible, return
-    if (!document.hidden) {
-      const $spinner = $(".loader-spinner");
-      DataLoader.setBackground($spinner, 'bg-info');
-      $spinner.removeClass("d-none fade-out")
+  // if tab not active or visible, return
+  if (!document.hidden) {
+    const $spinner = $(".loader-spinner");
+    DataLoader.setBackground($spinner, 'bg-info');
+    $spinner.removeClass("d-none fade-out")
 
-      $spinner.addClass("d-flex").attr('style', '');
-      const dataLoader = new DataLoader();
-      dataLoader.loadData().then(() => {
-        $spinner.removeClass("d-flex").addClass("fade-out").attr('style', '');
-      }).catch((error) => {
-        console.error("Error loading data:", error);
-        DataLoader.setBackground($spinner, 'bg-danger');
-        $spinner.attr('title', 'Error loading data');
-      });
-    }
+    $spinner.addClass("d-flex").attr('style', '');
+    const dataLoader = new DataLoader();
+    dataLoader.loadData().then(() => {
+      $spinner.removeClass("d-flex").addClass("fade-out").attr('style', '');
+    }).catch((error) => {
+      console.error("Error loading data:", error);
+      DataLoader.setBackground($spinner, 'bg-danger');
+      $spinner.attr('title', 'Error loading data');
+    });
+  }
 }
 
 function setSavedTimeframeRate(rate) {
@@ -96,6 +80,66 @@ function changeRefreshRate(event) {
     refreshTimer = setInterval(reloadData, rate);
   }
   setSavedRefreshRate(rate);
+}
+
+class RefreshRateInitializer {
+  initialize() {
+    $("button[data-role='refresh-rate'].dropdown-item").on("click", changeRefreshRate);
+    $("button[data-role='refresh']").on("click", reloadData);
+
+    const savedRefreshRate = localStorage.getItem('refreshRate');
+    if (savedRefreshRate != null) {
+      $("button[data-role='refresh-rate'].dropdown-item").removeClass("active");
+      const targetMenuItem = $(`button[data-role='refresh-rate'][data-value='${savedRefreshRate}']`);
+      targetMenuItem.trigger("click");
+    }
+  }
+}
+
+class TimeframeInitializer {
+  initialize() {
+
+    $("button[data-role='timeframe'].dropdown-item").on("click", changeTimeframeRate);
+
+    const savedTimeframeRate = localStorage.getItem('timeframeRate');
+    if (savedTimeframeRate != null) {
+      $("button[data-role='timeframe'].dropdown-item").removeClass("active");
+      const targetMenuItem = $(`button[data-role='timeframe'][data-value='${savedTimeframeRate}']`);
+      targetMenuItem.trigger("click");
+    }
+
+    if (!savedTimeframeRate) {
+      const defaultTimeframe = $("button[data-role='timeframe'][data-value='90d']");
+      defaultTimeframe.trigger("click");
+    }
+  }
+}
+
+class UnitDropdownInitializer {
+  initialize() {
+    // data-role="unit-dropdown"
+
+    const dropdownButtons = $('[data-role="unit-dropdown"]');
+    // for each in dropdownButtons
+    dropdownButtons.each((index, dropdownButton) => {
+
+      const groupDataId = $(dropdownButton).data("dropdown-id");
+      console.log(`groupDataId: ${groupDataId}`);
+      const hiddenField = $(`input[data-id="${groupDataId}"][data-role="unit-value"]`);
+      const dropdownItems = $(`[data-id="${groupDataId}"] button[data-role="unit"]`);
+
+      dropdownItems.on("click", (event) => {
+        dropdownItems.not(event.currentTarget).removeClass("active");
+        const selectedUnit = $(event.currentTarget).data("value");
+        $(event.currentTarget).addClass("active");
+        const dataId = $(event.currentTarget).data("id");
+        const hiddenField = $(`input[data-id="${dataId}"][data-role="unit-value"]`);
+        hiddenField.val(selectedUnit);
+        $(dropdownButton).find('span[role="label"]').text(selectedUnit);
+        console.log(`Selected unit: ${selectedUnit}`);
+      });
+    });
+  }
 }
 
 class FoodSearchLoader {

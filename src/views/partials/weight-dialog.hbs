@@ -32,18 +32,19 @@
                   <div class="input-group-text btn-group p-0" role="group">
                     <button 
                         data-role="unit-dropdown"
-                        data-dropdown-id="glucose"
+                        data-dropdown-id="weight"
                         type="button" 
                         class="btn dropdown-toggle" 
                         data-bs-toggle="dropdown" 
                         aria-expanded="false">
                       <span role="label">lb</span>
                     </button>
-                    <ul class="dropdown-menu" data-id="weight">
-                      <button data-role="unit" type="button" class="dropdown-item active" data-value="lb">lb</button>
-                      <button data-role="unit" type="button" class="dropdown-item" data-value="kg">kg</button>
+                    <input type="hidden" data-role="unit-value" data-id="weight" name="unit" value="lb" />
+                    <div class="dropdown-menu" data-id="weight">
+                      <button data-role="unit" data-id="weight" type="button" class="dropdown-item active" data-value="lb">lb</button>
+                      <button data-role="unit" data-id="weight" type="button" class="dropdown-item" data-value="kg">kg</button>
                       {{!-- <button data-role="unit" type="button" class="dropdown-item" data-value="stone">stone</button> --}}
-                    </ul>
+                    </div>
                   </div>
                 </div>
               </div>

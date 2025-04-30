@@ -40,10 +40,11 @@
                         aria-expanded="false">
                       <span role="label">mg/dL</span>
                     </button>
-                    <ul class="dropdown-menu" data-id="glucose">
-                      <button data-role="unit" type="button" class="dropdown-item active" data-value="mg/dL">mg/dL</button>
-                      <button data-role="unit" type="button" class="dropdown-item" data-value="mmol/L">mmol/L</button>
-                    </ul>
+                    <input type="hidden" data-role="unit-value" name="unit" data-id="glucose" value="mg/dL" />
+                    <div class="dropdown-menu" data-id="glucose">
+                      <button data-role="unit" data-id="glucose" type="button" class="dropdown-item active" data-value="mg/dL">mg/dL</button>
+                      <button data-role="unit" data-id="glucose" type="button" class="dropdown-item" data-value="mmol/L">mmol/L</button>
+                    </div>
                   </div>
                 </div>
               </div>
