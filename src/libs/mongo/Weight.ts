@@ -2,6 +2,7 @@ import DatabaseMongoClient from './Database'
 import config from '../../config/env';
 import clc from 'cli-color';
 import WeightEntry from '../../models/WeightEntry';
+import moment from 'moment-timezone';
 import { Collection, InsertManyResult } from 'mongodb';
 
 export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> {
@@ -34,16 +35,30 @@ export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> 
       }
     }
 
-  async getLimit(count: number = 10): Promise<WeightEntry[]> {
+  async getLimit(limit: number = 10): Promise<WeightEntry[]> {
     try {
+      console.log("WeightMongoClient connecting");
       await this.connect();
-      return await this.collection
-        .find({}, { sort: { timestamp: 1 }, limit: count }).toArray();
+      // ignore _id from result
+      const entries = await this.collection.find({}, { projection: { _id: 0 }, sort: { timestamp: -1 } }).limit(limit).toArray();
+      return entries;
     } catch (error) {
-      console.error("Error retrieving weight entries:", error);
-      return [];
+      console.error("Error fetching weight entries:", error);
+      throw error;
     }
   }
+
+  async getAfter(start: Date): Promise<WeightEntry[]> {
+      try {
+        await this.connect();
+        let ts = moment(start).unix()
+        const entries = await this.collection.find({ timestamp: { "$gt": ts } }, { sort: { timestamp: 1 } }).toArray();
+        return entries;
+      } catch (error) {
+        console.error("Error fetching weight entries:", error);
+        throw error;
+      }
+    }
 
   async getAll(): Promise<WeightEntry[]> {
     try {
