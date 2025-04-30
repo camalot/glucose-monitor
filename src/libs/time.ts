@@ -2,6 +2,7 @@ import config from '../config'
 import moment from 'moment-timezone';
 
 export enum Timeframe {
+  TODAY = '0d',
   ONE_DAY = '1d',
   SEVEN_DAYS = '7d',
   FOURTEEN_DAYS = '14d',
@@ -36,6 +37,8 @@ export default class Time {
 
   private static convertTimeframeToOffset(timeframe: Timeframe): number {
     switch (timeframe) {
+      case Timeframe.TODAY:
+        return 0;
       case Timeframe.ONE_DAY:
         return 1;
       case Timeframe.SEVEN_DAYS:
@@ -70,8 +73,16 @@ export default class Time {
     return daysSinceEpoch;
   }
 
+  static startOfDay(date: Date): moment.Moment {
+    return moment(date).startOf('day');
+  }
+
+  static endOfDay(date: Date): moment.Moment {
+    return moment(date).endOf('day');
+  }
+
   static subtractTimeframe(timeframe: Timeframe, date: Date): moment.Moment {
     const offset = this.convertTimeframeToOffset(timeframe);
-    return moment(date).subtract(offset, 'days');
+    return Time.startOfDay(date).subtract(offset, 'days');
   }
 }
