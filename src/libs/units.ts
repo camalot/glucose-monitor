@@ -1,7 +1,7 @@
 
 type ConversionTable = Record<UnitType, Record<UnitType, number | undefined>>;
 
-enum UnitType {
+export enum UnitType {
 
   // weights
   KG = "kg",    // Kilograms
@@ -15,7 +15,7 @@ enum UnitType {
   MGDL = "mg/dL",  // Milligrams per deciliter (mg/dL)
 }
 
-class Units {
+export class Units {
   static convert(value: number, sourceUnit: UnitType, targetUnit: UnitType) {
     const conversionFactor = Units.getConversionFactor(sourceUnit, targetUnit);
     if (conversionFactor === undefined) {
@@ -101,9 +101,4 @@ class Units {
     const conversionFactor = Units.getConversionFactor(sourceUnit, targetUnit);
     return conversionFactor !== undefined;
   }
-}
-
-export default {
-  Units,
-  UnitType
 }

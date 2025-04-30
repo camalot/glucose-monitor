@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import Units from '../Units';
+import { Units, UnitType } from '../Units';
 import WeightMongoClient from '../mongo/Weight';
+import WeightEntry from '../../models/WeightEntry';
 import moment from 'moment-timezone';
 
 export default class WeightFromMyDiabetesMMigration implements Migration {
@@ -38,22 +39,24 @@ export default class WeightFromMyDiabetesMMigration implements Migration {
         const timestampIndex = fields.indexOf('entry_datetime');
 
         const timestamp = moment(parseInt(entry[timestampIndex])).unix();
-        const item_converted = Units.Units.convert(item_entry, Units.UnitType.KG, Units.UnitType.LB);
-        console.log({
-          entry_datetime: timestamp,
-          weight: item_entry,
-          converted_weight: item_converted,
-        });
+        const item_converted = Units.convert(item_entry, UnitType.KG, UnitType.LB);
+        // console.log({
+        //   entry_datetime: timestamp,
+        //   weight: item_entry,
+        //   converted_weight: item_converted,
+        // });
 
-        return {
-          timestamp,
-          weight: item_converted,
-        };
+        return new WeightEntry(
+          item_converted, 
+          UnitType.LB, 
+          timestamp, 
+          "imported from MyDiabetesM"
+        );
       });
 
-      // Insert the data into the glucose collection
-      // const result = await client.recordMany(glucoseData);
-      // console.log(`${result.insertedCount} records inserted into the glucose collection`);
+      // Insert the data into the weight collection
+      const result = await client.recordMany(data);
+      console.log(`${result.insertedCount} records inserted into the weight collection`);
     } catch (error) {
       console.error('Error importing weight data:', error);
     } finally {

@@ -2,7 +2,7 @@ import DatabaseMongoClient from './Database'
 import config from '../../config/env';
 import clc from 'cli-color';
 import WeightEntry from '../../models/WeightEntry';
-import { Collection } from 'mongodb';
+import { Collection, InsertManyResult } from 'mongodb';
 
 export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> {
 
@@ -21,6 +21,18 @@ export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> 
     }
 
   }
+
+  async recordMany(data: WeightEntry[]): Promise<InsertManyResult<WeightEntry>> {
+      try {
+        await this.connect();
+        const result = await this.collection.insertMany(data);
+        console.log('Multiple weight entries recorded successfully.');
+        return result;
+      } catch (error) {
+        console.error('Error recording multiple weight entries:', error);
+        throw error;
+      }
+    }
 
   async getLimit(count: number = 10): Promise<WeightEntry[]> {
     try {

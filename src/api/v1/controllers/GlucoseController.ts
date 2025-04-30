@@ -9,6 +9,7 @@ import { Request, Response, NextFunction } from 'express';
 import Time from '../../../libs/Time';
 // import moment from 'moment'
 import moment from 'moment-timezone'
+import { UnitType } from '../../../libs/Units';
 
 export default class GlucoseController {
   constructor() {
@@ -147,7 +148,7 @@ export default class GlucoseController {
         notes,
         time
       });
-      const entry: GlucoseEntry = new GlucoseEntry(value, timestamp, notes);
+      const entry: GlucoseEntry = new GlucoseEntry(value, UnitType.MGDL, timestamp, notes);
       await glucose.record(entry);
 
       await res.status(201).json({ message: 'Glucose entry recorded successfully.' });

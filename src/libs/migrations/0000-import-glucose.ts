@@ -1,7 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import Units from '../Units';
+import { Units, UnitType } from '../Units';
 import GlucoseMongoClient from '../mongo/Glucose';
+import GlucoseEntry from '../../models/GlucoseEntry';
 import moment from 'moment-timezone';
 
 export default class GlucoseFromMyDiabetesMMigration implements Migration {
@@ -38,17 +39,20 @@ export default class GlucoseFromMyDiabetesMMigration implements Migration {
         const timestampIndex = fields.indexOf('entry_datetime');
 
         const timestamp = moment(parseInt(entry[timestampIndex])).unix();
-        const glucoseMgDl = Units.Units.convert(glucose, Units.UnitType.MMOLL, Units.UnitType.MGDL);
+        const glucoseMgDl = Units.convert(glucose, UnitType.MMOLL, UnitType.MGDL);
         // console.log({
         //   entry_datetime: timestamp,
         //   glucose: glucose,
         //   converted_glucose: glucoseMgDl,
         // });
 
-        return {
-          timestamp,
-          glucose: glucoseMgDl,
-        };
+        return new GlucoseEntry(glucoseMgDl, UnitType.MGDL, timestamp, "imported from MyDiabetesM");
+        
+        // {
+        //   timestamp,
+        //   glucose: glucoseMgDl,
+        //   unit: UnitType.MGDL
+        // };
       });
 
       // Insert the data into the glucose collection

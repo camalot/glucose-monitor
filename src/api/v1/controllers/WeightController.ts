@@ -6,6 +6,7 @@ import WeightMongoClient from '../../../libs/mongo/Weight';
 import moment from 'moment-timezone'
 import Time from '../../../libs/Time';
 import WeightEntry from '../../../models/WeightEntry';
+import { UnitType } from '../../../libs/Units';
 
 export default class WeightController {
   private logger = new LogsMongoClient();
@@ -49,7 +50,7 @@ export default class WeightController {
         notes,
         time
       });
-      const entry: WeightEntry = new WeightEntry(value, timestamp, notes);
+      const entry: WeightEntry = new WeightEntry(value, UnitType.LB, timestamp, notes);
       await this.db.record(entry);
 
       await res.status(201).json({ message: 'Weight entry recorded successfully.' });
