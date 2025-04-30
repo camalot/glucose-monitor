@@ -10,6 +10,7 @@ export default class GlucoseEntry {
   constructor(value: number, unit: UnitType = UnitType.MGDL, timestamp?: number, notes?: string) {
     this.value = parseInt(value.toString());
     this.timestamp = timestamp || moment().unix();
+    this.unit = unit;
     this.notes = notes;
   }
 }

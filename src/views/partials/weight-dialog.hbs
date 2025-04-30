@@ -28,7 +28,23 @@
                     <input min="0" step="0.1" title="Weight" type="number" class="form-control" id="weight" name="value" placeholder="Weight" required />
                     <label for="weight">Weight</label>
                   </div>
-                  <span class="input-group-text">lb</span>
+                  {{!-- <span class="input-group-text">lb</span> --}}
+                  <div class="input-group-text btn-group p-0" role="group">
+                    <button 
+                        data-role="unit-dropdown"
+                        data-dropdown-id="glucose"
+                        type="button" 
+                        class="btn dropdown-toggle" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                      <span role="label">lb</span>
+                    </button>
+                    <ul class="dropdown-menu" data-id="weight">
+                      <button data-role="unit" type="button" class="dropdown-item active" data-value="lb">lb</button>
+                      <button data-role="unit" type="button" class="dropdown-item" data-value="kg">kg</button>
+                      {{!-- <button data-role="unit" type="button" class="dropdown-item" data-value="stone">stone</button> --}}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

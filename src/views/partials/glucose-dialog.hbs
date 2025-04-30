@@ -29,7 +29,22 @@
                     <input type="number" placeholder="Blood Glucose Level" class="form-control" id="BloodGlucose" name="value" min="0" step="0.1" required>
                     <label for="BloodGlucose">Blood Glucose Level</label>
                   </div>
-                  <span class="input-group-text">mg/dL</span>
+                  {{!-- <span class="input-group-text">mg/dL</span> --}}
+                  <div class="input-group-text btn-group p-0" role="group">
+                    <button 
+                        data-role="unit-dropdown"
+                        data-dropdown-id="glucose"
+                        type="button" 
+                        class="btn dropdown-toggle" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                      <span role="label">mg/dL</span>
+                    </button>
+                    <ul class="dropdown-menu" data-id="glucose">
+                      <button data-role="unit" type="button" class="dropdown-item active" data-value="mg/dL">mg/dL</button>
+                      <button data-role="unit" type="button" class="dropdown-item" data-value="mmol/L">mmol/L</button>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

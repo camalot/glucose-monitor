@@ -7,7 +7,8 @@
   "main": "./app/www.js",
   "scripts": {
     "sync": "node package-sync.js",
-    "build": "npm run sync && npm install --prefix ./app && tsc && copyfiles -u 4 ./src/libs/migrations/data/**/* ./app/libs/migrations/data/ && copyfiles -u 2 ./src/assets/**/* ./app/assets/ && copyfiles -u 2 ./src/views/**/* ./app/views/ && copyfiles -u 0 .env ./app/",
+    "build": "node ./app-build.js",
+    "buildx": "node ./app-build.js --install",
     "start": "npm run build && node ./app/www.js",
     "exec": "npm run build && npm update && nodemon ./app/www.js",
     "test": "mocha"
@@ -35,6 +36,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "mocha": "^10.1.0",
+    "strip-json-comments": "^5.0.1",
     "supertest": "^3.4.2",
     "supertest-as-promised": "^4.0.2"
   }

@@ -54,9 +54,12 @@ export default class WeightFromMyDiabetesMMigration implements Migration {
         );
       });
 
+
+      // disabled because it was running multiple times.
+
       // Insert the data into the weight collection
-      const result = await client.recordMany(data);
-      console.log(`${result.insertedCount} records inserted into the weight collection`);
+      // const result = await client.recordMany(data);
+      // console.log(`${result.insertedCount} records inserted into the weight collection`);
     } catch (error) {
       console.error('Error importing weight data:', error);
     } finally {

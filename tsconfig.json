@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "allowJs": true, // Allow JavaScript files
-    "checkJs": false, // Disable type-checking for JavaScript files
-    "outDir": "app", // Output directory for compiled files
-    "target": "ES6", // Target ECMAScript version
+    "allowJs": true, 
+    "checkJs": false,
+    "outDir": "app", 
+    "target": "ES6",
     "module": "commonjs",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -11,8 +11,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.js",
-  ], // Include both .ts and .js files
+    "src/**/*.js"
+  ], 
   "exclude": [
     "src/node_modules",
     "src/**/*.ts.ignore",

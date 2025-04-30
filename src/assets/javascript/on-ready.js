@@ -16,11 +16,6 @@ $(() => {
     targetMenuItem.trigger("click");
   }
 
-  console.log('-------------------------------');
-  console.log("TIMEFRAME");
-  console.log($("button[data-role='timeframe']"));
-  console.log('-------------------------------');
-
   $("button[data-role='timeframe'].dropdown-item").on("click", changeTimeframeRate);
 
   const savedTimeframeRate = localStorage.getItem('timeframeRate');
@@ -64,15 +59,19 @@ function setSavedTimeframeRate(rate) {
 
 function changeTimeframeRate(event) {
   console.log("changeTimeframeRate");
-  const rateButton = $("button[role='timeframe-dropdown']");
-  $("button[role='timeframe'].dropdown-item").removeClass("active");
+  const rateButton = $("button[data-role='timeframe-dropdown']");
+  $("button[data-role='timeframe'].dropdown-item").removeClass("active");
   const $selected = $(event.currentTarget);
   const selectedRate = $selected.addClass("active").text();
-  $(rateButton).text(selectedRate);
+  //$(rateButton).text(selectedRate);
   console.log(`Timeframe rate changed to: ${selectedRate}`);
   // get selected rate
   const rate = $selected.data("value");
+  // update the dropdown label to be the selected label
+  const label = rateButton.find('span[role="label"]');
+  $(label).text(selectedRate);
   setSavedTimeframeRate(rate);
+  reloadData();
 }
 
 function setSavedRefreshRate(rate) {
@@ -292,9 +291,12 @@ class DataLoader {
       // let template = $('.food-item-template');
       console.log('Loading food data...');
       let $card = $('.food.reading-entry');
+      let tfStorageKey = $card.data('timeframe');
+      let timeframe = localStorage.getItem(tfStorageKey) || null;
       DataLoader.setBackground($card, 'bg-dark');
       $.ajax({
         url: '/api/v1/food/list/3',
+        data: { timeframe: timeframe },
         method: 'GET',
         success: (data) => {
           try {
@@ -334,9 +336,12 @@ class DataLoader {
   async loadGlucose() {
     return new Promise(async (resolve, reject) => {
       let $card = $('.glucose.reading-entry');
+      let tfStorageKey = $card.data('timeframe');
+      let timeframe = localStorage.getItem(tfStorageKey) || null;
       DataLoader.setBackground($card, 'bg-dark');
       $.ajax({
         url: '/api/v1/glucose/last',
+        data: { timeframe: timeframe },
         method: 'GET',
         success: (data) => {
           try {
@@ -373,9 +378,12 @@ class DataLoader {
   async loadA1C() {
     return new Promise(async (resolve, reject) => {
       let $card = $('.a1c.reading-entry');
+      let tfStorageKey = $card.data('timeframe');
+      let timeframe = localStorage.getItem(tfStorageKey) || null;
       DataLoader.setBackground($card, 'bg-dark');
       $.ajax({
         url: '/api/v1/glucose/a1c',
+        data: { timeframe: timeframe },
         method: 'GET',
         success: function (data) {
           try {
@@ -412,9 +420,12 @@ class DataLoader {
   async loadCarbsCard() {
     return new Promise(async (resolve, reject) => {
       let $card = $('.carbs.reading-entry');
+      let tfStorageKey = $card.data('timeframe');
+      let timeframe = localStorage.getItem(tfStorageKey) || null;
       DataLoader.setBackground($card, "bg-dark");
       $.ajax({
         url: '/api/v1/food/carbs/today',
+        data: { timeframe: '1d' },
         method: 'GET',
         success: function (data) {
           try {
@@ -443,9 +454,13 @@ class DataLoader {
   async loadCaloriesCard() {
     return new Promise(async (resolve, reject) => {
       let $card = $('.calories.reading-entry');
+      let tfStorageKey = $card.data('timeframe');
+      let timeframe = localStorage.getItem(tfStorageKey) || null;
+
       DataLoader.setBackground($card, "bg-dark");
       $.ajax({
         url: '/api/v1/food/calories/today',
+        data: { timeframe: '1d' },
         method: 'GET',
         success: function (data) {
           try {
@@ -477,6 +492,7 @@ class DataLoader {
       let charts = {
         weightChart: {
           url: '/api/v1/weight/chart',
+
           options: {
             label: 'Weight Entries',
             yAxisLabel: 'Weight (lbs)'
@@ -495,9 +511,13 @@ class DataLoader {
       for (let chartId in charts) {
         let chart = charts[chartId];
         let $card = $(`.chart.${chartId}`);
+        let tfStorageKey = $card.data('timeframe');
+        let timeframe = localStorage.getItem(tfStorageKey) || null;
+
         DataLoader.setBackground($card, 'bg-dark');
         $.ajax({
           url: chart.url,
+          data: { timeframe: timeframe },
           method: 'GET',
           success: function (data) {
             try {
