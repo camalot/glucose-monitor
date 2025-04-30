@@ -45,6 +45,7 @@ export default class MigrationsMongoClient extends DatabaseMongoClient<Migration
       console.log(`Checking if migration has been performed for ID: ${id}`);
       await this.connect();
       const migrationEntry = await this.collection.findOne({ id });
+      console.log(`Migration entry found: ${migrationEntry !== null}`);
       return migrationEntry !== null;
     } catch (error) {
       console.error(`Error checking migration status for ID: ${id}`, error);

@@ -1,14 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import Units from '../Units';
-import GlucoseMongoClient from '../mongo/Glucose';
+import WeightMongoClient from '../mongo/Weight';
 import moment from 'moment-timezone';
 
-export default class GlucoseFromMyDiabetesMMigration implements Migration {
+export default class WeightFromMyDiabetesMMigration implements Migration {
   async run(): Promise<void> {
     // Path to the JSON file  
     const JSON_FILE_PATH = path.join(__dirname, 'data', 'entries_table.json');
-    let client: GlucoseMongoClient;
+    let client: WeightMongoClient;
 
     try {
       // Read and parse the JSON file
@@ -23,31 +23,31 @@ export default class GlucoseFromMyDiabetesMMigration implements Migration {
       const entries: any[] = importData.rows;
 
       // Connect to MongoDB
-      client = new GlucoseMongoClient();
+      client = new WeightMongoClient();
       await client.connect();
 
       // Prepare the data for insertion
-      const glucoseData = entries.filter(x => {
-        const glucoseIndex = fields.indexOf('glucose');
-        const glucose = parseFloat(x[glucoseIndex]);
-        return glucose > 0;
+      const data = entries.filter(x => {
+        const itemIndex = fields.indexOf('weight_entry');
+        const item_entry = parseFloat(x[itemIndex]);
+        return item_entry > 0;
       }).map((entry: any) => {
-        const glucoseIndex = fields.indexOf('glucose');
-        const glucose = parseFloat(entry[glucoseIndex]);
+        const itemIndex = fields.indexOf('weight_entry');
+        const item_entry = parseFloat(entry[itemIndex]);
 
         const timestampIndex = fields.indexOf('entry_datetime');
 
         const timestamp = moment(parseInt(entry[timestampIndex])).unix();
-        const glucoseMgDl = Units.Units.convert(glucose, Units.UnitType.MMOLL, Units.UnitType.MGDL);
-        // console.log({
-        //   entry_datetime: timestamp,
-        //   glucose: glucose,
-        //   converted_glucose: glucoseMgDl,
-        // });
+        const item_converted = Units.Units.convert(item_entry, Units.UnitType.KG, Units.UnitType.LB);
+        console.log({
+          entry_datetime: timestamp,
+          weight: item_entry,
+          converted_weight: item_converted,
+        });
 
         return {
           timestamp,
-          glucose: glucoseMgDl,
+          weight: item_converted,
         };
       });
 
@@ -55,7 +55,7 @@ export default class GlucoseFromMyDiabetesMMigration implements Migration {
       // const result = await client.recordMany(glucoseData);
       // console.log(`${result.insertedCount} records inserted into the glucose collection`);
     } catch (error) {
-      console.error('Error importing glucose data:', error);
+      console.error('Error importing weight data:', error);
     } finally {
       // Close the MongoDB connection
       if (client) {

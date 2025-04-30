@@ -6,32 +6,63 @@ $(() => {
   const foodSearch = new FoodSearchLoader();
   foodSearch.initialize();
 
+  $("button[data-role='refresh-rate'].dropdown-item").on("click", changeRefreshRate);
+  $("button[data-role='refresh']").on("click", reloadData);
+
+  const savedRate = localStorage.getItem('refreshRate');
+  if (savedRate != null) {
+    $("button[data-role='refresh-rate'].dropdown-item").removeClass("active");
+    const targetMenuItem = $(`button[data-role='refresh-rate'][data-value='${savedRate}']`);
+    targetMenuItem.trigger("click");
+  }
+
   moment.tz.setDefault("UTC");
 });
 
-// reload data every 30 seconds
-setInterval(() => {
-  // if tab not active or visible, return
-  if (!document.hidden) {
-    const $spinner = $(".loader-spinner");
-    DataLoader.setBackground($spinner, 'bg-info');
-    $spinner.attr('title', 'Loading data...');
-    $spinner.removeClass("d-none").fadeIn(300, () => {
+let refreshTimer = null;
 
-      $spinner.addClass("d-flex");
+function reloadData() {
+    // if tab not active or visible, return
+    if (!document.hidden) {
+      const $spinner = $(".loader-spinner");
+      DataLoader.setBackground($spinner, 'bg-info');
+      $spinner.removeClass("d-none fade-out")
+
+      $spinner.addClass("d-flex").attr('style', '');
       const dataLoader = new DataLoader();
       dataLoader.loadData().then(() => {
-        $spinner.fadeOut(300, () => {
-          $spinner.removeClass("d-flex").addClass("d-none");
-        });
+        $spinner.removeClass("d-flex").addClass("fade-out").attr('style', '');
       }).catch((error) => {
         console.error("Error loading data:", error);
         DataLoader.setBackground($spinner, 'bg-danger');
         $spinner.attr('title', 'Error loading data');
       });
-    });
+    }
+}
+
+function setSavedRefreshRate(rate) {
+  console.log(`set saved refresh rate: ${rate}`);
+  localStorage.setItem('refreshRate', rate);
+}
+
+function changeRefreshRate(event) {
+  console.log("changeRefreshRate");
+  const rateButton = $("button[data-role='refresh-rate-dropdown']");
+  $("button[data-role='refresh-rate'].dropdown-item").removeClass("active");
+  const $selected = $(event.currentTarget);
+  const selectedRate = $selected.addClass("active").text();
+  $(rateButton).text(selectedRate);
+  console.log(`Refresh rate changed to: ${selectedRate}`);
+
+  clearInterval(refreshTimer);
+  // get selected rate
+  const rate = $selected.data("value");
+  if (rate !== "") {
+    console.log(`Selected refresh rate value: ${rate}`);
+    refreshTimer = setInterval(reloadData, rate);
   }
-}, 30000);
+  setSavedRefreshRate(rate);
+}
 
 class FoodSearchLoader {
   initialize() {

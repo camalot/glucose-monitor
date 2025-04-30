@@ -12,40 +12,50 @@ export default class MigrationRunner {
   async initialize(): Promise<void> {
     console.log('Initializing migrations...');
     const migrations = this.findMigrationScripts();
-    console.log(migrations);
+    const mdb = new Migrations();
 
-    const migrationPromises = migrations.map(migration => {
+    const filtered = migrations.filter(async (x) => {
+      const migrationName = x.replace(/\.(ts|js)$/, '');
+      return !(await mdb.migrationAlreadyPerformed(migrationName));
+    });
+
+    const migrationPromises = filtered.map(async (migration) => {
 
       // trim extension off
       const migrationName = migration.replace(/\.(ts|js)$/, '');
-      // check if this migration was ran
-
       console.log(`Executing migration: ${migrationName}`);
-      return import(`./${migrationName}`).then(module => {
-        const MigrationClass = module.default;
-        const migrationInstance = new MigrationClass();
-
-
-        return migrationInstance.run().then(() => {
-          return new Promise<void>((resolve, reject) => {
-            console.log(`Migration ${migrationName} executed successfully.`);
-            const m = new Migrations();
-            return m.connect().then(() => {
-              return m.record(migrationName);
-            }).then(() => {
-              console.log(`Migration ${migrationName} has been completed.`);
-              resolve();
-            }).catch((error) => {
-              console.error(`Error recording migration ${migrationName}:`, error);
-              reject(error);
-            });
-          });
-        }).catch(error => {
-          console.error(`Error running migration ${migrationName}:`, error);
-        }).finally(() => {
-          console.log(`Finished executing migration: ${migrationName}`);
-        });
-      });
+      const module = await import(`./${migrationName}`);
+      const MigrationClass = module.default;
+      const migrationInstance = new MigrationClass();
+      try {
+      await migrationInstance.run();
+      console.log(`Migration ${migrationName} executed successfully.`);
+      await mdb.record(migrationName);
+      } catch (error) {
+        console.error(`Error recording migration ${migrationName}:`, error);
+      } finally {
+        console.log(`Finished executing migration: ${migrationName}`);
+      }
+      // return import(`./${migrationName}`).then(module => {
+      //   const MigrationClass = module.default;
+      //   const migrationInstance = new MigrationClass();
+      //   return migrationInstance.run().then(() => {
+      //     return new Promise<void>((resolve, reject) => {
+      //       console.log(`Migration ${migrationName} executed successfully.`);
+      //       return mdb.record(migrationName).then(() => {
+      //         console.log(`Migration ${migrationName} has been completed.`);
+      //         resolve();
+      //       }).catch((error) => {
+      //         console.error(`Error recording migration ${migrationName}:`, error);
+      //         reject(error);
+      //       });
+      //     });
+      //   }).catch(error => {
+      //     console.error(`Error running migration ${migrationName}:`, error);
+      //   }).finally(() => {
+      //     console.log(`Finished executing migration: ${migrationName}`);
+      //   });
+      // });
     });
 
     await Promise.all(migrationPromises);

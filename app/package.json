@@ -1,7 +1,10 @@
 {
   "name": "glucose-monitor-app",
   "version": "1.0.0",
-  "private": true,
+  "description": "Tracking for Calories/A1C/Glucose",
+  "author": "Ryan Conrad <camalot@gmail.com>",
+  "license": "MIT",
+  "main": "./app/www.js",
   "dependencies": {
     "axios": "^1.8.4",
     "body-parser": "^1.20.2",
@@ -15,8 +18,5 @@
     "moment-timezone": "^0.5.48",
     "mongodb": "^6.8.0",
     "nodemon": "^3.1.4"
-  },
-  "description": "Tracking for Calories/A1C/Glucose",
-  "author": "Ryan Conrad <camalot@gmail.com>",
-  "license": "MIT"
+  }
 }

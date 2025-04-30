@@ -43,10 +43,14 @@ class MongoConfiguration {
 class UiConfiguration {
   enabled: boolean;
   allow: string[];
+  refreshList: string[];
+  defaultRefreshRate: string;
 
-  constructor(enabled: boolean = true, allow: string[] = []) {
+  constructor(enabled: boolean = true, allow: string[] = [], refreshList: string[] = [], defaultRefreshRate: string = '30s') {
     this.enabled = enabled;
     this.allow = allow;
+    this.refreshList = refreshList;
+    this.defaultRefreshRate = defaultRefreshRate;
   }
 }
 
