@@ -4,7 +4,7 @@ import Reflection from '../../../libs/Reflection';
 import LogsMongoClient from '../../../libs/mongo/Logs';
 import WeightMongoClient from '../../../libs/mongo/Weight';
 import moment from 'moment-timezone'
-import Time from '../../../libs/Time';
+import Time, { Timeframe } from '../../../libs/Time';
 import WeightEntry from '../../../models/WeightEntry';
 import { UnitType } from '../../../libs/Units';
 
@@ -13,11 +13,13 @@ export default class WeightController {
   private db = new WeightMongoClient();
   private MODULE = this.constructor.name;
 
-  public async getChartData(req: Request, resp: Response, next: NextFunction): Promise<void> {
+  public async chart(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
     try {
       await this.db.connect();
-      const data = await this.db.getLimit(10);
+      const timeframe = req.query.timeframe as Timeframe || Timeframe.NINETY_DAYS;
+      const offsetDate = Time.subtractTimeframe(timeframe, moment().tz(Time.DEFAULT_TIMEZONE).toDate());
+      const data = await this.db.getAfter(offsetDate.toDate());
       let tzOffset = moment().tz(Time.DEFAULT_TIMEZONE).utcOffset();
       const mapped = data.map(entry => ({
         ...entry,

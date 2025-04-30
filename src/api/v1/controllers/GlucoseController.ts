@@ -6,7 +6,7 @@ import GlucoseEntry from '../../../models/GlucoseEntry';
 import GlucoseUtils from '../../../libs/Glucose';
 import Reflection from '../../../libs/Reflection';
 import { Request, Response, NextFunction } from 'express';
-import Time from '../../../libs/Time';
+import Time, { Timeframe } from '../../../libs/Time';
 // import moment from 'moment'
 import moment from 'moment-timezone'
 import { UnitType } from '../../../libs/Units';
@@ -22,9 +22,13 @@ export default class GlucoseController {
   async chart(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
     try {
+      const timeframe = req.query.timeframe as Timeframe || Timeframe.NINETY_DAYS;
+      const offsetDate = Time.subtractTimeframe(timeframe, moment().tz(Time.DEFAULT_TIMEZONE).toDate());
       const db = new GlucoseMongoClient();
       await db.connect();
-      let data = await db.getLimit(10);
+
+      // let data = await db.getLimit(10);
+      let data = await db.getAfter(offsetDate.toDate());
       let tzOffset = moment().tz(Time.DEFAULT_TIMEZONE).utcOffset();
       // loop data array and convert time from unixtime to iso string
       data = data.map(entry => ({

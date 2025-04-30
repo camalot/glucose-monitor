@@ -9,14 +9,31 @@ $(() => {
   $("button[data-role='refresh-rate'].dropdown-item").on("click", changeRefreshRate);
   $("button[data-role='refresh']").on("click", reloadData);
 
-  const savedRate = localStorage.getItem('refreshRate');
-  if (savedRate != null) {
+  const savedRefreshRate = localStorage.getItem('refreshRate');
+  if (savedRefreshRate != null) {
     $("button[data-role='refresh-rate'].dropdown-item").removeClass("active");
-    const targetMenuItem = $(`button[data-role='refresh-rate'][data-value='${savedRate}']`);
+    const targetMenuItem = $(`button[data-role='refresh-rate'][data-value='${savedRefreshRate}']`);
     targetMenuItem.trigger("click");
   }
 
-  moment.tz.setDefault("UTC");
+  console.log('-------------------------------');
+  console.log("TIMEFRAME");
+  console.log($("button[data-role='timeframe']"));
+  console.log('-------------------------------');
+
+  $("button[data-role='timeframe'].dropdown-item").on("click", changeTimeframeRate);
+
+  const savedTimeframeRate = localStorage.getItem('timeframeRate');
+  if (savedTimeframeRate != null) {
+    $("button[data-role='timeframe'].dropdown-item").removeClass("active");
+    const targetMenuItem = $(`button[data-role='timeframe'][data-value='${savedTimeframeRate}']`);
+    targetMenuItem.trigger("click");
+  }
+
+  if (!savedTimeframeRate) {
+    const defaultTimeframe = $("button[data-role='timeframe'][data-value='90d']");
+    defaultTimeframe.trigger("click");
+  }
 });
 
 let refreshTimer = null;
@@ -38,6 +55,24 @@ function reloadData() {
         $spinner.attr('title', 'Error loading data');
       });
     }
+}
+
+function setSavedTimeframeRate(rate) {
+  console.log(`set saved timeframe rate: ${rate}`);
+  localStorage.setItem('timeframeRate', rate);
+}
+
+function changeTimeframeRate(event) {
+  console.log("changeTimeframeRate");
+  const rateButton = $("button[role='timeframe-dropdown']");
+  $("button[role='timeframe'].dropdown-item").removeClass("active");
+  const $selected = $(event.currentTarget);
+  const selectedRate = $selected.addClass("active").text();
+  $(rateButton).text(selectedRate);
+  console.log(`Timeframe rate changed to: ${selectedRate}`);
+  // get selected rate
+  const rate = $selected.data("value");
+  setSavedTimeframeRate(rate);
 }
 
 function setSavedRefreshRate(rate) {
