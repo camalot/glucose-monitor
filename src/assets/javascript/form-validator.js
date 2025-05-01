@@ -30,7 +30,7 @@
             toastr.success(successMessage);
 
             const dataLoader = new DataLoader();
-            dataLoader.loadData();
+            dataLoader.reloadData();
 
           },
           error: function (error) {

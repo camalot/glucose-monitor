@@ -3,7 +3,6 @@ class DataChart {
   constructor() {};
   
   initialize(id, options) {
-
     const ctx = document.getElementById(id).getContext('2d');
 
     if (chartInstances[id]) {
@@ -14,13 +13,7 @@ class DataChart {
     const data = options.data;
     // offset the time from `entry.tz_offset`
     const labels = data.map(entry => moment(entry.time).add(entry.tz_offset, 'minutes').toISOString());
-
     const values = data.map(entry => entry.value);
-
-    console.log(labels);
-
-
-
     // Create the chart
     const chart = new Chart(ctx, {
       plugins: {
@@ -96,6 +89,5 @@ class DataChart {
       .addClass('bg-body-tertiary')
       .removeClass('placeholder-glow')
       .removeClass('bg-dark');
-    $(`.chart.${id} .chart-canvas`).removeClass('placeholder');
   }
 }

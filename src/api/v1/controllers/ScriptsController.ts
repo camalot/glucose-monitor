@@ -41,7 +41,6 @@ export default class ScriptsController {
       // Combine scripts into one file and send
       const scripts = [
         'form-validator.js',
-        'weight-chart.js',
         'templates.js',
         'on-ready.js',
       ];

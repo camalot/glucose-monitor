@@ -295,20 +295,8 @@ class DataLoader {
   static reloadData() {
     // If tab not active or visible, return
     if (!document.hidden) {
-      // const $spinner = $(".loader-spinner");
-      // DataLoader.setBackground($spinner, 'bg-info');
-      // $spinner.removeClass("d-none fade-out");
-
-      // $spinner.addClass("d-flex").attr('style', '');
       const dataLoader = new DataLoader();
       dataLoader.loadData();
-      // .then(() => {
-      //   $spinner.removeClass("d-flex").addClass("fade-out").attr('style', '');
-      // }).catch((error) => {
-      //   console.error("Error loading data:", error);
-      //   DataLoader.setBackground($spinner, 'bg-danger');
-      //   $spinner.attr('title', 'Error loading data');
-      // });
     }
   }
 
@@ -355,8 +343,6 @@ class DataLoader {
         await this.loadCaloriesCard();
         
         $spinner.removeClass("d-flex").addClass("fade-out").attr('style', '');
-        // the placeholder should be removed by the loader
-        // $('.placeholder-field').removeClass('placeholder');
         resolve();
       } catch (error) {
         console.error("Error loading data:", error);
@@ -369,7 +355,6 @@ class DataLoader {
 
   async loadFoods() {
     return new Promise(async (resolve, reject) => {
-      // let template = $('.food-item-template');
       console.log('Loading food data...');
       let $card = $('.food.reading-entry');
       let tfStorageKey = $card.data('timeframe');
@@ -393,7 +378,6 @@ class DataLoader {
                 carbohydrates: item.food?.carbohydrates || 0,
                 time: moment(item.time).fromNow()
               }
-
               Templates.render(list, "foodEntryItem", itemData);
             });
 
@@ -404,7 +388,6 @@ class DataLoader {
             console.error('Error fetching food data:', err);
             DataLoader.setPlaceholder($card, true);
             DataLoader.setBackground($card, 'bg-danger');
-            // reject(err);
             resolve();
           }
         },
@@ -412,7 +395,6 @@ class DataLoader {
           console.error('Error fetching food data:', error);
           DataLoader.setPlaceholder($card, true);
           DataLoader.setBackground($card, 'bg-danger');
-          // reject(error);
           resolve();
         }
       });
@@ -436,7 +418,6 @@ class DataLoader {
             $('.reading-entry-value', $card).text(data.value);
             $('.last-updated', $card).text(moment(data.time).fromNow());
             // get glucose card bg color
-
             if (data.value < 80) {
               DataLoader.setBackground($card, 'bg-primary');
             } else if (data.value >= 80 && data.value <= 180) {
@@ -450,7 +431,6 @@ class DataLoader {
             console.error('Error fetching glucose data:', err);
             DataLoader.setPlaceholder($card, true);
             DataLoader.setBackground($card, 'bg-danger');
-            // reject(err);
             resolve();
           }
         },
@@ -458,7 +438,6 @@ class DataLoader {
           console.error('Error fetching glucose data:', error);
           DataLoader.setPlaceholder($card, true);
           DataLoader.setBackground($card, 'bg-danger');
-          // reject(error);
           resolve();
         }
       });
@@ -481,7 +460,6 @@ class DataLoader {
             console.log('A1C data fetched successfully:', data);
             $('.reading-entry-value', $card).text(data.value);
             $('.last-updated', $card).text(moment(data.time).fromNow());
-
             // get glucose card bg color
             if (data.value < 5.7) {
               DataLoader.setBackground($card, 'bg-success');
@@ -496,7 +474,6 @@ class DataLoader {
             console.error('Error fetching glucose data:', err);
             DataLoader.setPlaceholder($card, true);
             DataLoader.setBackground($card, 'bg-danger');
-            // reject(err);
             resolve();
           }
         },
@@ -504,7 +481,6 @@ class DataLoader {
           console.error('Error fetching glucose data:', error);
           DataLoader.setPlaceholder($card, true);
           DataLoader.setBackground($card, 'bg-danger');
-          // reject(error);
           resolve();
         }
       });
@@ -533,7 +509,6 @@ class DataLoader {
           } catch (err) {
             console.error('Error fetching carbs data:', err);
             DataLoader.setBackground($card, "bg-danger");
-            // reject(err);
             DataLoader.setPlaceholder($card, true);
             resolve();
           }
@@ -542,7 +517,6 @@ class DataLoader {
           console.error('Error fetching carbs data:', error);
           DataLoader.setPlaceholder($card, true);
           DataLoader.setBackground($card, "bg-danger");
-          // reject(error);
           resolve();
         }
       });
@@ -572,7 +546,6 @@ class DataLoader {
             console.error('Error processing calories data:', err);
             DataLoader.setPlaceholder($card, true);
             DataLoader.setBackground($card, "bg-danger");
-            // reject(err);
             resolve();
           }
         },
@@ -580,7 +553,6 @@ class DataLoader {
           console.error('Error fetching calories data:', error);
           DataLoader.setPlaceholder($card, true);
           DataLoader.setBackground($card, "bg-danger");
-          // reject(error);
           resolve();
         }
       });
@@ -600,7 +572,6 @@ class DataLoader {
           }
         },
         glucoseChart: {
-
           url: '/api/v1/glucose/chart',
           options: {
             label: 'Glucose Levels (mg/dL)',
@@ -659,5 +630,4 @@ class DataLoader {
       resolve();
     });
   }
-
 }
