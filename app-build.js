@@ -1,4 +1,4 @@
-const stripJsonComments = require('strip-json-comments').default;
+// const stripJsonComments = require('strip-json-comments').default;
 const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
@@ -24,7 +24,7 @@ if (!fs.existsSync(tsconfigPath)) {
 
 // Parse JSON with comments allowed
 const tsconfigContent = fs.readFileSync(tsconfigPath, 'utf8');
-const tsconfig = JSON.parse(stripJsonComments(tsconfigContent));
+const tsconfig = JSON.parse(tsconfigContent);
 if (!tsconfig.compilerOptions) {
   console.error(`[ERROR] Invalid tsconfig.json: missing compilerOptions`);
   process.exit(1);
