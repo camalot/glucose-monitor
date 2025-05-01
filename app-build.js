@@ -36,9 +36,11 @@ if (!fs.existsSync(appDir)) {
   fs.mkdirSync(appDir, { recursive: true });
 }
 
-// Empty the app directory
-fs.rmSync(appDir, { recursive: true });
-fs.mkdirSync(appDir, { recursive: true });
+// Empty everything in the app directory
+if (process.argv.includes('--clean')) {
+  fs.rmSync(appDir, { recursive: true, force: true });
+  fs.mkdirSync(appDir, { recursive: true });
+}
 
 // Run package-sync.js
 runCommand('node package-sync.js', 'sync package.json');
