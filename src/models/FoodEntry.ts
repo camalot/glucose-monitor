@@ -1,7 +1,9 @@
 import moment from 'moment-timezone';
+import Food from '../libs/FatSecret/structures/Food';
 
 export default class FoodEntry {
   name: string;
+  brand?: string;
   description?: string;
   serving?: string;
   weight?: number;
@@ -26,6 +28,7 @@ export default class FoodEntry {
 
   constructor(
     name: string,
+    brand?: string,
     description?: string,
     serving?: string,
     weight?: number,
@@ -50,6 +53,7 @@ export default class FoodEntry {
 
   ) {
     this.name = name;
+    this.brand = brand;
     this.description = description;
     this.serving = serving || undefined;
     this.weight = weight || undefined;
@@ -72,5 +76,35 @@ export default class FoodEntry {
     this.upc = upc || undefined;
     this.source = source || undefined;
     this.source_id = source_id || undefined;
+  }
+
+  static fromFoodSearchResultV3(data: Food) {
+    const firstServing = data.servings?.[0] || undefined;
+
+    return new FoodEntry(
+      data.name,
+      data.brandName,
+      firstServing?.description || undefined,
+      firstServing?.metricServingAmount?.toString() !== 'NaN' ? firstServing.metricServingAmount.toString() : undefined,
+      0,
+      'g',
+      parseFloat(firstServing?.calories?.toString() || '0'),
+      'kcal',
+      parseFloat(firstServing?.carbohydrate?.toString() || '0'),
+      'g',
+      undefined,
+      parseFloat(firstServing?.fat?.toString() || '0'),
+      'g',
+      parseFloat(firstServing?.protein?.toString() || '0'),
+      'g',
+      parseFloat(firstServing?.sodium?.toString() || '0'),
+      'g',
+      parseFloat(firstServing?.cholesterol?.toString() || '0'),
+      'mg',
+      firstServing?.description || undefined,
+      undefined,
+      'fatsecret',
+      data.id || moment().unix()
+    )
   }
 }

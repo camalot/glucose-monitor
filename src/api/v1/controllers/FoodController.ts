@@ -3,12 +3,18 @@ import * as FatSecret from '../../../libs/FatSecret';
 import Reflection from '../../../libs/Reflection';
 
 import { Request, Response, NextFunction } from 'express';
-
+import SavedFoodMongoClient from '../../../libs/mongo/SavedFoods';
 import LogsMongoClient from '../../../libs/mongo/Logs';
+import FoodEntry from '../../../models/FoodEntry';
+import FoodSearchResultsV3 from '../../../libs/FatSecret/structures/FoodSearchResultsV3';
+import FSFood from '../../../libs/FatSecret/structures/Food'
+import { FoodSearchResults } from '../../../models/FoodSearchResults';
+import math from 'mathjs';
 
 export default class FoodController {
   private logger = new LogsMongoClient();
   private MODULE = this.constructor.name;
+  private savedFoodClient = new SavedFoodMongoClient();
 
   async list(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
@@ -54,7 +60,7 @@ export default class FoodController {
     try {
       const totalCalories = 0;
       await resp.json({ totalCalories });
-    } catch(error) {
+    } catch (error) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
     }
@@ -119,7 +125,7 @@ export default class FoodController {
     try {
       const response = await client.getAutocompleteV2({ expression: String(query) });
       // map array to array of objects with `{ name: 'name', source: 'fatsecret' }`
-      
+
       const mappedResponse = response.map(item => ({
         value: item,
         source: 'fatsecret',
@@ -143,14 +149,74 @@ export default class FoodController {
     const client = await this.createClient();
     try {
       const query = req.query.q;
-      const max_results = req.query.max_results || 20;
-      console.log(`query: ${query}`);
-      const response = await client.getFoodSearchV3({ 
-        searchExpression: String(query), 
-        maxResults: Number(max_results),
-        pageNumber: req.query.page_number ? Number(req.query.page_number) : undefined,
-        language: req.query.language ? String(req.query.language) : undefined
-      });
+      const max_results: number = parseInt(String(req.query?.max_results || '20') || '20', 10);
+      const page = req.query.page_number ? Number(req.query.page_number) : 0;
+      const skip = Math.floor(max_results / 2) * page;
+      const source: string = req.query.source ? String(req.query.source) : '';
+
+      // used to "split" between the datasources.
+      // if fatsecret not included, then the max_subset = max_results
+      let max_subset = Math.floor(max_results / 2);
+      
+      let remoteResults: FoodSearchResultsV3 = null;
+      // if source does not contain 'fatsecret', do not perform the execution here
+      if (source.includes('fatsecret') || source === '' || source === undefined || source === null) {
+        remoteResults = await client.getFoodSearchV3({
+          searchExpression: String(query),
+          maxResults: max_subset,
+          pageNumber: page,
+          language: req.query.language ? String(req.query.language) : undefined
+        });
+      } else {
+        max_subset = max_results;
+      }
+      let totalResults = remoteResults?.totalResults || 0;
+
+      const localResults: FoodEntry[] = await this.savedFoodClient.find(
+        {
+          name: { $regex: new RegExp(`.*${String(query)}.*`), $options: 'i' },
+        },
+        { limit: max_subset, skip: skip }
+      );
+
+      totalResults += localResults.length;
+
+      const actualResults = localResults.length + (remoteResults?.foods.length || 0);
+
+      const totalPages = Math.ceil(totalResults / max_results);
+
+      // map all numeric fields in localResults and remoteResults that have a value to be a float with 2 digit precision
+      const formatNumericFields = (food: FoodEntry): FoodEntry => {
+        const formattedFood: any = Array.isArray(food) ? [] : {};
+
+        for (const key in food) {
+          if (typeof food[key] === 'number') {
+            // Format numeric fields to 2 decimal places
+            formattedFood[key] = parseFloat(food[key].toFixed(2));
+          } else if (typeof food[key] === 'object' && food[key] !== null) {
+            // Recursively format nested objects
+            formattedFood[key] = formatNumericFields(food[key]);
+          } else {
+            // Copy other fields as-is
+            formattedFood[key] = food[key];
+          }
+        }
+        return formattedFood;
+      };
+
+      // loop over response to put into FoodEntry[]. use FoodEntry.fromFoodSearchResultV3
+      const response: FoodSearchResults = new FoodSearchResults(
+        totalResults,
+        actualResults,
+        page,
+        totalPages,
+        // combine remoteResults FoodEntry map with localResults
+        [
+          ...remoteResults.foods.map((food: FSFood) => formatNumericFields(FoodEntry.fromFoodSearchResultV3(food))),
+          ...localResults.map((localFood: FoodEntry) => formatNumericFields(localFood)) // include localResults
+        ]
+      );
+
       await resp.json(response);
     } catch (error: any) {
       // await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });

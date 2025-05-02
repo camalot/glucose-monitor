@@ -1,12 +1,23 @@
 import DatabaseMongoClient from './Database'
 import FoodEntry from '../../models/FoodEntry';
-import { InsertManyResult } from 'mongodb';
+import { Abortable, Filter, FindOptions, InsertManyResult } from 'mongodb';
 
 export default class SavedFoodMongoClient extends DatabaseMongoClient<FoodEntry> {
   constructor() {
     super();
     this.collectionName = 'saved_foods';
     console.log("FoodMongoClient initialized");
+  }
+
+  async find(filter: Filter<FoodEntry>, prediction?: FindOptions<FoodEntry> & Abortable): Promise<FoodEntry[]> {
+    try {
+      await this.connect();
+      const results = await this.collection.find(filter, prediction).toArray();
+      return results;
+    } catch (error) {
+      console.error('Error in find method:', error);
+      throw error;
+    }
   }
 
   async recordMany(data: FoodEntry[]): Promise<InsertManyResult<FoodEntry>> {

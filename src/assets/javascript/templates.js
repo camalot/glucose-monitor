@@ -20,16 +20,23 @@ class Templates {
     $(parent).empty();
   }
 
-  static classSetter(target, data) {
+  static classSetter(key, data) {
+    return;
+    const target = $(`[data-class-if="${key}"], [data-class-not-if="${key}"]`);
+    console.log("call: classSetter");
+    console.log(target);
     if (target) {
       let ifNotClassTarget = target.data('class-not-if');
       let ifNotClassName = target.data('class-not-if-class');
       let ifClassTarget = target.data('class-if');
       let ifClassName = target.data('class-if-class');
-      if (data[ifNotClassTarget] && ifNotClassName) {
+
+      if ((!data[ifNotClassTarget] || data[ifNotClassTarget] === '') && ifNotClassName) {
+        console.log(`set class ${ifNotClassName}`);
         target.addClass(ifNotClassName);
       }
       if (data[ifClassTarget] && ifClassName) {
+        console.log(`set class ${ifClassName}`);
         target.addClass(ifClassName);
       }
     }
@@ -53,17 +60,17 @@ class Templates {
         </div>
       */
       Object.keys(data).forEach(key => {
-        console.log(`key: ${key}`);
+        // console.log(`key: ${key}`);
         // find the `data-bind-attr` attribute and set its text
         const target = clonedTemplate.find(`[data-bind="${key}"]`);
         const targetAttr = target.data(`bind-${key}-attr`);
         if (target) {
-          Templates.classSetter(target, data);
+          Templates.classSetter(key, data);
           if (targetAttr) {
-            console.log(`bind: ${targetAttr} => ${data[key]}`);
+            // console.log(`bind: ${targetAttr} => ${data[key]}`);
             target.attr(targetAttr, data[key]);
           } else {
-            console.log(`bind: text => ${data[key]}`);
+            // console.log(`bind: text => ${data[key]}`);
             target.text(data[key]);
           }
         }

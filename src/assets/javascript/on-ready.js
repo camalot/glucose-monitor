@@ -3,7 +3,6 @@ $(() => {
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
   const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-  
   const dataLoader = new DataLoader();
   dataLoader.loadData();
 
@@ -179,14 +178,12 @@ class FoodSearchLoader {
           const fsrList = $("ul.list-group", fsrContainer);
           fsrList.empty();
 
-          for (const item of data.foods) {
-            const serving = item.servings.length > 0 ? item.servings[0] : null;
-            item.serving = serving;
-            item.serving_description = serving ? serving.description : '';
+          for (const item of data.results) {
+            item.description = item.description || item.serving || '';
+            // remove `${item.name}\s?-\s?` from the description
+            item.description = item.description.replace(new RegExp(`${item.name}\\s?-\\s?`, 'g'), '');
             const renderedItem = Templates.render(fsrList, 'foodItem', item);
-            // const foodServingContainer = $(".food-serving", renderedItem);
-            const renderedItemData = Templates.render(renderedItem, 'foodServing', item.serving);
-          };
+          }
 
           fsrContainer.removeClass("d-none");
         },

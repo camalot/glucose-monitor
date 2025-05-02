@@ -77,6 +77,7 @@ export class DiabetesMFoodItem {
   toFoodEntry() {
     return new FoodEntry(
       this.name,
+      undefined,
       this.description,
       this.serving.trim(),
       this.weight,
