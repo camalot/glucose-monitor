@@ -23,6 +23,7 @@ export default class FoodEntry {
   timestamp: number;
   notes?: string;
   upc?: string;
+  info_url?: string
   source?: string;
   source_id?: string | number;
 
@@ -48,6 +49,7 @@ export default class FoodEntry {
     cholesterol_unit?: string,
     notes?: string,
     upc?: string,
+    info_url?: string,
     source? : string,
     source_id?: string | number,
 
@@ -74,6 +76,8 @@ export default class FoodEntry {
     this.notes = notes || undefined;
 
     this.upc = upc || undefined;
+    this.info_url = info_url || undefined;
+    
     this.source = source || undefined;
     this.source_id = source_id || undefined;
   }
