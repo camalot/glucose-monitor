@@ -73,10 +73,13 @@ runCommand(
   'copy views'
 );
 
+// only copy .env if it exists
 // Copy .env file
-runCommand(
-  `npx copyfiles -u 0 .env ${appDir}/`,
-  'copy .env file'
-);
+if (fs.existsSync('.env')) {
+  runCommand(
+    `npx copyfiles -u 0 .env ${appDir}/`,
+    'copy .env file'
+  );
+}
 
 console.log('\n[INFO] Build process completed successfully!');

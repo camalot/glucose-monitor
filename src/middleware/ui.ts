@@ -1,12 +1,13 @@
 import config from '../config/env';
 import LogsMongoClient from '../libs/mongo/Logs';
 import { Request, Response, NextFunction } from 'express';
+import Reflection from '../libs/Reflection';
 
 const logger = new LogsMongoClient();
 const MODULE = 'UiMiddleware';
 
-async function allow(req: Request, res: Response, next: NextFunction): Promise<void> {
-  const METHOD = 'allow';
+export async function allow(req: Request, res: Response, next: NextFunction): Promise<void> {
+  const METHOD = Reflection.getCallingMethodName();
   if (!config.ui.enabled) {
     await logger.warn(`${MODULE}.${METHOD}`, 'UI is disabled.');
     res.status(404).end();
@@ -18,7 +19,7 @@ async function allow(req: Request, res: Response, next: NextFunction): Promise<v
   if (allowList.includes('*')) {
     await logger.debug(`${MODULE}.${METHOD}`, 'Allowing all requests.');
     next();
-    return
+    return;
   }
 
   const requestHostName: string = req.hostname;
@@ -41,45 +42,3 @@ async function allow(req: Request, res: Response, next: NextFunction): Promise<v
 
   return;
 }
-
-export default {
-  allow,
-};
-
-// const config = require('../config/env');
-// const LogsMongoClient = require('../libs/mongo/Logs');
-
-// const logger = new LogsMongoClient();
-// const MODULE = 'UiMiddleware';
-
-// async function allow(req, res, next) {
-//   const METHOD = 'allow';
-//   if (!config.ui.enabled) {
-//     await logger.warn(`${MODULE}.${METHOD}`, 'UI is disabled.');
-//     return res.status(404).end();
-//   }
-
-//   const allowList = config.ui.allow || ['*'];
-//   if (allowList.includes('*')) {
-//     await logger.debug(`${MODULE}.${METHOD}`, 'Allowing all requests.');
-//     return next();
-//   }
-
-//   const reqestHostName = req.hostname;
-//   if (allowList.includes(reqestHostName)) {
-//     return next();
-//   }
-
-//   // loop allow list and create a regex to match the host name
-//   const regex = new RegExp(allowList.join('|').replace(/\./g, '\\.').replace(/\*/g, '.*'));
-//   if (regex.test(reqestHostName)) {
-//     return next();
-//   }
-
-//   await logger.warn(`${MODULE}.${METHOD}`, `Blocked request to ${reqestHostName}`);
-//   return res.status(404).end();
-// }
-
-// module.exports = {
-//   allow,
-// };

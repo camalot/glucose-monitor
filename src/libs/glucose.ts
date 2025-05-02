@@ -22,21 +22,4 @@ export default class Glucose {
     return total / entries.length;
   }
 
-  static convertMGDLToMMOLL(mgdl: number): number {
-    if (typeof mgdl !== 'number' || mgdl < 0) {
-      throw new Error("Invalid mg/dL value: must be a non-negative number");
-    }
-
-    const mmolL = mgdl / 18.01559;
-    return mmolL;
-  }
-
-  static convertMMOLLToMGDL(mmoll: number): number {
-    if (typeof mmoll !== 'number' || mmoll < 0) {
-      throw new Error("Invalid mmol/L value: must be a non-negative number");
-    }
-
-    const mgdl = mmoll * 18.01559;
-    return mgdl;
-  }
 }

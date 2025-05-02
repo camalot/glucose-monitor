@@ -82,6 +82,7 @@ const config = {
     allow: getEnvVarList('GM_UI_ALLOWED_HOSTS', uiEnabled ? ['*'] : []),
     defaultRefreshRate: getEnvVarString('GM_DEFAULT_REFRESH_RATE', '30s'),
     refreshList: getEnvVarList('GM_REFRESH_LIST', ['Off', '30s', '45s', '1m', '2m', '5m', '10m']),
+    defaultTimeframe: getEnvVarString('GM_DEFAULT_TIMEFRAME', '90d'),
   },
   fatsecret: {
     clientId: getEnvVarString('GM_FATSECRET_CLIENT_ID', ''),
