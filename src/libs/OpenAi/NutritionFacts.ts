@@ -53,7 +53,7 @@ export default class NutritionFacts {
         }
         Ensure the response is valid JSON and matches the structure exactly. For source_id use a unique identifier 
         to make this result unique. it could even be a md5hash of the name, and all the serving, and other 
-        nutrition data.
+        nutrition data. Set any property as null if necessary, except for 'name', 'source' and 'source_id'.
       `;
 
       // Make a request to ChatGPT
@@ -78,8 +78,8 @@ export default class NutritionFacts {
       const foodEntryData = JSON.parse(responseData);
 
       // Validate and return the FoodEntry object
-      return new FoodEntry(
-        foodEntryData.name,
+      const foodEntry = new FoodEntry(
+        foodEntryData.name.replace(new RegExp(foodEntryData.brand, 'g'), '').trim(),
         foodEntryData.brand,
         foodEntryData.description,
         foodEntryData.serving,
@@ -99,13 +99,24 @@ export default class NutritionFacts {
         foodEntryData.cholesterol,
         foodEntryData.cholesterol_unit,
         foodEntryData.notes,
-        foodEntryData.upc,
+        NutritionFacts.validateUpc(foodEntryData.upc) || undefined,
+        foodEntryData.info_url,
         foodEntryData.source,
         foodEntryData.source_id
       );
+      // save this?
+      console.log(foodEntry);
+      return foodEntry;
     } catch (error) {
       console.error('Error fetching nutrition facts from ChatGPT:', error);
       return null;
     }
+  }
+
+  static validateUpc(upc: string): string | undefined {
+    if (upc.length !== 12) {
+      return undefined;
+    }
+    return upc;
   }
 }

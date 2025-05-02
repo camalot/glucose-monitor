@@ -116,8 +116,11 @@
           data-bind="brand" 
           data-class-not-if="brand" 
           data-class-not-if-class="d-none"></span><span data-bind="name">FOOD NAME</span>
+
+        
       </div>
-      <div data-bind="description" class="badge top-0 mt-2 me-2 text-bg-primary position-absolute end-0"></div>
+      <div data-bind="serving" class="badge top-0 mt-2 me-2 text-bg-primary position-absolute end-0"></div>
+      <div data-bind="description"></div>
     </div>
     <div class="clearfix"></div>
 
@@ -144,6 +147,12 @@
         </div>
         <div class="col-6">
           <div data-class-not-if="sodium" data-class-not-if-class="d-none"><span role="label" class="me-1">Sodium:</span> <span data-bind="sodium"></span> <span data-bind="sodium_unit">g</span></div>
+        </div>
+      </div>
+      <div class="row justify-content-start">
+        <div class="col">
+          <a href="#" data-bind="info_url" data-bind-info_url-attr="href"><span data-bind="source" data-class-not-if="source" 
+            data-class-not-if-class="d-none"></span></a>
         </div>
       </div>
     </div>

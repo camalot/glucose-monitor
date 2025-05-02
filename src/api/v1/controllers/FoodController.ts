@@ -126,16 +126,19 @@ export default class FoodController {
     try {
       const response = await client.getAutocompleteV2({ expression: String(query) });
       // map array to array of objects with `{ name: 'name', source: 'fatsecret' }`
+      if (response) {
+        const mappedResponse = response.map(item => ({
+          value: item,
+          source: 'fatsecret',
+          img: '/images/fatsecret-16x16.png'
+        }));
 
-      const mappedResponse = response.map(item => ({
-        value: item,
-        source: 'fatsecret',
-        img: '/images/fatsecret-16x16.png'
-      }));
+        // get local items
 
-      // get local items
-
-      await resp.json(mappedResponse);
+        await resp.json(mappedResponse);
+      } else {
+        await resp.json([]);
+      }
     } catch (error: any) {
       console.log(error);
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
@@ -150,6 +153,9 @@ export default class FoodController {
       const query = req.query?.q;
       const geoLocation = resp.locals?.geoLocation;
       const nutritionFacts = await NutritionFacts.getNutritionFacts(String(query), geoLocation);
+      if (nutritionFacts) {
+        await this.savedFoodClient.record(nutritionFacts);
+      }
       return nutritionFacts;
     }
   }
@@ -167,7 +173,7 @@ export default class FoodController {
       // used to "split" between the datasources.
       // if fatsecret not included, then the max_subset = max_results
       let max_subset = Math.floor(max_results / 2);
-      
+
       let remoteResults: FoodSearchResultsV3 = null;
       // if source does not contain 'fatsecret', do not perform the execution here
       if (source.includes('fatsecret') || source === '' || source === undefined || source === null) {

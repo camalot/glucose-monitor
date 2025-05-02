@@ -107,8 +107,9 @@ export default class FoodEntry {
       'mg',
       firstServing?.description || undefined,
       undefined,
+      data.url || undefined,
       'fatsecret',
-      data.id || moment().unix()
+      data.id || String(moment().unix())
     )
   }
 }

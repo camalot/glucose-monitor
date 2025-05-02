@@ -1,6 +1,6 @@
 import DatabaseMongoClient from './Database'
 import FoodEntry from '../../models/FoodEntry';
-import { Abortable, Filter, FindOptions, InsertManyResult } from 'mongodb';
+import { Abortable, Filter, FindOptions, InsertManyResult, InsertOneResult, UpdateResult } from 'mongodb';
 
 export default class SavedFoodMongoClient extends DatabaseMongoClient<FoodEntry> {
   constructor() {
@@ -16,6 +16,22 @@ export default class SavedFoodMongoClient extends DatabaseMongoClient<FoodEntry>
       return results;
     } catch (error) {
       console.error('Error in find method:', error);
+      throw error;
+    }
+  }
+
+  async record(data: FoodEntry): Promise<UpdateResult<FoodEntry>> {
+    try {
+      await this.connect();
+      const result = await this.collection.updateOne(
+        { source_id: data.source_id },
+        { $set: data },
+        { upsert: true }
+      );
+      console.log('Food entry recorded successfully.');
+      return result;
+    } catch (error) {
+      console.error('Error recording food entry:', error);
       throw error;
     }
   }
