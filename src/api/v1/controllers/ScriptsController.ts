@@ -40,9 +40,9 @@ export default class ScriptsController {
     try {
       // Combine scripts into one file and send
       const scripts = [
-        'form-validator.js',
         'templates.js',
         'on-ready.js',
+        'form-validator.js',
       ];
 
       res.setHeader('Content-Type', 'application/javascript');

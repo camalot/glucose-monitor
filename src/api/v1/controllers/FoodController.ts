@@ -80,11 +80,11 @@ export default class FoodController {
 
   private async createClient(): Promise<FatSecret.Client> {
     const METHOD = Reflection.getCallingMethodName();
-    console.log("Create before promise");
+    // console.log("Create before promise");
     // return a Promise
     return new Promise<FatSecret.Client>((resolve, reject) => {
       try {
-        console.log("Creating client...");
+        // console.log("Creating client...");
         const client = new FatSecret.Client({
           credentials: {
             clientId: config.fatsecret.clientId,
@@ -92,7 +92,7 @@ export default class FoodController {
             scope: config.fatsecret.scopes as ("basic" | "premier" | "barcode" | "localization")[], // your scopes
           },
         });
-        console.log("Client created");
+        // console.log("Client created");
         return resolve(client);
       } catch (error) {
 
@@ -121,7 +121,7 @@ export default class FoodController {
   async autocomplete(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
     const query = req.query.q;
-    console.log("Received autocomplete request with query:", query);
+    // console.log("Received autocomplete request with query:", query);
     const client = await this.createClient();
     try {
       const response = await client.getAutocompleteV2({ expression: String(query) });

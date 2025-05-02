@@ -104,8 +104,6 @@ export default class NutritionFacts {
         foodEntryData.source,
         foodEntryData.source_id
       );
-      // save this?
-      console.log(foodEntry);
       return foodEntry;
     } catch (error) {
       console.error('Error fetching nutrition facts from ChatGPT:', error);
@@ -114,7 +112,7 @@ export default class NutritionFacts {
   }
 
   static validateUpc(upc: string): string | undefined {
-    if (upc.length !== 12) {
+    if (!upc || upc.length !== 12) {
       return undefined;
     }
     return upc;

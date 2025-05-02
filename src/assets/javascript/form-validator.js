@@ -18,23 +18,21 @@
           method: method,
           data: data,
           success: function (response) {
-            console.log(data);
-            console.log(response);
+            // console.log(data);
+            // console.log(response);
 
             // reset form and close modal
             $form[0].reset();
             $form.closest('.modal').modal('hide'); // Close the modal (assuming the modal has an ID of 'myModal')
             $form.removeClass("was-validated");
+            DataLoader.reloadData();
 
             const successMessage = 'Form submitted successfully!';
             toastr.success(successMessage);
 
-            const dataLoader = new DataLoader();
-            dataLoader.reloadData();
-
           },
           error: function (error) {
-            console.log(data);
+            // console.log(data);
             console.error(error);
 
             // toast error

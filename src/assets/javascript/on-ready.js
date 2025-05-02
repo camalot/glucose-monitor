@@ -27,24 +27,20 @@ class RefreshRateManager {
   }
 
   setSavedRefreshRate(rate) {
-    console.log(`set saved refresh rate: ${rate}`);
     localStorage.setItem('refreshRate', rate);
   }
 
   changeRefreshRate(event) {
-    console.log("changeRefreshRate");
     const rateButton = $("button[data-role='refresh-rate-dropdown']");
     $("button[data-role='refresh-rate'].dropdown-item").removeClass("active");
     const $selected = $(event.currentTarget);
     const selectedRate = $selected.addClass("active").text();
     $(rateButton).text(selectedRate);
-    console.log(`Refresh rate changed to: ${selectedRate}`);
 
     clearInterval(this.refreshTimer);
     // Get selected rate
     const rate = $selected.data("value");
     if (rate !== "") {
-      console.log(`Selected refresh rate value: ${rate}`);
       this.refreshTimer = setInterval(() => {
         DataLoader.reloadData();
       }, rate);
@@ -67,18 +63,14 @@ class RefreshRateManager {
 
 class TimeframeManager {
   setSavedTimeframeRate(rate) {
-    console.log(`set saved timeframe rate: ${rate}`);
     localStorage.setItem('timeframeRate', rate);
   }
 
   changeTimeframeRate(event) {
-    console.log("changeTimeframeRate");
     const rateButton = $("button[data-role='timeframe-dropdown']");
     $("button[data-role='timeframe'].dropdown-item").removeClass("active");
     const $selected = $(event.currentTarget);
     const selectedRate = $selected.addClass("active").text();
-    console.log(`Timeframe rate changed to: ${selectedRate}`);
-
     // Get selected rate
     const rate = $selected.data("value");
     // Update the dropdown label to be the selected label
@@ -116,7 +108,6 @@ class UnitDropdownInitializer {
     dropdownButtons.each((index, dropdownButton) => {
 
       const groupDataId = $(dropdownButton).data("dropdown-id");
-      console.log(`groupDataId: ${groupDataId}`);
       const hiddenField = $(`input[data-id="${groupDataId}"][data-role="unit-value"]`);
       const dropdownItems = $(`[data-id="${groupDataId}"] button[data-role="unit"]`);
 
@@ -128,7 +119,6 @@ class UnitDropdownInitializer {
         const hiddenField = $(`input[data-id="${dataId}"][data-role="unit-value"]`);
         hiddenField.val(selectedUnit);
         $(dropdownButton).find('span[role="label"]').text(selectedUnit);
-        console.log(`Selected unit: ${selectedUnit}`);
       });
     });
   }
@@ -142,12 +132,9 @@ class FoodSearchLoader {
 
     $("#searchFoodButton").on("click", (event) => {
       const target = $(event.currentTarget);
-      console.log(target);
 
       const searchField = target.data("search-field");
-      console.log(`searchField: ${searchField}`);
       const searchValue = $(searchField).val();
-      console.log("Search button clicked for food:", searchValue);
 
 
       const searchUrl = target.data("search");
@@ -159,7 +146,12 @@ class FoodSearchLoader {
       // - hide fsrContainer on item click
       // ensure fsrContainer visible
 
-      console.log(`search url: ${searchUrl}?${searchParam}=${searchValue}`);
+
+      // update the search button to show a bootstrap spinner and disable the button
+      target.prop('disabled', true).find('i').addClass('d-none');
+      target.find(".spinner-grow").removeClass('d-none');
+
+      // once success (of failure) of the search request, revert back to show the <i class="fa fa-search"></i> and enable
 
       $.ajax({
         url: `${searchUrl}?${searchParam}=${searchValue}`,
@@ -167,7 +159,9 @@ class FoodSearchLoader {
         data: {},
         success: (data) => {
 
-          console.log("Search results:", data);
+          target.prop('disabled', false).find('i').removeClass('d-none');
+          target.find(".spinner-grow").addClass('d-none');
+
           // find the form
           const form = target.closest("form");
 
@@ -188,6 +182,9 @@ class FoodSearchLoader {
           fsrContainer.removeClass("d-none");
         },
         error: (error) => {
+          target.prop('disabled', false).find('i').removeClass('d-none');
+          target.find(".spinner-grow").addClass('d-none');
+
           console.error("Error during search:", error);
         }
       });
@@ -203,7 +200,6 @@ class AutocompleteLoader {
       dl.off("change").on('change', (event) => {
 
         const selectedValue = $(event.target).val();
-        console.log(`Selected value from data list: ${selectedValue}`);
       });
     });
 
@@ -352,7 +348,6 @@ class DataLoader {
 
   async loadFoods() {
     return new Promise(async (resolve, reject) => {
-      console.log('Loading food data...');
       let $card = $('.food.reading-entry');
       let tfStorageKey = $card.data('timeframe');
       let timeframe = localStorage.getItem(tfStorageKey) || null;
@@ -364,7 +359,6 @@ class DataLoader {
         method: 'GET',
         success: (data) => {
           try {
-            console.log('Food data fetched successfully:', data);
             let list = $('.food-list', $card);
             list.empty();
 
@@ -411,7 +405,6 @@ class DataLoader {
         method: 'GET',
         success: (data) => {
           try {
-            console.log('Glucose data fetched successfully:', data);
             $('.reading-entry-value', $card).text(data.value);
             $('.last-updated', $card).text(moment(data.time).fromNow());
             // get glucose card bg color
@@ -454,7 +447,6 @@ class DataLoader {
         method: 'GET',
         success: function (data) {
           try {
-            console.log('A1C data fetched successfully:', data);
             $('.reading-entry-value', $card).text(data.value);
             $('.last-updated', $card).text(moment(data.time).fromNow());
             // get glucose card bg color
@@ -497,7 +489,6 @@ class DataLoader {
         method: 'GET',
         success: function (data) {
           try {
-            console.log('Carbs data fetched successfully:', data);
             $('.reading-entry-value', $card).text(data.totalCarbs);
             $('.last-updated', $card).text(moment(data.time).fromNow());
             DataLoader.setBackground($card, "bg-body-tertiary");
@@ -533,7 +524,6 @@ class DataLoader {
         method: 'GET',
         success: function (data) {
           try {
-            console.log('Calories data fetched successfully:', data);
             $('.reading-entry-value', $card).text(data.totalCalories);
             $('.last-updated', $card).text(moment(data.time).fromNow());
             DataLoader.setPlaceholder($card, false);
@@ -601,7 +591,6 @@ class DataLoader {
           method: 'GET',
           success: function (data) {
             try {
-              console.log('Data fetched successfully:', data);
               const dataChart = new DataChart();
               dataChart.initialize(chartId, {
                 data: data,

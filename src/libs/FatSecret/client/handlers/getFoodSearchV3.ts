@@ -11,7 +11,6 @@ export function getFoodSearchV3Factory(client: BaseClient) {
     language?: string;
   }) => {
     try {
-      console.log("begin foods.search.v3");
       // send request
       const response = await client.doRequest("foods.search.v3", {
         search_expression: decodeURIComponent(params.searchExpression),
@@ -21,11 +20,9 @@ export function getFoodSearchV3Factory(client: BaseClient) {
         region: params.region,
         language: params.language
       });
-      console.log(response.data.foods_search);
       // return search results as foodSearchResult object
       return FoodSearchResultsV3.fromResponse(response.data.foods_search);
     } catch (err: unknown) {
-      console.log(err);
       // else, rethrow error
       throw err;
     }

@@ -39,8 +39,15 @@
                     <label for="FoodName">Food Item</label>
                   </div>
 
-                  <button id="searchFoodButton" data-search="/api/v1/food/search" data-search-param="q" data-search-field="#FoodName" class="input-group-text btn btn-primary" type="button" title="Search [powered by FatSecret]"><i class="fa-solid fa-magnifying-glass"></i></button>
-                  {{! <datalist id="foodSuggestions"></datalist> }}
+                  <button id="searchFoodButton" 
+                    data-search="/api/v1/food/search"
+                    data-search-param="q"
+                    data-search-field="#FoodName"
+                    class="input-group-text btn btn-primary"
+                    type="button" title="Search"><i class="fa-solid fa-magnifying-glass"></i><div 
+                    class="spinner-grow text-dark d-none" role="status">
+                      <span class="visually-hidden">Loading...</span></div></button>
+
                   <ul id="foodSuggestions" data-autocomplete-list="FoodName" class="dropdown-menu w-100 d-none mt-6"></ul>
                 </div>
 

@@ -31,15 +31,11 @@ export default class FoodSearchResultsV3 {
     // ensure object isn't null or undefined
     object = object || {}
 
-    console.log(object);
-
     // extract properties
     const maxResults = parseInt(object["max_results"], 10);
     const pageNumber = parseInt(object["page_number"], 10);
     const totalResults = parseInt(object["total_results"], 10);
     const foods = (object['results']['food']) || [];
-
-    console.log(foods);
 
     // return instance of FoodSearchResultsV3
     return new FoodSearchResultsV3({

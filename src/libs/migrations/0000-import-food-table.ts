@@ -113,7 +113,6 @@ export default class FoodTableMyDiabetesMMigration implements Migration {
 
       const filteredData = data.filter(x => x !== null && x !== undefined);
 
-      console.log(filteredData);
       // Insert the data into the weight collection
       const result = await client.recordMany(filteredData);
       console.log(`${result.insertedCount} records inserted into the saved foods collection`);

@@ -23,9 +23,7 @@ export default class GlucoseController {
     const METHOD = Reflection.getCallingMethodName();
     try {
       const timeframe = req.query.timeframe as Timeframe || Timeframe.NINETY_DAYS;
-      console.log(`timeframe: ${timeframe}`);
       const offsetDate = Time.subtractTimeframe(timeframe, moment().tz(Time.DEFAULT_TIMEZONE).toDate());
-      console.log(`offsetDate: ${offsetDate}`);
       const db = new GlucoseMongoClient();
       await db.connect();
 
@@ -54,9 +52,7 @@ export default class GlucoseController {
     const METHOD = Reflection.getCallingMethodName();
     try {
       const timeframe = req.query.timeframe as Timeframe || Timeframe.NINETY_DAYS;
-      console.log(`timeframe: ${timeframe}`);
       const offsetDate = Time.subtractTimeframe(timeframe, moment().tz(Time.DEFAULT_TIMEZONE).toDate());
-      console.log(`offsetDate: ${offsetDate}`);
       const db = new GlucoseMongoClient();
       await db.connect();
       const reduced: number[] = [];
@@ -65,7 +61,6 @@ export default class GlucoseController {
       const threeMonthsAgo = moment().subtract(3, 'months').toDate();
       let latestDate = moment.unix(0).tz(Time.DEFAULT_TIMEZONE).toISOString();
       const entries = await db.getAfter(offsetDate.toDate());
-      console.log(entries);
       entries.forEach(entry => {
         if (entry.value > 0) {
           reduced.push(entry.value);
@@ -123,9 +118,7 @@ export default class GlucoseController {
     const METHOD = Reflection.getCallingMethodName();
     try {
       const glucose = new GlucoseMongoClient();
-      console.log("get all");
       const entries = await glucose.getAll();
-      console.log("return entries");
       await res.status(200).json(entries);
       return;
     } catch (err: any) {

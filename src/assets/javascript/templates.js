@@ -23,8 +23,6 @@ class Templates {
   static classSetter(key, data) {
     return;
     const target = $(`[data-class-if="${key}"], [data-class-not-if="${key}"]`);
-    console.log("call: classSetter");
-    console.log(target);
     if (target) {
       let ifNotClassTarget = target.data('class-not-if');
       let ifNotClassName = target.data('class-not-if-class');
@@ -32,11 +30,9 @@ class Templates {
       let ifClassName = target.data('class-if-class');
 
       if ((!data[ifNotClassTarget] || data[ifNotClassTarget] === '') && ifNotClassName) {
-        console.log(`set class ${ifNotClassName}`);
         target.addClass(ifNotClassName);
       }
       if (data[ifClassTarget] && ifClassName) {
-        console.log(`set class ${ifClassName}`);
         target.addClass(ifClassName);
       }
     }
@@ -46,13 +42,9 @@ class Templates {
     if (!data) {
       return;
     }
-    console.log(`templateId: ${templateId}`);
-    console.log(data);
     const template = Templates.find(templateId).clone();
 
-    console.log(template);
     const renderFunc = (clonedTemplate) => {
-      console.log("render template");
       /*
         <div data-template="foodSuggestions" data-bind-value-attr="value">
           <img src="..." class="food-suggestion-image mr-2" data-bind="img" data-bind-img-attr="src"/>
@@ -75,7 +67,6 @@ class Templates {
           }
         }
       });
-      console.log(clonedTemplate);
       return clonedTemplate;
     };
     return Templates.append(parent, template, renderFunc);

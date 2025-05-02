@@ -18,9 +18,7 @@ export default class WeightController {
     try {
       await this.db.connect();
       const timeframe = req.query.timeframe as Timeframe || Timeframe.NINETY_DAYS;
-      console.log(`timeframe: ${timeframe}`);
       const offsetDate = Time.subtractTimeframe(timeframe, moment().tz(Time.DEFAULT_TIMEZONE).toDate());
-      console.log(`offsetDate: ${offsetDate}`);
       const data = await this.db.getAfter(offsetDate.toDate());
       let tzOffset = moment().tz(Time.DEFAULT_TIMEZONE).utcOffset();
       const mapped = data.map(entry => ({
@@ -48,12 +46,12 @@ export default class WeightController {
       }
 
       const timestamp = moment(time).tz(Time.DEFAULT_TIMEZONE).unix();
-      console.log({
-        timestamp,
-        value,
-        notes,
-        time
-      });
+      // console.log({
+      //   timestamp,
+      //   value,
+      //   notes,
+      //   time
+      // });
       const entry: WeightEntry = new WeightEntry(value, UnitType.LB, timestamp, notes);
       await this.db.record(entry);
 

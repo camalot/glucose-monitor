@@ -15,11 +15,8 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
 
   async getAll(): Promise<GlucoseEntry[]> {
     try {
-      console.log("GlucoseMongoClient connecting");
       await this.connect();
-      console.log("get all entries from db");
       const entries = await this.collection.find({}, { sort: { timestamp: 1 }}).toArray();
-      console.log("got result");
       return entries;
     } catch (error) {
       console.error("Error fetching glucose entries:", error);
@@ -41,12 +38,9 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
 
   async getLimit(limit: number = 10): Promise<GlucoseEntry[]> {
     try {
-      console.log("GlucoseMongoClient connecting");
       await this.connect();
-      console.log("get only entries from db");
       // ignore _id from result
       const entries = await this.collection.find({}, { projection: { _id: 0 }, sort: { timestamp: -1 } }).limit(limit).toArray();
-      console.log("got result");
       return entries;
     } catch (error) {
       console.error("Error fetching glucose entries:", error);

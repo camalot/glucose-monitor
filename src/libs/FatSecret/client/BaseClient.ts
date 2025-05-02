@@ -49,7 +49,6 @@ export default class BaseClient {
         }
 
         // else, throw error
-        console.log("Error");
         throw new APIError(responseError.code, responseError.message)
       };
 
