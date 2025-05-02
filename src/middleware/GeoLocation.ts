@@ -1,20 +1,27 @@
 import axios from 'axios';
 import GeoLocationModel from '../models/GeoLocation';
+import { Request, Response, NextFunction } from 'express';
 
-export class GeoLocation {
-  async get(ip: string): Promise<GeoLocationModel> {
+export default class GeoLocation {
+  public async get(req: Request, resp: Response, next: NextFunction): Promise<void> {
   try {
-    const response = await axios.get(`http://ip-api.com/json/${ip}`);
+    // get the users ip address
+    const ip = req.headers['x-forwarded-for'] || req.connection?.remoteAddress || req.socket.remoteAddress ;
+
+    const response = await axios.get(`http://ip-api.com/json/${ip}`, { timeout: 1000 });
     const result: GeoLocationModel = GeoLocationModel.fromApiResponse(response.data);
 
-    if (!result || !result.city || !result.zip) {
-      throw new Error('Unable to retrieve location data.');
+    if (!result || !result.city || !result.zip || !result.region) {
+      resp.locals.geoLocation = GeoLocationModel.empty();
+      return next();
     }
 
-    return result;
+    resp.locals.geoLocation = result;
+    return next(); // Ensure to call next() to proceed to the next middleware
   } catch (error) {
     console.error('Error fetching geolocation:', error);
-    throw new Error('Failed to fetch geolocation.');
+    resp.locals.geoLocation = GeoLocationModel.empty();
+    next();
   }
 }
 }

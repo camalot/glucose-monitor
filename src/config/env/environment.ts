@@ -78,9 +78,9 @@ const config = {
     database: getEnvVarString('GM_MONGO_DATABASE', 'glucose_monitor_dev'),
   },
   chatgpt: {
-    apiKey: getEnvVarString('GM_CHATGPT_API_KEY', ''),
-    apiUrl: getEnvVarString('GM_CHATGPT_API_URL', 'https://api.openai.com/v1/chat/completions'),
-    model: getEnvVarString('GM_CHATGPT_MODEL', 'gpt-4o'),
+    apiKey: getEnvVarString('GM_OPENAI_API_KEY', ''),
+    apiUrl: getEnvVarString('GM_OPENAI_API_URL', 'https://api.openai.com/v1/chat/completions'),
+    model: getEnvVarString('GM_OPENAI_MODEL', 'gpt-4o'),
   },
   ui: {
     enabled: uiEnabled,

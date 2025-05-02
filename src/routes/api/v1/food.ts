@@ -1,9 +1,11 @@
 import FoodController from '../../../api/v1/controllers/FoodController';
+import GeoLocation from '../../../middleware/GeoLocation';
 import { Router, Request, Response, NextFunction } from 'express';
 
 
 const router = Router();
 const foodController = new FoodController();
+const geoLocation = new GeoLocation();
 
 // requires premier scope.
 router.route('/api/v1/food/autocomplete')
@@ -13,7 +15,7 @@ router.route('/api/v1/food/autocomplete')
   });
 
 router.route('/api/v1/food/search/')
-  .get((req: Request, res: Response, next: NextFunction) => {
+  .get(geoLocation.get, (req: Request, res: Response, next: NextFunction) => {
     console.log("Received search request");
     foodController.search(req, res, next).catch(next);
   });

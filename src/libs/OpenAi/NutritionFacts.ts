@@ -1,21 +1,29 @@
 import axios from 'axios';
 import FoodEntry from '../../models/FoodEntry';
 import config from '../../config';
+import GeoLocation from '../../models/GeoLocation';
 
 export default class NutritionFacts {
-  private static readonly CHATGPT_API_URL = config.chatgpt.apiUrl;
+  private static readonly API_URL = config.chatgpt.apiUrl;
   private static readonly MODEL = config.chatgpt.model; // Use the desired ChatGPT model
   private static readonly API_KEY = config.chatgpt.apiKey; // Ensure this is set in your environment variables
 
-  static async getNutritionFacts(foodName: string): Promise<FoodEntry> {
+  static async getNutritionFacts(foodName: string, geo: GeoLocation): Promise<FoodEntry> {
     if (!this.API_KEY) {
-      throw new Error('ChatGPT API key is not set in the environment variables.');
+      console.error('ChatGPT API key is not set in the environment variables.');
+      return null;
     }
 
     try {
+      const geoString = geo.toString();
+      let geoPrompt = "";
+      if (geoString) {
+        geoPrompt = `The user's Geographic Location: ${geoString}.`;
+      }
       // Prompt to ask ChatGPT for nutrition facts
       const prompt = `
-        Provide the nutrition facts for "${foodName}" in JSON format. 
+        Provide the nutrition facts for "${foodName}" in JSON format.
+        ${geoPrompt}
         The JSON should match the following structure:
         {
           "name": string,
@@ -50,13 +58,14 @@ export default class NutritionFacts {
 
       // Make a request to ChatGPT
       const response = await axios.post(
-        this.CHATGPT_API_URL,
+        this.API_URL,
         {
           model: this.MODEL,
           messages: [{ role: 'user', content: prompt }],
           temperature: 0.7,
         },
         {
+          timeout: 5000,
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${this.API_KEY}`,
@@ -96,7 +105,7 @@ export default class NutritionFacts {
       );
     } catch (error) {
       console.error('Error fetching nutrition facts from ChatGPT:', error);
-      throw new Error('Failed to fetch nutrition facts from ChatGPT.');
+      return null;
     }
   }
 }

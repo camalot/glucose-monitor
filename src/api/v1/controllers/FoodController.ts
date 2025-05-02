@@ -9,6 +9,7 @@ import FoodEntry from '../../../models/FoodEntry';
 import FoodSearchResultsV3 from '../../../libs/FatSecret/structures/FoodSearchResultsV3';
 import FSFood from '../../../libs/FatSecret/structures/Food'
 import { FoodSearchResults } from '../../../models/FoodSearchResults';
+import NutritionFacts from '../../../libs/OpenAi/NutritionFacts';
 import math from 'mathjs';
 
 export default class FoodController {
@@ -144,6 +145,15 @@ export default class FoodController {
     }
   }
 
+  async aiSearch(req: Request, resp: Response, next: NextFunction): Promise<FoodEntry> {
+    if (resp.locals?.geoLocation) {
+      const query = req.query?.q;
+      const geoLocation = resp.locals?.geoLocation;
+      const nutritionFacts = await NutritionFacts.getNutritionFacts(String(query), geoLocation);
+      return nutritionFacts;
+    }
+  }
+
   async search(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
     const client = await this.createClient();
@@ -181,7 +191,7 @@ export default class FoodController {
 
       totalResults += localResults.length;
 
-      const actualResults = localResults.length + (remoteResults?.foods.length || 0);
+      let actualResults = localResults.length + (remoteResults?.foods.length || 0);
 
       const totalPages = Math.ceil(totalResults / max_results);
 
@@ -204,6 +214,14 @@ export default class FoodController {
         return formattedFood;
       };
 
+      const aiResults = [await this.aiSearch(req, resp, next)];
+
+      if (aiResults && aiResults[0]) {
+        // increase the counts 
+        totalResults += aiResults.length;
+        actualResults += aiResults.length;
+      }
+
       // loop over response to put into FoodEntry[]. use FoodEntry.fromFoodSearchResultV3
       const response: FoodSearchResults = new FoodSearchResults(
         totalResults,
@@ -212,6 +230,7 @@ export default class FoodController {
         totalPages,
         // combine remoteResults FoodEntry map with localResults
         [
+          ...aiResults.map((aiResult: FoodEntry) => formatNumericFields(aiResult)), // include aiResults
           ...remoteResults.foods.map((food: FSFood) => formatNumericFields(FoodEntry.fromFoodSearchResultV3(food))),
           ...localResults.map((localFood: FoodEntry) => formatNumericFields(localFood)) // include localResults
         ]
