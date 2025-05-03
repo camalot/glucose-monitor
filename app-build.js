@@ -75,12 +75,14 @@ runCommand(
   `npx copyfiles -u 2 ./src/assets/**/* ${appDir}/assets/`,
   'copy assets'
 );
+runCommand(`ls ${appDir}/assets`, 'list assets directory');
 
 // Copy views
 runCommand(
   `npx copyfiles -u 2 ./src/views/**/* ${appDir}/views/`,
   'copy views'
 );
+runCommand(`ls ${appDir}/views`, 'list views directory');
 
 // only copy .env if it exists
 // Copy .env file
