@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "allowJs": true, 
+    "checkJs": false,
+    "outDir": "app", 
+    "target": "ES6",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js"
+  ], 
+  "exclude": [
+    "src/node_modules",
+    "src/**/*.ts.ignore",
+    "src/**/*.js.ignore",
+    "src/**/*.spec.ts",
+    "package-sync.js",
+    "app-build.js",
+    "app/**/*"
+  ]
+}

@@ -1,0 +1,62 @@
+
+
+        <div class="inner cover">
+          <div class="xcontainer">
+            <div class="row">
+              <div class="col-lg-8">
+                <div class="xcontainer">
+                  <div class="row">
+                    <div class="col-lg-3">
+                      {{> a1c-card }}
+                    </div>
+                    <div class="col-lg-3">
+                      {{> glucose-card }}
+                    </div>
+                    <div class="col-lg-3">
+                      {{> carbs-card }}
+                    </div>
+                    <div class="col-lg-3">
+                      {{> calories-card }}
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6">
+                      {{> glucose-chart }}
+                    </div>
+                    <div class="col-lg-6">
+                      {{> weight-chart }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="xcontainer h-100">
+                  <div class="row h-100">
+                    <div class="col-lg-12">
+                      {{> foodentry-card }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {{> menu-button }}
+
+        {{!-- include the partial --}}
+        {{> glucose-dialog }}
+        {{> food-dialog }}
+        {{> weight-dialog }}
+
+        {{> value-card-template }}
+
+        {{#section "head"}}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js?path=dist"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+        {{/section}}
+
+        {{#section "scripts"}}
+        {{/section}}

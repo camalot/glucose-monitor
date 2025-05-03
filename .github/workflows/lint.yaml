@@ -1,0 +1,46 @@
+---
+name: Lint Project
+"on": # quoted to avoid YAML lint 'truthy' warning
+  push:
+    branches:
+      - "**" # All branches
+      - "!gh-pages" # Except gh-pages
+      - '!develop' # Except develop
+      - '!main' # Except main
+      - "!master" # Except master
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+
+permissions: { }
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Super-Linter
+        uses: super-linter/super-linter/slim@v6
+        env:
+          VALIDATE_ALL_CODEBASE: true
+          DEFAULT_BRANCH: develop
+          VALIDATE_BASH_EXEC: false
+          GITHUB_TOKEN: ${{ github.token }}
+          VALIDATE_PYTHON_FLAKE8: false
+          VALIDATE_PYTHON_MYPY: false
+          VALIDATE_PYTHON_PYLINT: false
+          VALIDATE_CHECKOV: false

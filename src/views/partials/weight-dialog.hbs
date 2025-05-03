@@ -1,0 +1,72 @@
+ <!-- Modal for Adding Weight Information -->
+<div class="modal modal-xl fade" id="addWeightModal" tabindex="-1" aria-labelledby="addWeightModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addWeightModalLabel">Add Weight Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="needs-validation" novalidate data-url="/api/v1/weight" data-method="POST" id="weight-form">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+                  <div class="form-floating">
+                    <input placeholder="Select Reading Time" type="datetime-local" class="form-control" id="WeightRecordedAt" name="time" required>
+                    <label for="WeightRecordedAt">Select Reading Time</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i title="Weight" aria-placeholder="Weight" class="fa-solid fa-weight-scale"></i></span>
+                  <div class="form-floating">
+                    <input min="0" step="0.1" title="Weight" type="number" class="form-control" id="weight" name="value" placeholder="Weight" required />
+                    <label for="weight">Weight</label>
+                  </div>
+                  {{!-- <span class="input-group-text">lb</span> --}}
+                  <div class="input-group-text btn-group p-0" role="group">
+                    <button 
+                        data-role="unit-dropdown"
+                        data-dropdown-id="weight"
+                        type="button" 
+                        class="btn dropdown-toggle" 
+                        data-bs-toggle="dropdown" 
+                        aria-expanded="false">
+                      <span role="label">lb</span>
+                    </button>
+                    <input type="hidden" data-role="unit-value" data-id="weight" name="unit" value="lb" />
+                    <div class="dropdown-menu" data-id="weight">
+                      <button data-role="unit" data-id="weight" type="button" class="dropdown-item active" data-value="lb">lb</button>
+                      <button data-role="unit" data-id="weight" type="button" class="dropdown-item" data-value="kg">kg</button>
+                      {{!-- <button data-role="unit" type="button" class="dropdown-item" data-value="stone">stone</button> --}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa-solid fa-comments"></i></span>
+                  <div class="form-floating">
+                    <textarea rows="3" placeholder="Additional Notes" class="form-control" id="WeightAdditionalNotes" name="notes"></textarea>
+                    <label for="WeightAdditionalNotes">Additional Notes</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="float-end">
+            <button type="reset" class="btn btn-secondary me-3" data-form="weight-form">Reset</button>
+            <button type="submit" class="btn btn-primary" data-form="weight-form">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

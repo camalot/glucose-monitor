@@ -1,0 +1,117 @@
+<div class="position-relative h-100">
+  <!-- Add Food Entry Button -->
+  <button type="button" 
+    class="btn-card-top-right btn btn-secondary btn-sm rounded-circle position-absolute top-0 end-0 m-2" 
+    data-bs-toggle="modal" data-bs-target="#addFoodModal" title="Add Food Entry">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+  <div class="food reading-entry card bg-dark mb-3 placeholder-glow overflow-y-auto p-0 h-100" aria-hidden="true" data-timeframe="timeframeRate">
+
+    <div class="card-body pt-1 pb-0 h-100">
+      <h5 class="card-title placeholder reading-entry-label object-fit-fill p-0 m-0 text-uppercase placeholder-field">Meals{{> today-tip }}</h5>
+      <div class="card-text">
+        <ul class="food-list list-group list-group-flush reading-entry-body p-0 m-0">
+          <li class="list-group-item placeholder-field">No food entries available.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-none" data-type="template">
+    <li class="list-group-item p-0 m-0 pt-2 mb-2 placeholder-field" data-template="foodEntryItem">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="text-start">
+              <div class="float-end badge badge-primary">
+                <span data-bind="serving"></span>
+              </div>
+              <div class="float-end badge badge-primary">
+                <span>quantity: </span><span data-bind="quantity"></span>
+              </div>
+              <div class="text-start text-nowrap text-truncate">
+                <i class="fa-solid fa-bowl-food me-2"></i>
+                <a href="#" 
+                  class="" 
+                  target="_blank" 
+                  data-bind="info_url" 
+                  data-bind="name"
+                  data-bind-info_url-attr="href"
+                  data-bind-name-attr="title">
+                  <span class="label h5 me-2" data-bind="brand"></span>
+                  <span class="label h5" data-bind="name"></span>
+                </a>
+              </div>
+              <div class="" data-bind="description"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="d-inline">
+              <span class="label">Calories:</span>
+              <div class="badge">
+                <span class="value" data-bind="calories"></span>
+                <span class="unit" data-bind="calories_unit">kcal</span>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="d-inline">
+              <span class="label">Carbs:</span>
+              <div class="badge">
+                <span class="value" data-bind="carbs"></span>
+                <span class="unit" data-bind="carbs_unit">g</span>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="d-inline">
+              <span class="label">Protein:</span>
+              <div class="badge">
+                <span class="value" data-bind="protein"></span>
+                <span class="unit" data-bind="protein_unit">g</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="d-inline">
+              <span class="label">Cholesterol:</span>
+              <div class="badge">
+                <span class="value" data-bind="cholesterol"></span>
+                <span class="unit" data-bind="cholesterol_unit">mg</span>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="d-inline">
+              <span class="label">Fat:</span>
+              <div class="badge">
+                <span class="value" data-bind="fat"></span>
+                <span class="unit" data-bind="fat_unit">g</span>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="d-inline">
+              <span class="label">Sodium:</span>
+              <div class="badge">
+                <span class="value" data-bind="sodium"></span>
+                <span class="unit" data-bind="sodium_unit">mg</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="xfood-item-time mb-1" data-bind="time"></div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </div>
+</div>

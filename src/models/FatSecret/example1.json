@@ -1,0 +1,112 @@
+{
+  "food": {
+    "food_id": "433456",
+    "food_name": "Whole Grain Cheerios 1g of sugar",
+    "brand_name": "General Mills Cereal",
+    "food_type": "Brand",
+    "food_url": "https://www.fatsecret.com/calories-nutrition/0_1411704_1002131029_Whole+Grain+Cheerios+1g+of+sugar",
+    "food_attributes": {
+      "allergens": {
+        "allergen": [
+          {
+            "id": "24904",
+            "name": "Fish",
+            "value": "-1"
+          },
+          {
+            "id": "24905",
+            "name": "Soy",
+            "value": "-1"
+          },
+          {
+            "id": "24906",
+            "name": "Nuts",
+            "value": "-1"
+          },
+          {
+            "id": "24907",
+            "name": "Lactose",
+            "value": "-1"
+          },
+          {
+            "id": "24908",
+            "name": "Shellfish",
+            "value": "-1"
+          },
+          {
+            "id": "24909",
+            "name": "Egg",
+            "value": "-1"
+          },
+          {
+            "id": "24910",
+            "name": "Sesame",
+            "value": "-1"
+          },
+          {
+            "id": "24911",
+            "name": "Peanuts",
+            "value": "-1"
+          },
+          {
+            "id": "24912",
+            "name": "Gluten",
+            "value": "-1"
+          },
+          {
+            "id": "24913",
+            "name": "Milk",
+            "value": "-1"
+          }
+        ]
+      },
+      "preferences": {
+        "preference": [
+          {
+            "id": "24914",
+            "name": "Vegan",
+            "value": "-1"
+          },
+          {
+            "id": "24915",
+            "name": "Vegetarian",
+            "value": "-1"
+          }
+        ]
+      }
+    },
+    "servings": {
+      "serving": [
+        {
+          "serving_id": "462681",
+          "serving_description": "1 cup",
+          "serving_url": "https://www.fatsecret.com/calories-nutrition/0_1411704_1002131029_Whole+Grain+Cheerios+1g+of+sugar",
+          "metric_serving_amount": "27.000",
+          "metric_serving_unit": "g",
+          "number_of_units": "1.000",
+          "measurement_description": "serving",
+          "is_default": "1",
+          "calories": "110",
+          "carbohydrate": "20.00",
+          "protein": "3.00",
+          "fat": "1.50",
+          "saturated_fat": "0.400",
+          "polyunsaturated_fat": "1.578",
+          "monounsaturated_fat": "2.298",
+          "trans_fat": "0",
+          "cholesterol": "0",
+          "sodium": "250",
+          "potassium": "80",
+          "fiber": "2.0",
+          "sugar": "1.00",
+          "added_sugars": "0",
+          "vitamin_d": "0",
+          "vitamin_a": "0",
+          "vitamin_c": "0",
+          "calcium": "0",
+          "iron": "0"
+        }
+      ]
+    }
+  }
+}
