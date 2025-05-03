@@ -385,7 +385,7 @@ class DataLoader {
       DataLoader.setPlaceholder($card, true);
       DataLoader.setBackground($card, 'bg-dark');
       $.ajax({
-        url: '/api/v1/food/list/3',
+        url: '/api/v1/food/list/10',
         data: { timeframe: timeframe },
         method: 'GET',
         success: (data) => {
@@ -394,13 +394,8 @@ class DataLoader {
             list.empty();
 
             data.forEach(item => {
-              const itemData = {
-                name: item.food.name,
-                calories: item.food?.calories || 0,
-                carbohydrates: item.food?.carbohydrates || 0,
-                time: moment(item.time).fromNow()
-              }
-              Templates.render(list, "foodEntryItem", itemData);
+              item.time = moment.unix(Number(item.timestamp || 0)).fromNow();
+              Templates.render(list, "foodEntryItem", item);
             });
 
             DataLoader.setPlaceholder($card, false);
@@ -436,8 +431,16 @@ class DataLoader {
         method: 'GET',
         success: (data) => {
           try {
-            $('.reading-entry-value', $card).text(data.value);
-            $('.last-updated', $card).text(moment(data.time).fromNow());
+            // $('.reading-entry-value', $card).text(data.value);
+            // $('.last-updated', $card).text(moment(data.time).fromNow());
+
+            data.time = moment.unix(data.timestamp).fromNow();
+            const $container = $('[data-container="value-card"]', $card).empty();
+            console.log($container);
+            console.log(data);
+            Templates.render($container, 'value-card', data);
+
+
             // get glucose card bg color
             if (data.value < 80) {
               DataLoader.setBackground($card, 'bg-primary');
@@ -478,9 +481,11 @@ class DataLoader {
         method: 'GET',
         success: function (data) {
           try {
-            $('.reading-entry-value', $card).text(data.value);
-            $('.last-updated', $card).text(moment(data.time).fromNow());
-            // get glucose card bg color
+            data.time = moment.unix(data.timestamp).fromNow();
+            const $container = $('[data-container="value-card"]', $card).empty();
+            Templates.render($container, 'value-card', data);
+
+            // get a1c card bg color
             if (data.value < 5.7) {
               DataLoader.setBackground($card, 'bg-success');
             } else if (data.value >= 5.7 && data.value <= 6.4) {
@@ -520,10 +525,9 @@ class DataLoader {
         method: 'GET',
         success: function (data) {
           try {
-            console.log(data);
-            
-            $('.reading-entry-value', $card).text(data.totalCarbs);
-            $('.last-updated', $card).text(moment.unix(data.timestamp).fromNow());
+            data.time = moment.unix(data.timestamp).fromNow();
+            const $container = $('[data-container="value-card"]', $card).empty();
+            Templates.render($container, 'value-card', data);
             DataLoader.setBackground($card, "bg-body-tertiary");
             DataLoader.setPlaceholder($card, false);
             resolve();
@@ -557,9 +561,9 @@ class DataLoader {
         method: 'GET',
         success: function (data) {
           try {
-            console.log(data);
-            $('.reading-entry-value', $card).text(data.totalCalories);
-            $('.last-updated', $card).text(moment.unix(data.timestamp).fromNow());
+            data.time = moment.unix(data.timestamp).fromNow();
+            const $container = $('[data-container="value-card"]', $card).empty();
+            Templates.render($container, 'value-card', data);
             DataLoader.setPlaceholder($card, false);
             DataLoader.setBackground($card, "bg-body-tertiary");
             resolve();

@@ -16,6 +16,8 @@ export enum UnitType {
   MGDL = "mg/dL",  // Milligrams per deciliter (mg/dL)
 
   KCAL = "kcal",
+
+  PERCENT = "%"
 }
 
 export enum UnitName {
@@ -31,6 +33,8 @@ export enum UnitName {
   OZ = "oz",
   ML = "ml",
   MILLILITERS = "ml",
+  PERCENT = "%",
+  ["%"] = "%"
 }
 
 type StringConversionTable = Record<string, UnitType>;
@@ -66,6 +70,7 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
+        [UnitType.PERCENT]: undefined,
       },
       [UnitType.KG]: {
         [UnitType.KG]: 1,
@@ -78,6 +83,7 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
+        [UnitType.PERCENT]: undefined,
       },
       [UnitType.MG]: {
         [UnitType.MG]: 1,
@@ -90,6 +96,7 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
+        [UnitType.PERCENT]: undefined,
       },
       [UnitType.LB]: {
         [UnitType.G]: 453.592,
@@ -102,6 +109,7 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
+        [UnitType.PERCENT]: undefined,
       },
       [UnitType.OZ]: {
         [UnitType.OZ]: 1,
@@ -114,6 +122,7 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
+        [UnitType.PERCENT]: undefined,
       },
       [UnitType.ML]: {
         [UnitType.ML]: 1,
@@ -126,6 +135,7 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
+        [UnitType.PERCENT]: undefined,
       },
       [UnitType.MMOLL]: {
         [UnitType.MMOLL]: 1,
@@ -138,6 +148,7 @@ export class Units {
         [UnitType.MGDL]: 18.018,
 
         [UnitType.KCAL]: undefined,
+        [UnitType.PERCENT]: undefined,
       },
       [UnitType.MGDL]: {
         [UnitType.MGDL]: 1,
@@ -150,6 +161,7 @@ export class Units {
         [UnitType.MMOLL]: 0.0555,
 
         [UnitType.KCAL]: undefined,
+        [UnitType.PERCENT]: undefined,
       },
 
       [UnitType.KCAL]: {
@@ -164,7 +176,22 @@ export class Units {
         [UnitType.ML]: undefined,
         [UnitType.MMOLL]: undefined,
 
+        [UnitType.PERCENT]: undefined,
+
       },
+      [UnitType.PERCENT]: {
+        [UnitType.PERCENT]: 1,
+        [UnitType.KCAL]: undefined,
+        [UnitType.MGDL]: undefined,
+        [UnitType.G]: undefined,
+        [UnitType.MG]: undefined,
+        [UnitType.KG]: undefined,
+        [UnitType.LB]: undefined,
+        [UnitType.OZ]: undefined,
+        [UnitType.ML]: undefined,
+        [UnitType.MMOLL]: undefined,
+      },
+
 
     };
 

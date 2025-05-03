@@ -1,7 +1,7 @@
 import config from '../../../config';
 import * as FatSecret from '../../../libs/FatSecret';
 import Reflection from '../../../libs/Reflection';
-import {Units, UnitName} from '../../../libs/Units'
+import {Units, UnitName, UnitType} from '../../../libs/Units'
 import { Request, Response, NextFunction } from 'express';
 import SavedFoodMongoClient from '../../../libs/mongo/SavedFoods';
 import FoodMongoClient from '../../../libs/mongo/Food';
@@ -86,37 +86,12 @@ export default class FoodController {
 
   async list(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
-    const count = req.params.count || 3;
+    const count = parseInt(req.params.count || '3');
     try {
-      let data = [
-        {
-          time: new Date().toISOString(),
-          food: {
-            name: 'Sample Food Name',
-            calories: 100,
-            carbohydrates: 20
-          }
-        },
-
-        {
-          time: new Date().toISOString(),
-          food: {
-            name: 'Another Food Name',
-            calories: 200,
-            carbohydrates: 30
-          }
-        },
-
-        {
-          time: new Date().toISOString(),
-          food: {
-            name: 'Third Food Name',
-            calories: 230,
-            carbohydrates: 5
-          }
-        }
-      ];
-      await resp.json(data);
+      const entries = (await this.foodClient.getToday()).slice(0, count);
+      // console.log(entries);
+      
+      await resp.json(entries);
     } catch (error) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
@@ -130,7 +105,8 @@ export default class FoodController {
       // get total calories per entry, multiply by the quantity and add to the sum
       const totalCalories = entries.reduce((sum, entry) => sum + ((entry.calories || 0) * (entry.quantity || 0)), 0);
       const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
-      await resp.json({ totalCalories, timestamp: latestTimestamp });
+      const unit = UnitType.KCAL;
+      await resp.json({ value: totalCalories, unit: unit, timestamp: latestTimestamp });
     } catch (error) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
@@ -143,8 +119,9 @@ export default class FoodController {
       const entries = await this.foodClient.getToday();
       // get total carbs per entry, multiply by the quantity and add to the sum
       const totalCarbs = entries.reduce((sum, entry) => sum + ((entry.carbs || 0) * (entry.quantity || 0)), 0);
+      const unit = UnitType.G;
       const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
-      await resp.json({ totalCarbs, timestamp: latestTimestamp });
+      await resp.json({ value: totalCarbs, unit: unit, timestamp: latestTimestamp });
     } catch (error) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);

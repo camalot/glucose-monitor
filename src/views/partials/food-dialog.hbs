@@ -62,7 +62,7 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i class="fa-solid fa-list-ol"></i></span>
                   <div class="form-floating">
-                    <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity" min="1" value="1" required />
+                    <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity" min="0.01" value="1" step=".01" required />
                     <label for="quantity">Quantity</label>
                   </div>
                 </div>
@@ -74,7 +74,7 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i title="Calories" aria-placeholder="Calories" class="fa-solid fa-bolt"></i></span>
                   <div class="form-floating">
-                    <input type="number" class="form-control" id="calories" name="calories" placeholder="Calories" />
+                    <input type="number" class="form-control" id="calories" name="calories" placeholder="Calories" step=".01" />
                     <label for="calories">Calories</label>
                   </div>
                   <input type="hidden" name="calories_unit" value="kcal" />
@@ -88,7 +88,7 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i title="Carbohydrates" aria-placeholder="Carbohydrates" class="fa-solid fa-bolt"></i></span>
                   <div class="form-floating">
-                    <input type="number" class="form-control" id="carbs" name="carbs" placeholder="Carbohydrates" />
+                    <input type="number" class="form-control" id="carbs" name="carbs" placeholder="Carbohydrates" step=".01" />
                     <label for="carbs">Carbohydrates</label>
                   </div>
                   <input type="hidden" name="carbs_unit" value="g" />
@@ -101,7 +101,7 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i title="Protein" aria-placeholder="Protein" class="fa-solid fa-bolt"></i></span>
                   <div class="form-floating">
-                    <input type="number" class="form-control" id="protein" name="protein" placeholder="Protein" />
+                    <input type="number" class="form-control" id="protein" name="protein" placeholder="Protein" step=".01" />
                     <label for="protein">Protein</label>
                   </div>
                   <input type="hidden" name="protein_unit" value="g" />
@@ -115,7 +115,7 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i title="Cholesterol" aria-placeholder="Cholesterol" class="fa-solid fa-bolt"></i></span>
                   <div class="form-floating">
-                    <input type="number" class="form-control" id="cholesterol" name="cholesterol" placeholder="Cholesterol" />
+                    <input type="number" class="form-control" id="cholesterol" name="cholesterol" placeholder="Cholesterol" step=".01" />
                     <label for="cholesterol">Cholesterol</label>
                   </div>
                   <input type="hidden" name="cholesterol_unit" value="mg" />
@@ -128,7 +128,7 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i title="Fat" aria-placeholder="Fat" class="fa-solid fa-bolt"></i></span>
                   <div class="form-floating">
-                    <input type="number" class="form-control" id="fat" name="fat" placeholder="Fat" />
+                    <input type="number" class="form-control" id="fat" name="fat" placeholder="Fat" step=".01" />
                     <label for="fat">Fat</label>
                   </div>
                   <input type="hidden" name="fat_unit" value="g" />
@@ -142,7 +142,7 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i title="Sodium" aria-placeholder="Sodium" class="fa-solid fa-bolt"></i></span>
                   <div class="form-floating">
-                    <input type="number" class="form-control" id="sodium" name="sodium" placeholder="Sodium" />
+                    <input type="number" class="form-control" id="sodium" name="sodium" placeholder="Sodium" step=".01" />
                     <label for="sodium">Sodium</label>
                   </div>
                   <input type="hidden" name="sodium_unit" value="mg" />

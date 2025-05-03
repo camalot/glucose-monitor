@@ -30,14 +30,15 @@ if (!tsconfig.compilerOptions) {
   process.exit(1);
 }
 
-
 const appDir = path.resolve(__dirname, tsconfig.compilerOptions.outDir);
 if (!fs.existsSync(appDir)) {
+  console.log(`[INFO] Creating directory: ${appDir}`);
   fs.mkdirSync(appDir, { recursive: true });
 }
 
 // Empty everything in the app directory
 if (process.argv.includes('--clean')) {
+  console.log(`[INFO] Cleaning directory: ${appDir}`);
   fs.rmSync(appDir, { recursive: true, force: true });
   fs.mkdirSync(appDir, { recursive: true });
 }
