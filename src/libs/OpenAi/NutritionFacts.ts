@@ -99,6 +99,7 @@ export default class NutritionFacts {
         foodEntryData.cholesterol,
         foodEntryData.cholesterol_unit,
         foodEntryData.notes,
+        1,
         NutritionFacts.validateUpc(foodEntryData.upc) || undefined,
         foodEntryData.info_url,
         foodEntryData.source,

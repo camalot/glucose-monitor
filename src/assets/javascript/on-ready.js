@@ -520,8 +520,10 @@ class DataLoader {
         method: 'GET',
         success: function (data) {
           try {
+            console.log(data);
+            
             $('.reading-entry-value', $card).text(data.totalCarbs);
-            $('.last-updated', $card).text(moment(data.time).fromNow());
+            $('.last-updated', $card).text(moment.unix(data.timestamp).fromNow());
             DataLoader.setBackground($card, "bg-body-tertiary");
             DataLoader.setPlaceholder($card, false);
             resolve();
@@ -555,8 +557,9 @@ class DataLoader {
         method: 'GET',
         success: function (data) {
           try {
+            console.log(data);
             $('.reading-entry-value', $card).text(data.totalCalories);
-            $('.last-updated', $card).text(moment(data.time).fromNow());
+            $('.last-updated', $card).text(moment.unix(data.timestamp).fromNow());
             DataLoader.setPlaceholder($card, false);
             DataLoader.setBackground($card, "bg-body-tertiary");
             resolve();

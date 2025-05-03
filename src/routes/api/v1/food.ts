@@ -35,6 +35,11 @@ router.route('/api/v1/food/calories/today')
     foodController.getTotalCaloriesToday(req, res, next).catch(next);
   });
 
+router.route('/api/v1/food')
+  .post((req: Request, resp: Response, next: NextFunction) => {
+    foodController.addEntry(req, resp, next).catch(next);
+  });
+
 // router.route('/api/v1/food/:id')
 //   .get(foodController.getById);
 

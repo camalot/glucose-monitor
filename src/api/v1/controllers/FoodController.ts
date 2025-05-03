@@ -1,21 +1,88 @@
 import config from '../../../config';
 import * as FatSecret from '../../../libs/FatSecret';
 import Reflection from '../../../libs/Reflection';
-
+import {Units, UnitName} from '../../../libs/Units'
 import { Request, Response, NextFunction } from 'express';
 import SavedFoodMongoClient from '../../../libs/mongo/SavedFoods';
+import FoodMongoClient from '../../../libs/mongo/Food';
 import LogsMongoClient from '../../../libs/mongo/Logs';
 import FoodEntry from '../../../models/FoodEntry';
 import FoodSearchResultsV3 from '../../../libs/FatSecret/structures/FoodSearchResultsV3';
 import FSFood from '../../../libs/FatSecret/structures/Food'
 import { FoodSearchResults } from '../../../models/FoodSearchResults';
 import NutritionFacts from '../../../libs/OpenAi/NutritionFacts';
-import math from 'mathjs';
+import moment from 'moment-timezone';
+import Identity from '../../../libs/Identity';
 
 export default class FoodController {
   private logger = new LogsMongoClient();
   private MODULE = this.constructor.name;
   private savedFoodClient = new SavedFoodMongoClient();
+  private foodClient = new FoodMongoClient();
+
+  async addEntry(req: Request, resp: Response, next: NextFunction): Promise<void> {
+    try {
+      // create a FoodEntry and populate it from the form submission. 
+      const foodEntry = FoodEntry.empty();
+
+      let entryQuantity = req.body.quantity || 1;
+      if (entryQuantity < 1 ) {
+        entryQuantity = 1;
+      }
+
+      // for each form entry, find the property in the FoodEntry and set the value
+      for (const key in req.body) {
+        if (req.body.hasOwnProperty(key)) {
+          switch (key) { 
+            case "recordedAt": 
+              foodEntry.timestamp = moment(String(req.body[key])).unix();
+              continue;
+            case "calories":
+            case "carbs":
+            case "fat":
+            case "protein":
+            case "sodium":
+            case "cholesterol":
+            case "weight":
+            case "quantity":
+              if (req.body[key]) {
+                foodEntry[key] = parseFloat(req.body[key]);
+              } else {
+                foodEntry[key] = undefined;
+              }
+              break;
+            // case "source_id":
+            //   foodEntry.source_id = req.body[key] || Identity.generate(foodEntry);
+            //   break;
+            default: 
+              foodEntry[key] = req.body[key];
+              break;
+          }
+        }
+      }
+
+      if (!foodEntry.name) {
+        await resp.status(400).json({ message: 'Name is required' });
+        return;
+      }
+
+      if (!foodEntry.timestamp) {
+        await resp.status(400).json({ message: 'Record Time is required' });
+        return;
+      }
+
+      await this.foodClient.record(foodEntry);
+      
+      const entryWord = entryQuantity > 1 ? 'entries' : 'entry';
+      await resp.status(201).json({
+        message: `${entryQuantity} Food ${entryWord} added successfully`, 
+        foodEntry 
+      });
+    } catch (error) {
+      await next(error);
+    }
+
+  }
 
   async list(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
@@ -59,8 +126,10 @@ export default class FoodController {
   async getTotalCaloriesToday(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
     try {
-      const totalCalories = 0;
-      await resp.json({ totalCalories });
+      const entries = await this.foodClient.getToday();
+      const totalCalories = entries.reduce((sum, entry) => sum + (entry.calories || 0), 0);
+      const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
+      await resp.json({ totalCalories, timestamp: latestTimestamp });
     } catch (error) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
@@ -70,8 +139,10 @@ export default class FoodController {
   async getTotalCarbsToday(req: Request, resp: Response, next: NextFunction): Promise<void> {
     const METHOD = Reflection.getCallingMethodName();
     try {
-      const totalCarbs = 0;
-      await resp.json({ totalCarbs });
+      const entries = await this.foodClient.getToday();
+      const totalCarbs = entries.reduce((sum, entry) => sum + (entry.carbs || 0), 0);
+      const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
+      await resp.json({ totalCarbs, timestamp: latestTimestamp });
     } catch (error) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
@@ -220,14 +291,27 @@ export default class FoodController {
         return formattedFood;
       };
 
-      const aiResults = [await this.aiSearch(req, resp, next)];
-
+      const aiResults = [await this.aiSearch(req, resp, next)].filter(result => result !== null);
       if (aiResults && aiResults[0]) {
         // increase the counts 
         totalResults += aiResults.length;
         actualResults += aiResults.length;
       }
 
+      // for all the FoodEntry in aiResults where the key is like `_unit`, convert the unit to a known unit
+      // using the Units.nameConversion
+      aiResults.forEach((aiResult: FoodEntry) => {
+        for (const key in aiResult) {
+          if (aiResult.hasOwnProperty(key)) {
+            if (key.match(/_unit$/)) {
+              const unitName: UnitName = UnitName[key.toUpperCase()];
+              if (unitName) {
+                aiResult[key] = Units.nameConversion(unitName);
+              }
+            }
+          }
+        }
+      });
       // loop over response to put into FoodEntry[]. use FoodEntry.fromFoodSearchResultV3
       const response: FoodSearchResults = new FoodSearchResults(
         totalResults,
@@ -244,7 +328,7 @@ export default class FoodController {
 
       await resp.json(response);
     } catch (error: any) {
-      // await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
+      //await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
       return;
     }

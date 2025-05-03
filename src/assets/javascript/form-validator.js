@@ -2,7 +2,16 @@
   'use strict';
   const forms = document.querySelectorAll('.needs-validation');
   Array.from(forms).forEach(function (form) {
-    $(form).on('submit', (event) => {
+    $(form)
+    .on('reset', (event) => {
+      const $form = $(form);
+      $form.removeClass('was-validated');
+      console.log("reset form");
+
+      const $resets = $form.find(`[data-reset="${form.id}"]`);
+      $resets.empty().val('');
+    })
+    .on('submit', (event) => {
       const $form = $(form);
       const valid = $form[0].checkValidity();
       console.log(`form submit: ${$form.attr('id')}`)

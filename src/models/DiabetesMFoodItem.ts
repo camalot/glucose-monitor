@@ -96,6 +96,7 @@ export class DiabetesMFoodItem {
       undefined,
       undefined,
       undefined,
+      1,
       this.upc,
       'Diabetes:M',
       this.id

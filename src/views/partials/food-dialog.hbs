@@ -7,22 +7,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="needs-validation" novalidate>
+        <form class="needs-validation" novalidate data-url="/api/v1/food" data-method="POST" id="food-form">
 
           <div class="container">
-            <div class="row">
-              <div class="col">
-                <div class="input-group">
-                  {{! <span class="input-group-text invalid-feedback"><i aria-placeholder="Please provide a valid meal time." class="fa-solid fa-triangle-exclamation"></i></span> }}
-                  <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
-
-                  <div class="form-floating">
-                    <input placeholder="Enter Meal Time" type="datetime-local" class="form-control" id="FoodRecordedAt" name="recordedAt" required />
-                    <label for="FoodRecordedAt">Enter Meal Time</label>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
             <div class="row">
               <div class="col">
 
@@ -52,11 +40,35 @@
                 </div>
 
                 <div class="fatsecret-search-results mb-2">
-                  <ul class="list-group list-group-flush"></ul>
+                  <ul class="list-group list-group-flush" data-reset="food-form"></ul>
                 </div>
 
               </div>
             </div>
+
+            <div class="row">
+              <div class="col-9">
+                <div class="input-group mb-3">
+                  {{! <span class="input-group-text invalid-feedback"><i aria-placeholder="Please provide a valid meal time." class="fa-solid fa-triangle-exclamation"></i></span> }}
+                  <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
+
+                  <div class="form-floating">
+                    <input placeholder="Enter Meal Time" type="datetime-local" class="form-control" id="FoodRecordedAt" name="recordedAt" required />
+                    <label for="FoodRecordedAt">Enter Meal Time</label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa-solid fa-list-ol"></i></span>
+                  <div class="form-floating">
+                    <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity" min="1" value="1" required />
+                    <label for="quantity">Quantity</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="row">
               <div class="col">
                 <div class="input-group mb-3">
@@ -140,6 +152,18 @@
 
             </div>
             <div class="row">
+              <div class="col-6">
+                {{!-- container for file "previews" after upload --}}
+              </div>
+              <div class="col-6">
+                {{!-- <div class="input-group mb-3">
+                  <span class="input-group-text"><i class="fa-solid fa-file"></i></span>
+                  <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                  <button class="btn btn-terr" type="button" id="inputGroupFileAddon04">Upload</button>
+                </div> --}}
+              </div>
+            </div>
+            <div class="row">
               <div class="col">
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i class="fa-solid fa-comments"></i></span>
@@ -151,14 +175,18 @@
               </div>
             </div>
           </div>
-          <input type="hidden" name="source" value="" />
+          <input type="hidden" name="source" value="User" />
           <input type="hidden" name="source_id" value="" />
           <input type="hidden" name="brand" value="" />
           <input type="hidden" name="info_url" value="" />
           <input type="hidden" name="description" value="" />
-          <input type="hidden" name="serving" value="" />
-          
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <input type="hidden" name="serving" value="1 serving" />
+
+          <div class="float-end">
+            <button type="reset" class="btn btn-secondary me-3" data-form="food-form">Reset</button>
+            <button type="submit" class="btn btn-primary" data-form="food-form">Submit</button>
+          </div>
+
         </form>
       </div>
     </div>

@@ -16,9 +16,24 @@ export enum UnitType {
   MGDL = "mg/dL",  // Milligrams per deciliter (mg/dL)
 
   KCAL = "kcal",
-  CALORIES = "calories",
-  CAL = "cal",
 }
+
+export enum UnitName {
+  KG = "kg",
+  KILOGRAMS = "kg",
+  G = "g",
+  GRAMS = "g",
+  MILLIGRAMS = "mg",
+  MG = "mg",
+  LB = "lb",
+  POUNDS = "lb",
+  OUNCES = "oz",
+  OZ = "oz",
+  ML = "ml",
+  MILLILITERS = "ml",
+}
+
+type StringConversionTable = Record<string, UnitType>;
 
 export class Units {
   static convert(value: number, sourceUnit: UnitType, targetUnit: UnitType) {
@@ -27,6 +42,13 @@ export class Units {
       throw new Error(`Conversion from ${sourceUnit} to ${targetUnit} is not supported.`);
     }
     return value * conversionFactor;
+  }
+
+  static nameConversion(unit: UnitName) {
+    const conversionTable: StringConversionTable = {
+      [unit]: UnitType[unit.toString().toUpperCase() as keyof typeof UnitType] || undefined,
+    };
+    return conversionTable[unit];
   }
 
   private static getConversionFactor(sourceUnit: UnitType, targetUnit: UnitType) {
@@ -44,8 +66,6 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
-        [UnitType.CAL]: undefined,
-        [UnitType.CALORIES]: undefined,
       },
       [UnitType.KG]: {
         [UnitType.KG]: 1,
@@ -58,8 +78,6 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
-        [UnitType.CAL]: undefined,
-        [UnitType.CALORIES]: undefined,
       },
       [UnitType.MG]: {
         [UnitType.MG]: 1,
@@ -72,8 +90,6 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
-        [UnitType.CAL]: undefined,
-        [UnitType.CALORIES]: undefined,
       },
       [UnitType.LB]: {
         [UnitType.G]: 453.592,
@@ -86,8 +102,6 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
-        [UnitType.CAL]: undefined,
-        [UnitType.CALORIES]: undefined,
       },
       [UnitType.OZ]: {
         [UnitType.OZ]: 1,
@@ -100,8 +114,6 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
-        [UnitType.CAL]: undefined,
-        [UnitType.CALORIES]: undefined,
       },
       [UnitType.ML]: {
         [UnitType.ML]: 1,
@@ -114,8 +126,6 @@ export class Units {
         [UnitType.MGDL]: undefined,
 
         [UnitType.KCAL]: undefined,
-        [UnitType.CAL]: undefined,
-        [UnitType.CALORIES]: undefined,
       },
       [UnitType.MMOLL]: {
         [UnitType.MMOLL]: 1,
@@ -128,8 +138,6 @@ export class Units {
         [UnitType.MGDL]: 18.018,
 
         [UnitType.KCAL]: undefined,
-        [UnitType.CAL]: undefined,
-        [UnitType.CALORIES]: undefined,
       },
       [UnitType.MGDL]: {
         [UnitType.MGDL]: 1,
@@ -142,14 +150,10 @@ export class Units {
         [UnitType.MMOLL]: 0.0555,
 
         [UnitType.KCAL]: undefined,
-        [UnitType.CAL]: undefined,
-        [UnitType.CALORIES]: undefined,
       },
 
       [UnitType.KCAL]: {
         [UnitType.KCAL]: 1,
-        [UnitType.CAL]: 1,
-        [UnitType.CALORIES]: 1,
         
         [UnitType.MGDL]: undefined,
         [UnitType.G]: undefined,
@@ -161,34 +165,7 @@ export class Units {
         [UnitType.MMOLL]: undefined,
 
       },
-      [UnitType.CAL]: {
-        [UnitType.KCAL]: 1,
-        [UnitType.CAL]: 1,
-        [UnitType.CALORIES]: 1,
-        [UnitType.MGDL]: undefined,
 
-        [UnitType.G]: undefined,
-        [UnitType.MG]: undefined,
-        [UnitType.KG]: undefined,
-        [UnitType.LB]: undefined,
-        [UnitType.OZ]: undefined,
-        [UnitType.ML]: undefined,
-        [UnitType.MMOLL]: undefined,
-      },
-      [UnitType.CALORIES]: {
-        [UnitType.KCAL]: 1,
-        [UnitType.CAL]: 1,
-        [UnitType.CALORIES]: 1,
-
-        [UnitType.MGDL]: undefined,
-        [UnitType.G]: undefined,
-        [UnitType.MG]: undefined,
-        [UnitType.KG]: undefined,
-        [UnitType.LB]: undefined,
-        [UnitType.OZ]: undefined,
-        [UnitType.ML]: undefined,
-        [UnitType.MMOLL]: undefined,
-      },
     };
 
 
