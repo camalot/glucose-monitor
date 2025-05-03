@@ -33,6 +33,18 @@ class FoodSearchResultInitializer {
       const foodDataText = $data.text().replace(/^\s*"|\s*"$/g, '');
       console.log(foodDataText);
       const foodItem = JSON.parse(foodDataText);
+
+      const $form = $t.closest("form");
+      if ($form.get(0)) {
+        for(const key in foodItem) {
+          const inputField = $form.find(`input[name="${key}"]`);
+          if (inputField.length) {
+            inputField.val(foodItem[key]);
+          }
+        }
+
+        $(".fatsecret-search-results ul").empty();
+      }
       console.log(foodItem);
     });
   }
