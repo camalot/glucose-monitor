@@ -127,7 +127,8 @@ export default class FoodController {
     const METHOD = Reflection.getCallingMethodName();
     try {
       const entries = await this.foodClient.getToday();
-      const totalCalories = entries.reduce((sum, entry) => sum + (entry.calories || 0), 0);
+      // get total calories per entry, multiply by the quantity and add to the sum
+      const totalCalories = entries.reduce((sum, entry) => sum + ((entry.calories || 0) * (entry.quantity || 0)), 0);
       const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
       await resp.json({ totalCalories, timestamp: latestTimestamp });
     } catch (error) {
@@ -140,7 +141,8 @@ export default class FoodController {
     const METHOD = Reflection.getCallingMethodName();
     try {
       const entries = await this.foodClient.getToday();
-      const totalCarbs = entries.reduce((sum, entry) => sum + (entry.carbs || 0), 0);
+      // get total carbs per entry, multiply by the quantity and add to the sum
+      const totalCarbs = entries.reduce((sum, entry) => sum + ((entry.carbs || 0) * (entry.quantity || 0)), 0);
       const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
       await resp.json({ totalCarbs, timestamp: latestTimestamp });
     } catch (error) {
@@ -219,7 +221,7 @@ export default class FoodController {
     }
   }
 
-  async aiSearch(req: Request, resp: Response, next: NextFunction): Promise<FoodEntry> {
+  private async aiSearch(req: Request, resp: Response, next: NextFunction): Promise<FoodEntry> {
     if (resp.locals?.geoLocation) {
       const query = req.query?.q;
       const geoLocation = resp.locals?.geoLocation;
