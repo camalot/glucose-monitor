@@ -17,7 +17,7 @@
                   <span class="input-group-text"><i class="fa-solid fa-calendar"></i></span>
 
                   <div class="form-floating">
-                    <input placeholder="Enter Meal Time" type="datetime-local" class="form-control" id="FoodRecordedAt" name="RecordedAt" required />
+                    <input placeholder="Enter Meal Time" type="datetime-local" class="form-control" id="FoodRecordedAt" name="recordedAt" required />
                     <label for="FoodRecordedAt">Enter Meal Time</label>
                   </div>
                 </div>
@@ -62,44 +62,102 @@
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i title="Calories" aria-placeholder="Calories" class="fa-solid fa-bolt"></i></span>
                   <div class="form-floating">
-                    <input type="number" class="form-control" id="Calories" name="Calories" placeholder="Calories" required />
-                    <label for="Calories">Calories</label>
+                    <input type="number" class="form-control" id="calories" name="calories" placeholder="Calories" />
+                    <label for="calories">Calories</label>
                   </div>
+                  <input type="hidden" name="calories_unit" value="kcal" />
                   <span class="input-group-text">kcal</span>
                 </div>
               </div>
+              
+              {{!-- <div class="col"></div> --}}
+
               <div class="col">
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i title="Carbohydrates" aria-placeholder="Carbohydrates" class="fa-solid fa-bolt"></i></span>
                   <div class="form-floating">
-                    <input type="number" class="form-control" id="Carbs" name="Carbs" placeholder="Carbohydrates" required />
-                    <label for="Carbs">Carbohydrates</label>
+                    <input type="number" class="form-control" id="carbs" name="carbs" placeholder="Carbohydrates" />
+                    <label for="carbs">Carbohydrates</label>
                   </div>
+                  <input type="hidden" name="carbs_unit" value="g" />
                   <span class="input-group-text">g</span>
                 </div>
               </div>
+            </div>
+            <div class="row">
               <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i title="Protein" aria-placeholder="Protein" class="fa-solid fa-bolt"></i></span>
+                  <div class="form-floating">
+                    <input type="number" class="form-control" id="protein" name="protein" placeholder="Protein" />
+                    <label for="protein">Protein</label>
+                  </div>
+                  <input type="hidden" name="protein_unit" value="g" />
+                  <span class="input-group-text">g</span>
+                </div>
+              </div>
 
+              {{!-- <div class="col"></div> --}}
+
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i title="Cholesterol" aria-placeholder="Cholesterol" class="fa-solid fa-bolt"></i></span>
+                  <div class="form-floating">
+                    <input type="number" class="form-control" id="cholesterol" name="cholesterol" placeholder="Cholesterol" />
+                    <label for="cholesterol">Cholesterol</label>
+                  </div>
+                  <input type="hidden" name="cholesterol_unit" value="mg" />
+                  <span class="input-group-text">mg</span>
+                </div>
               </div>
             </div>
-            {{! <div class="row">
+            <div class="row">
               <div class="col">
-                
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i title="Fat" aria-placeholder="Fat" class="fa-solid fa-bolt"></i></span>
+                  <div class="form-floating">
+                    <input type="number" class="form-control" id="fat" name="fat" placeholder="Fat" />
+                    <label for="fat">Fat</label>
+                  </div>
+                  <input type="hidden" name="fat_unit" value="g" />
+                  <span class="input-group-text">g</span>
+                </div>
               </div>
-            </div> }}
+
+              {{!-- <div class="col"></div> --}}
+
+              <div class="col">
+                <div class="input-group mb-3">
+                  <span class="input-group-text"><i title="Sodium" aria-placeholder="Sodium" class="fa-solid fa-bolt"></i></span>
+                  <div class="form-floating">
+                    <input type="number" class="form-control" id="sodium" name="sodium" placeholder="Sodium" />
+                    <label for="sodium">Sodium</label>
+                  </div>
+                  <input type="hidden" name="sodium_unit" value="mg" />
+                  <span class="input-group-text">mg</span>
+                </div>
+              </div>
+
+            </div>
             <div class="row">
               <div class="col">
                 <div class="input-group mb-3">
                   <span class="input-group-text"><i class="fa-solid fa-comments"></i></span>
                   <div class="form-floating">
-                    <textarea rows="5" placeholder="Additional Notes" class="form-control" id="FoodAdditionalNotes" name="Notes"></textarea>
+                    <textarea rows="5" placeholder="Additional Notes" class="form-control" id="FoodAdditionalNotes" name="notes"></textarea>
                     <label for="FoodAdditionalNotes">Additional Notes</label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
+          <input type="hidden" name="source" value="" />
+          <input type="hidden" name="source_id" value="" />
+          <input type="hidden" name="brand" value="" />
+          <input type="hidden" name="info_url" value="" />
+          <input type="hidden" name="description" value="" />
+          <input type="hidden" name="serving" value="" />
+          
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
@@ -116,15 +174,14 @@
 {{! d-flex justify-content-between align-items-start }}
 <div class="d-none" data-type="template">
   <li class="list-group-item text-start" data-template="foodItem">
-    <div class="ms-0 me-2 float-start"><i class="fa fa-bowl-food"></i></div>
+    <data class="d-none" data-bind="json"></data>
+    <div class="ms-0 me-2 float-start"><i class="fa fa-notes-medical text-primary c-pointer" data-action="selectFoodItem"></i></div>
     <div class="ms-2 me-auto">
       <div class="fw-bold text-truncate">
         <span class="me-1" 
           data-bind="brand" 
           data-class-not-if="brand" 
           data-class-not-if-class="d-none"></span><span data-bind="name">FOOD NAME</span>
-
-        
       </div>
       <div data-bind="serving" class="badge top-0 mt-2 me-2 text-bg-primary position-absolute end-0"></div>
       <div data-bind="description"></div>
@@ -134,7 +191,10 @@
     <div class="container p-2">
       <div class="row justify-content-start">
         <div class="col-6">
-          <div data-class-not-if="calories" data-class-not-if-class="d-none"><span role="label" class="me-1">Calories:</span><span data-bind="calories"></span> <span data-bind="calories_unit">kcal</span></div>
+          <div data-class-not-if="calories" data-class-not-if-class="d-none">
+            <span role="label" class="me-1">Calories:</span>
+            <span data-bind="calories"></span>
+            <span data-bind="calories_unit">kcal</span></div>
         </div>
         <div class="col-6">
           <div data-class-not-if="carbs" data-class-not-if-class="d-none"><span role="label" class="me-1">Carbohydrates:</span> <span data-bind="carbs"></span> <span data-bind="carbs_unit">g</span></div>
@@ -165,32 +225,3 @@
     </div>
   </li>
 </div>
-{{!-- 
-<div class="d-none" data-type="template">
-  <div data-template="foodServing" class="container p-2">
-    <div class="row justify-content-start">
-      <div class="col-6">
-        <div data-class-not-if="calories" data-class-not-if-class="d-none">Calories: <span data-bind="calories"></span> <span>kcal</span></div>
-      </div>
-      <div class="col-6">
-        <div data-class-not-if="carbohydrate" data-class-not-if-class="d-none">Carbohydrates: <span data-bind="carbohydrate"></span> <span>g</span></div>
-      </div>
-    </div>
-    <div class="row justify-content-start">
-      <div class="col-6">
-        <div data-class-not-if="protein" data-class-not-if-class="d-none">Protein: <span data-bind="protein"></span> <span>g</span></div>
-      </div>
-      <div class="col-6">
-        <div data-class-not-if="fat" data-class-not-if-class="d-none">Fat: <span data-bind="fat"></span> <span>g</span></div>
-      </div>
-    </div>
-    <div class="row justify-content-start">
-      <div class="col-6">
-        <div data-class-not-if="cholesterol" data-class-not-if-class="d-none">Cholesterol: <span data-bind="cholesterol"></span> <span>g</span></div>
-      </div>
-      <div class="col-6">
-        <div data-class-not-if="sodium" data-class-not-if-class="d-none">Sodium: <span data-bind="sodium"></span> <span>g</span></div>
-      </div>
-    </div>
-  </div>
-</div> --}}

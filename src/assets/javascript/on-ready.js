@@ -21,6 +21,23 @@ $(() => {
 
 });
 
+class FoodSearchResultInitializer {
+  static initialize(target) {
+    // data-action="selectFoodItem"
+    const $target = $(target);
+    $target.off("click").on("click", (event) => {
+      const $t = $(event.currentTarget);
+      const template = $t.closest('[data-template="foodItem"]');
+      const $data = $("data[data-bind='json']", template);
+      // if $data.text() is wrapped in quotes, remove the quotes
+      const foodDataText = $data.text().replace(/^\s*"|\s*"$/g, '');
+      console.log(foodDataText);
+      const foodItem = JSON.parse(foodDataText);
+      console.log(foodItem);
+    });
+  }
+}
+
 class RefreshRateManager {
   constructor() {
     this.refreshTimer = null;
@@ -177,6 +194,8 @@ class FoodSearchLoader {
             // remove `${item.name}\s?-\s?` from the description
             item.description = item.description.replace(new RegExp(`${item.name}\\s?-\\s?`, 'g'), '');
             const renderedItem = Templates.render(fsrList, 'foodItem', item);
+
+            FoodSearchResultInitializer.initialize(renderedItem);
           }
 
           fsrContainer.removeClass("d-none");

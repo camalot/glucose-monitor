@@ -17,6 +17,10 @@ body {
   font-family: 'Raleway', sans-serif;
 }
 
+.c-pointer {
+  cursor: pointer;
+}
+
 .mt-6 {
   margin-top: 3.6rem !important;
 }
@@ -145,6 +149,14 @@ ul.dropdown-menu li.dropdown-item span {
   color: #1A237E;
   font-size: 1.5em;
   margin-right: 20px;
+}
+
+div.nutrition_facts {
+  background-color: #fff;
+  border: 2px solid #bcbcbc;
+  font-family: "Arial";
+  padding: 15px 9px 24px;
+  text-align: left;
 }
 
 @keyframes fadein {

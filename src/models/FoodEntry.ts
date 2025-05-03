@@ -27,6 +27,8 @@ export default class FoodEntry {
   source?: string;
   source_id?: string | number;
 
+  public readonly json: string;
+
   constructor(
     name: string,
     brand?: string,
@@ -80,6 +82,14 @@ export default class FoodEntry {
     
     this.source = source || undefined;
     this.source_id = source_id || undefined;
+    this.json = JSON.stringify(
+      Object.keys(this).reduce((result, key) => {
+        if (key !== 'json') {
+          result[key] = this[key];
+        }
+        return result;
+      }, {} as Record<string, any>)
+    );
   }
 
   static fromFoodSearchResultV3(data: Food) {

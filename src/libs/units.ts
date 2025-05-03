@@ -6,6 +6,7 @@ export enum UnitType {
   // weights
   KG = "kg",    // Kilograms
   G = "g",     // Grams
+  MG = "mg",   // Milligrams
   LB = "lb",    // Pounds
   OZ = "oz",    // Ounces
 
@@ -13,6 +14,10 @@ export enum UnitType {
   ML = "ml",    // Milliliters 
   MMOLL = "mmol/L",  // (mmol/L)
   MGDL = "mg/dL",  // Milligrams per deciliter (mg/dL)
+
+  KCAL = "kcal",
+  CALORIES = "calories",
+  CAL = "cal",
 }
 
 export class Units {
@@ -33,36 +38,70 @@ export class Units {
         [UnitType.KG]: 0.001,
         [UnitType.LB]: 0.00220462,
         [UnitType.OZ]: 0.035274,
+        [UnitType.MG]: 1000,
         [UnitType.ML]: undefined,
         [UnitType.MMOLL]: undefined,
         [UnitType.MGDL]: undefined,
+
+        [UnitType.KCAL]: undefined,
+        [UnitType.CAL]: undefined,
+        [UnitType.CALORIES]: undefined,
       },
       [UnitType.KG]: {
         [UnitType.KG]: 1,
         [UnitType.G]: 1000,
+        [UnitType.MG]: 1e+6,
         [UnitType.LB]: 2.20462,
         [UnitType.OZ]: 35.274,
         [UnitType.ML]: undefined,
         [UnitType.MMOLL]: undefined,
         [UnitType.MGDL]: undefined,
+
+        [UnitType.KCAL]: undefined,
+        [UnitType.CAL]: undefined,
+        [UnitType.CALORIES]: undefined,
+      },
+      [UnitType.MG]: {
+        [UnitType.MG]: 1,
+        [UnitType.G]: 0.001,
+        [UnitType.KG]: 1e-6,
+        [UnitType.LB]: 0.00000220462,
+        [UnitType.OZ]: 0.000035274,
+        [UnitType.ML]: undefined,
+        [UnitType.MMOLL]: undefined,
+        [UnitType.MGDL]: undefined,
+
+        [UnitType.KCAL]: undefined,
+        [UnitType.CAL]: undefined,
+        [UnitType.CALORIES]: undefined,
       },
       [UnitType.LB]: {
         [UnitType.G]: 453.592,
         [UnitType.KG]: 0.453592,
+        [UnitType.MG]: 453592,
         [UnitType.LB]: 1,
         [UnitType.OZ]: 16,
         [UnitType.ML]: undefined,
         [UnitType.MMOLL]: undefined,
         [UnitType.MGDL]: undefined,
+
+        [UnitType.KCAL]: undefined,
+        [UnitType.CAL]: undefined,
+        [UnitType.CALORIES]: undefined,
       },
       [UnitType.OZ]: {
         [UnitType.OZ]: 1,
         [UnitType.G]: 28.3495,
+        [UnitType.MG]: 28349.5,
         [UnitType.KG]: 0.0283495,
         [UnitType.LB]: 0.0625,
         [UnitType.ML]: undefined,
         [UnitType.MMOLL]: undefined,
         [UnitType.MGDL]: undefined,
+
+        [UnitType.KCAL]: undefined,
+        [UnitType.CAL]: undefined,
+        [UnitType.CALORIES]: undefined,
       },
       [UnitType.ML]: {
         [UnitType.ML]: 1,
@@ -70,27 +109,86 @@ export class Units {
         [UnitType.KG]: 1,
         [UnitType.LB]: 0.00220462,
         [UnitType.OZ]: 0.035274,
+        [UnitType.MG]: undefined,
         [UnitType.MMOLL]: undefined,
         [UnitType.MGDL]: undefined,
+
+        [UnitType.KCAL]: undefined,
+        [UnitType.CAL]: undefined,
+        [UnitType.CALORIES]: undefined,
       },
       [UnitType.MMOLL]: {
         [UnitType.MMOLL]: 1,
         [UnitType.G]: undefined,
+        [UnitType.MG]: undefined,
         [UnitType.KG]: undefined,
         [UnitType.LB]: undefined,
         [UnitType.OZ]: undefined,
         [UnitType.ML]: undefined,
         [UnitType.MGDL]: 18.018,
+
+        [UnitType.KCAL]: undefined,
+        [UnitType.CAL]: undefined,
+        [UnitType.CALORIES]: undefined,
       },
       [UnitType.MGDL]: {
         [UnitType.MGDL]: 1,
         [UnitType.G]: undefined,
+        [UnitType.MG]: undefined,
         [UnitType.KG]: undefined,
         [UnitType.LB]: undefined,
         [UnitType.OZ]: undefined,
         [UnitType.ML]: undefined,
         [UnitType.MMOLL]: 0.0555,
-      }
+
+        [UnitType.KCAL]: undefined,
+        [UnitType.CAL]: undefined,
+        [UnitType.CALORIES]: undefined,
+      },
+
+      [UnitType.KCAL]: {
+        [UnitType.KCAL]: 1,
+        [UnitType.CAL]: 1,
+        [UnitType.CALORIES]: 1,
+        
+        [UnitType.MGDL]: undefined,
+        [UnitType.G]: undefined,
+        [UnitType.MG]: undefined,
+        [UnitType.KG]: undefined,
+        [UnitType.LB]: undefined,
+        [UnitType.OZ]: undefined,
+        [UnitType.ML]: undefined,
+        [UnitType.MMOLL]: undefined,
+
+      },
+      [UnitType.CAL]: {
+        [UnitType.KCAL]: 1,
+        [UnitType.CAL]: 1,
+        [UnitType.CALORIES]: 1,
+        [UnitType.MGDL]: undefined,
+
+        [UnitType.G]: undefined,
+        [UnitType.MG]: undefined,
+        [UnitType.KG]: undefined,
+        [UnitType.LB]: undefined,
+        [UnitType.OZ]: undefined,
+        [UnitType.ML]: undefined,
+        [UnitType.MMOLL]: undefined,
+      },
+      [UnitType.CALORIES]: {
+        [UnitType.KCAL]: 1,
+        [UnitType.CAL]: 1,
+        [UnitType.CALORIES]: 1,
+
+        [UnitType.MGDL]: undefined,
+        [UnitType.G]: undefined,
+        [UnitType.MG]: undefined,
+        [UnitType.KG]: undefined,
+        [UnitType.LB]: undefined,
+        [UnitType.OZ]: undefined,
+        [UnitType.ML]: undefined,
+        [UnitType.MMOLL]: undefined,
+      },
     };
 
 
