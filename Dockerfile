@@ -10,16 +10,12 @@ WORKDIR /glucose-monitor
 # Copy the entire project into the builder
 COPY . .
 
-RUN ls -lFA /glucose-monitor \
-  && ls -lFA /glucose-monitor/src
-
 ENV NODE_ENV=development
 
 # Run the build script
 RUN npm install -g npm@11.3.0 \
   && npm install \
   && node app-build.js --install --clean
-
 
 # Stage 2: Final container
 FROM builder
