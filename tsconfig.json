@@ -12,12 +12,14 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.js"
-  ], 
+, "package-sync.js", "app-build.js"  ], 
   "exclude": [
     "src/node_modules",
     "src/**/*.ts.ignore",
     "src/**/*.js.ignore",
     "src/**/*.spec.ts",
+    "package-sync.js",
+    "app-build.js",
     "app/**/*"
   ]
 }

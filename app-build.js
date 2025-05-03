@@ -3,6 +3,8 @@ const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
+const SRC_DIR = path.resolve(__dirname, 'src');
+
 // Helper function to execute shell commands
 function runCommand(command, description) {
   try {
@@ -42,6 +44,12 @@ if (process.argv.includes('--clean')) {
   fs.rmSync(appDir, { recursive: true, force: true });
   fs.mkdirSync(appDir, { recursive: true });
 }
+
+// copy package.json
+runCommand(`npx copyfiles -u 0 package.json ${SRC_DIR}`, 'copy package.json');
+runCommand(`npm install --prefix ${SRC_DIR}`, `install dependencies in ${SRC_DIR}`);
+fs.rmSync(`${SRC_DIR}/package-lock.json`, { force: true });
+fs.rmSync(`${SRC_DIR}/package.json`, { force: true });
 
 // Run package-sync.js
 runCommand('node package-sync.js', 'sync package.json');
