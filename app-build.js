@@ -54,7 +54,7 @@ if (process.argv.includes('--install')) {
 }
 
 // Compile TypeScript
-runCommand('tsc', 'compile TypeScript');
+runCommand('npx tsc', 'compile TypeScript');
 
 // Copy migrations data
 runCommand(
