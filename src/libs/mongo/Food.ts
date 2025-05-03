@@ -21,7 +21,7 @@ export default class FoodMongoClient extends DatabaseMongoClient<FoodEntry> {
         await this.connect();
         const tsstart = moment(start).unix();
         const tsend = moment(end).unix();
-        const entries = await this.collection.find({ timestamp: { "$gt": tsstart, "$lt": tsend } }, { sort: { timestamp: 1 } }).toArray();
+        const entries = await this.collection.find({ timestamp: { "$gt": tsstart, "$lt": tsend } }, { sort: { timestamp: -1 } }).toArray();
         return entries;
       } catch (error) {
         console.error("Error fetching food entries:", error);
