@@ -66,11 +66,15 @@ runCommand('npx tsc', 'compile TypeScript');
 
 // Copy migrations data
 runCommand(
-  `npx copyfiles -u 4 ./src/libs/migrations/data/**/* ${appDir}/libs/migrations/data/`,
+  `npx copyfiles -u 4 ./src/libs/migrations/data/* ${appDir}/libs/migrations/data/`,
   'copy migrations data'
 );
 
 // Copy assets
+runCommand(
+  `npx copyfiles -u 2 ./src/assets/* ${appDir}/assets/`,
+  'copy assets'
+);
 runCommand(
   `npx copyfiles -u 2 ./src/assets/**/* ${appDir}/assets/`,
   'copy assets'
@@ -78,6 +82,10 @@ runCommand(
 runCommand(`ls ${appDir}/assets`, 'list assets directory');
 
 // Copy views
+runCommand(
+  `npx copyfiles -u 2 ./src/views/* ${appDir}/views/`,
+  'copy views'
+);
 runCommand(
   `npx copyfiles -u 2 ./src/views/**/* ${appDir}/views/`,
   'copy views'
