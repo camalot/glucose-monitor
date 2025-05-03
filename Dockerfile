@@ -18,7 +18,9 @@ ENV NODE_ENV=development
 # Run the build script
 RUN npm install -g npm@11.3.0 \
   && npm install \
-  && node app-build.js
+  && ls -lFA src \
+  && ls -lFA src/node_modules \
+  && node app-build.js --install --clean
 
 # Stage 2: Final container
 FROM builder
