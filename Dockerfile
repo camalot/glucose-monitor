@@ -18,6 +18,7 @@ ENV NODE_ENV=development
 # Run the build script
 RUN npm install -g npm@11.3.0 \
   && npm install \
+  && npm install --prefix src \
   && ls -lFA src \
   && ls -lFA src/node_modules \
   && node app-build.js --install --clean
