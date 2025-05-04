@@ -198,6 +198,7 @@ div.nutrition_facts {
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+
 @-webkit-keyframes fadeout {
     0% { opacity: 1; }
   100% { opacity: 0; }
