@@ -101,6 +101,11 @@ form [role="food-add"] {
   display: block;
 }
 
+form .list-group-item[data-template="foodItem"]:hover {
+  background-color: var(--bs-tertiary-bg);
+  color: var(--bs-tertiary-color);
+}
+
 [role="expand"],
 [role="expand"] + .col {
   transition: width 0.3s ease-in-out; 
