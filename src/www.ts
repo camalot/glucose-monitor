@@ -13,6 +13,7 @@ import * as ui from './middleware/ui';
 import * as FileNotFoundHandler from './libs/express/handlers/FileNotFoundHandler';
 import * as ErrorHandler from './libs/express/handlers/ErrorHandler';
 import MigrationRunner from './libs/migrations';
+import moment from 'moment-timezone';
 
 const app = express();
 const logger = new LogsMongoClient();
@@ -24,6 +25,9 @@ app.engine(
     layoutsDir: path.join(__dirname, 'views/layouts'),
     partialsDir: path.join(__dirname, 'views/partials'),
     helpers: {
+      moment: function(date: string, format: string) {
+        return moment(date).format(format);
+      },
       section: function (this: any, name: string, context: any): null {
         if (!this._sections) {
           this._sections = {};

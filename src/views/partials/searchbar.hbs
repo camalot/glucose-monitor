@@ -8,17 +8,29 @@
     <span class="input-group-text" title="{{placeholder}}"><i class="fa-solid fa-utensils"></i></span>
 
     <div class="form-floating">
+      <button 
+        type="button" 
+        class="z-1 float-end btn-close me-1 mt-3 position-absolute end-0" 
+        data-target="[data-results='{{fieldId}}']" 
+        data-clear="#{{fieldId}}"
+        role="close" 
+        aria-label="Clear" 
+        title="Clear"></button>
       <input
+        name="{{name}}"
         data-autocomplete="/api/v1/food/autocomplete" 
         data-autocomplete-param="q" 
         type="text"
         id="{{fieldId}}"
-        class="form-control"
+        class="form-control me-3"
         placeholder="{{placeholder}}"
         aria-label="{{placeholder}}"
         aria-describedby="{{fieldId}}-button"
         list="{{fieldId}}-suggestions" />
       <label for="{{fieldId}}">{{placeholder}}</label>
+
+
+
     </div>
     <button 
       data-search="/api/v1/food/search"
@@ -37,12 +49,11 @@
     class="autocomplete-suggestions dropdown-menu w-100 d-none mt-6"></ul>
 
   <div 
-    class="{{fieldId}}-results bg-dark" 
+    class="{{fieldId}}-results bg-dark rounded-2 border border-1 mb-2" 
     role="search-results" 
     data-results="{{fieldId}}" 
     data-result-template="{{resultTemplate}}">
     {{!-- add close button to remove --}}
-    <button type="button" class="float-end btn-close" role="close" aria-label="Close" title="Close results"></button>
     <ul class="list-group list-group-flush" data-reset="{{fieldId}}-form"></ul>
   </div>
 </div>

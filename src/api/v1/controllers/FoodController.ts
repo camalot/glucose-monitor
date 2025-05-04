@@ -35,6 +35,7 @@ export default class FoodController {
         if (req.body.hasOwnProperty(key)) {
           switch (key) { 
             case "recordedAt": 
+            case "time":
               foodEntry.timestamp = moment(String(req.body[key])).unix();
               continue;
             case "calories":

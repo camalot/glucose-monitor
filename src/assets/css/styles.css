@@ -86,11 +86,24 @@ body {
 }
 
 .inner {
-  padding: 30px;
+  padding: 0 30px 30px 30px;
 }
 
 .inner h4 {
   padding-bottom: 30px;
+}
+
+[role="food-add"] {
+  display: none;
+}
+
+form [role="food-add"] {
+  display: block;
+}
+
+[role="expand"],
+[role="expand"] + .col {
+  transition: width 0.3s ease-in-out; 
 }
 
 [data-role="search-container"] {
@@ -104,7 +117,7 @@ body {
   overflow-y: auto;
   z-index: 50;
   left: 25%;
-  border: solid 2px #ddd;
+  border: solid 1px var();
 }
 
 .modal-dialog [role="search-results"] {

@@ -8,9 +8,13 @@
       $form.removeClass('was-validated');
       console.log("reset form");
 
+      $("button[role='close'][data-target]").trigger('click');
+      
       // const $resets = $form.find(`[data-reset="${form.id}"]`);
       const $resets = $('[data-reset]', $form);
       $resets.empty().val('');
+
+      $('[type="datetime-local"]').val(moment().format('YYYY-MM-DDTHH:mm'));
     })
     .on('submit', (event) => {
       const $form = $(form);
@@ -57,6 +61,6 @@
 
       event.preventDefault();
       event.stopPropagation();
-    });
+    }).trigger('reset');
   });
 })();

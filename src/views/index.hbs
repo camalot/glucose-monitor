@@ -5,7 +5,7 @@
           <div class="row">
             <div class="col"></div>
             <div class="col" data-role="search-container">
-              {{> searchbar fieldId="search" placeholder="Food Search..." resultTemplate="foodItem" }}
+              {{> searchbar fieldId="search" placeholder="Food Search..." resultTemplate="foodItem" name="search" }}
             </div>
             <div class="col"></div>
           </div>
@@ -61,20 +61,8 @@
         {{> weight-dialog }}
 
         {{> value-card-template }}
-
-        <div class="d-none" data-type="template">
-          <li class="dropdown-item" data-template="foodSuggestions" data-bind="value" data-bind-value-attr="data-value">
-            <img 
-              height="16"
-              width="16"
-              src="" 
-              class="food-suggestion-image mr-2" 
-              data-bind="img" 
-              data-bind-img-attr="src" 
-              data-bind-source-attr="alt" />
-            <span class="food-suggestion-name text-truncate" data-bind="value"></span>
-          </li>
-        </div>
+        {{> food-suggestion-template }}
+        {{> food-item-template }}
 
         {{#section "head"}}
         <script src="https://cdn.jsdelivr.net/npm/chart.js?path=dist"></script>
