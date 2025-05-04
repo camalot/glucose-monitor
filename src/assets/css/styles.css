@@ -93,20 +93,40 @@ body {
   padding-bottom: 30px;
 }
 
+[data-role="search-container"] {
+
+}
+
+[data-role="search-container"] [role="search-results"] {
+  position: absolute;
+  max-height: 70%;
+  width: 50%;
+  overflow-y: auto;
+  z-index: 50;
+  left: 25%;
+  border: solid 2px #ddd;
+}
+
+.modal-dialog [role="search-results"] {
+  margin-top: -.5rem !important;
+  max-height: 200px;
+  overflow-y: auto; /* Added to enable scrolling if content exceeds max height */
+}
+
+.modal-dialog [role="search-results"] ul {
+  padding: 0; /* Added to remove default padding from the list */
+}
+
 ul.dropdown-menu li.dropdown-item,
 ul.dropdown-menu li.dropdown-item img,
 ul.dropdown-menu li.dropdown-item span {
   cursor: pointer;
 }
 
-.modal-dialog .fatsecret-search-results {
-  margin-top: -.5rem !important;
-  max-height: 150px;
-  overflow-y: auto; /* Added to enable scrolling if content exceeds max height */
-}
-
-.modal-dialog .fatsecret-search-results ul {
-  padding: 0; /* Added to remove default padding from the list */
+ul.dropdown-menu.autocomplete-suggestions {
+  z-index: 50;
+  max-width: 400px !important;
+  margin-top: -1rem !important;
 }
 
 .reading-entry.card {
@@ -130,6 +150,15 @@ ul.dropdown-menu li.dropdown-item span {
 .card-title.reading-entry-label {
   font-size: 2em;
   width: 100%;
+}
+
+.search-bar input {
+  width: 150px;
+  transition: width 0.3s ease-in-out;
+}
+
+.search-bar input:focus {
+  width: 300px;
 }
 
 .glyphicon-link {

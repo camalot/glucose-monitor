@@ -14,11 +14,14 @@
             <div class="row">
               <div class="col">
 
-                <div class="float-end">
+                {{> searchbar fieldId="food-search" placeholder="Food Search..." resultTemplate="foodItem" }}
+
+                {{!-- <div class="float-end">
                   <a href="https://www.fatsecret.com" title="powered by FatSecret">
                     <img src="https://platform.fatsecret.com/api/static/images/powered_by_fatsecret.svg" border="0" />
                   </a>
                 </div>
+                
                 <div class="input-group mb-3">
                   <span class="input-group-text" title="Food Item"><i class="fa-solid fa-utensils"></i></span>
 
@@ -31,17 +34,17 @@
                     data-search="/api/v1/food/search"
                     data-search-param="q"
                     data-search-field="#FoodName"
-                    class="input-group-text btn btn-primary"
+                    class="btn btn-primary"
                     type="button" title="Search"><i class="fa-solid fa-magnifying-glass"></i><div 
                     class="spinner-grow text-dark d-none" role="status">
                       <span class="visually-hidden">Loading...</span></div></button>
 
-                  <ul id="foodSuggestions" data-autocomplete-list="FoodName" class="dropdown-menu w-100 d-none mt-6"></ul>
                 </div>
+                <ul id="foodSuggestions" data-autocomplete-list="FoodName" class="autocomplete-suggestions dropdown-menu w-100 d-none mt-1"></ul>
 
                 <div class="fatsecret-search-results mb-2">
                   <ul class="list-group list-group-flush" data-reset="food-form"></ul>
-                </div>
+                </div> --}}
 
               </div>
             </div>
@@ -193,12 +196,6 @@
   </div>
 </div>
 
-<div class="d-none" data-type="template">
-  <li class="dropdown-item" data-template="foodSuggestions" data-bind="value" data-bind-value-attr="data-value">
-    <img height="16" width="16" src="" class="food-suggestion-image mr-2" data-bind="img" data-bind-img-attr="src" data-bind-source-attr="alt" />
-    <span class="food-suggestion-name text-truncate" data-bind="value"></span>
-  </li>
-</div>
 {{! d-flex justify-content-between align-items-start }}
 <div class="d-none" data-type="template">
   <li class="list-group-item text-start" data-template="foodItem">

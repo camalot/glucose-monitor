@@ -8,7 +8,8 @@
       $form.removeClass('was-validated');
       console.log("reset form");
 
-      const $resets = $form.find(`[data-reset="${form.id}"]`);
+      // const $resets = $form.find(`[data-reset="${form.id}"]`);
+      const $resets = $('[data-reset]', $form);
       $resets.empty().val('');
     })
     .on('submit', (event) => {
