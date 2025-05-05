@@ -6,15 +6,12 @@
 
 html,
 body {
-  /*height: 100%;*/
-  /*background-color: #03a9f4;*/
   overflow-y: auto;
 }
 
 body {
-  /* color: #fff; */
   text-align: center;
-  font-family: 'Raleway', sans-serif;
+  font-family: Raleway, sans-serif;
 }
 
 .c-pointer {
@@ -27,13 +24,12 @@ body {
 
 .btn {
   border: none;
-  /* border-radius: 0; */
   padding: 10px 20px;
   color: #ddd;
 }
 
 .chart .card-body {
-  max-height: 400px !important;  /* Added !important to ensure the style is applied */
+  max-height: 400px !important; 
 }
 
 .btn:hover,
@@ -45,29 +41,16 @@ body {
 }
 
 .btn.btn-card-top-right {
-  z-index: 2 !important;  /* Added z-index for stacking context */
+  z-index: 2 !important;
   margin-top: -.5rem !important;
   margin-right: -.5rem !important;
 }
 
 .btn.btn-card-bottom-right {
-  z-index: 2 !important;  /* Added z-index for stacking context */
+  z-index: 2 !important;
   margin-bottom: -.5rem !important;
   margin-right: -.5rem !important;
 }
-
-/*
-.site-wrapper {
-  display: table;
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
-}
-
-.site-wrapper-inner {
-  display: table-cell;
-  vertical-align: top;
-}*/
 
 .loader-spinner.fade.fade-out {
   -webkit-animation: fadeout 300ms linear forwards;
@@ -82,15 +65,52 @@ body {
 .main-container {
   margin-right: auto;
   margin-left: auto;
-  /* margin-top: 80px; */
 }
 
 .inner {
-  padding: 30px;
+  padding: 0 30px 30px;
 }
 
 .inner h4 {
   padding-bottom: 30px;
+}
+
+[role="food-add"] {
+  display: none;
+}
+
+form [role="food-add"] {
+  display: block;
+}
+
+form .list-group-item[data-template="foodItem"]:hover {
+  background-color: var(--bs-tertiary-bg);
+  color: var(--bs-tertiary-color);
+}
+
+[role="expand"],
+[role="expand"] + .col {
+  transition: width 0.3s ease-in-out; 
+}
+
+[data-role="search-container"] [role="search-results"] {
+  position: absolute;
+  max-height: 70%;
+  width: 50%;
+  overflow-y: auto;
+  z-index: 50;
+  left: 25%;
+  border: solid 1px var(--bs-border-color);
+}
+
+.modal-dialog [role="search-results"] {
+  margin-top: -.5rem !important;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.modal-dialog [role="search-results"] ul {
+  padding: 0;
 }
 
 ul.dropdown-menu li.dropdown-item,
@@ -99,14 +119,10 @@ ul.dropdown-menu li.dropdown-item span {
   cursor: pointer;
 }
 
-.modal-dialog .fatsecret-search-results {
-  margin-top: -.5rem !important;
-  max-height: 150px;
-  overflow-y: auto; /* Added to enable scrolling if content exceeds max height */
-}
-
-.modal-dialog .fatsecret-search-results ul {
-  padding: 0; /* Added to remove default padding from the list */
+ul.dropdown-menu.autocomplete-suggestions {
+  z-index: 50;
+  max-width: 400px !important;
+  margin-top: -1rem !important;
 }
 
 .reading-entry.card {
@@ -120,7 +136,7 @@ ul.dropdown-menu li.dropdown-item span {
 
 .reading-entry .reading-entry-value {
   font-weight: bold;
-  font-size: 7em;
+  font-size: 6em;
 }
 
 .reading-entry-body .unit-label {
@@ -130,6 +146,15 @@ ul.dropdown-menu li.dropdown-item span {
 .card-title.reading-entry-label {
   font-size: 2em;
   width: 100%;
+}
+
+.search-bar input {
+  width: 150px;
+  transition: width 0.3s ease-in-out;
+}
+
+.search-bar input:focus {
+  width: 300px;
 }
 
 .glyphicon-link {
@@ -154,7 +179,7 @@ ul.dropdown-menu li.dropdown-item span {
 div.nutrition_facts {
   background-color: #fff;
   border: 2px solid #bcbcbc;
-  font-family: "Arial";
+  font-family: Arial, sans-serif;
   padding: 15px 9px 24px;
   text-align: left;
 }
@@ -165,7 +190,7 @@ div.nutrition_facts {
 }
 
 @-webkit-keyframes fadein {
-    0% { opacity: 0; }
+  0% { opacity: 0; }
   100% { opacity: 1; }
 }
 

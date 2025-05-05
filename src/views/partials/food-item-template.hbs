@@ -1,0 +1,54 @@
+{{! d-flex justify-content-between align-items-start }}
+<div class="d-none" data-type="template">
+  <li class="list-group-item text-start c-pointer" data-template="foodItem">
+    <data class="d-none" data-bind="json"></data>
+    <div class="ms-0 me-2 float-start" role="food-add"><i class="fa fa-notes-medical text-primary c-pointer" data-action="selectFoodItem"></i></div>
+    <div class="me-auto">
+      <div class="fw-bold text-truncate">
+        <span class="me-1" 
+          data-bind="brand" 
+          data-class-not-if="brand" 
+          data-class-not-if-class="d-none"></span><span data-bind="name">FOOD NAME</span>
+      </div>
+      <div data-bind="serving" class="badge top-0 mt-2 me-2 text-bg-primary position-absolute end-0"></div>
+      <div data-bind="description"></div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="container p-2">
+      <div class="row justify-content-start">
+        <div class="col-6">
+          <div data-class-not-if="calories" data-class-not-if-class="d-none">
+            <span role="label" class="me-1">Calories:</span>
+            <span data-bind="calories"></span>
+            <span data-bind="calories_unit">kcal</span></div>
+        </div>
+        <div class="col-6">
+          <div data-class-not-if="carbs" data-class-not-if-class="d-none"><span role="label" class="me-1">Carbohydrates:</span> <span data-bind="carbs"></span> <span data-bind="carbs_unit">g</span></div>
+        </div>
+      </div>
+      <div class="row justify-content-start">
+        <div class="col-6">
+          <div data-class-not-if="protein" data-class-not-if-class="d-none"><span role="label" class="me-1">Protein:</span> <span data-bind="protein"></span> <span data-bind="protein_unit">g</span></div>
+        </div>
+        <div class="col-6">
+          <div data-class-not-if="fat" data-class-not-if-class="d-none"><span role="label" class="me-1">Fat:</span> <span data-bind="fat"></span> <span data-bind="fat_unit">g</span></div>
+        </div>
+      </div>
+      <div class="row justify-content-start">
+        <div class="col-6">
+          <div data-class-not-if="cholesterol" data-class-not-if-class="d-none"><span role="label" class="me-1">Cholesterol:</span> <span data-bind="cholesterol"></span> <span data-bind="cholesterol_unit">g</span></div>
+        </div>
+        <div class="col-6">
+          <div data-class-not-if="sodium" data-class-not-if-class="d-none"><span role="label" class="me-1">Sodium:</span> <span data-bind="sodium"></span> <span data-bind="sodium_unit">g</span></div>
+        </div>
+      </div>
+      <div class="row justify-content-start">
+        <div class="col">
+          <a href="#" data-bind="info_url" data-bind-info_url-attr="href"><span data-bind="source" data-class-not-if="source" 
+            data-class-not-if-class="d-none"></span></a>
+        </div>
+      </div>
+    </div>
+  </li>
+</div>
