@@ -140,7 +140,7 @@ export default class FoodEntry {
       data.name || "",
       data.brandName,
       firstServing?.description || undefined,
-      firstServing?.metricServingAmount?.toString() !== 'NaN' ? firstServing?.metricServingAmount?.toString() : undefined,
+      firstServing?.metricServingAmount?.valueOf() !== 'NaN' ? firstServing?.metricServingAmount?.valueOf() : undefined,
       0,
       'g',
       parseFloat(firstServing?.calories?.toString() || '0'),
