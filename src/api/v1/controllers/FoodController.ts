@@ -112,7 +112,11 @@ export default class FoodController {
       // const totalCalories = entries.reduce((sum, entry) => sum + ((entry.calories || 0) * (entry.quantity || 0)), 0);
       const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
       const unit = UnitType.KCAL;
-      await resp.json({ value: totalCalories, unit: unit, timestamp: latestTimestamp });
+      await resp.json({ 
+        value: Math.round(totalCalories), 
+        unit: unit, 
+        timestamp: latestTimestamp 
+      });
     } catch (error) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
@@ -131,7 +135,11 @@ export default class FoodController {
       // const totalCarbs = entries.reduce((sum, entry) => sum + ((entry.carbs || 0) * (entry.quantity || 0)), 0);
       const unit = UnitType.G;
       const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
-      await resp.json({ value: totalCarbs, unit: unit, timestamp: latestTimestamp });
+      await resp.json({ 
+        value: Math.round(totalCarbs),
+        unit: unit, 
+        timestamp: latestTimestamp 
+      });
     } catch (error) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
@@ -234,6 +242,23 @@ export default class FoodController {
       // if fatsecret not included, then the max_subset = max_results
       let max_subset = Math.floor(max_results / 2);
 
+
+      const localResults: FoodEntry[] = await this.savedFoodClient.find(
+        {
+          $or: [
+            { name: { $regex: new RegExp(`.*${String(query)}.*`), $options: 'i' } },
+            { brand: { $regex: new RegExp(`.*${String(query)}.*`), $options: 'i' } }
+          ]
+        },
+        { limit: max_subset, skip: skip }
+      );
+
+      let totalResults = localResults.length;
+
+      if (totalResults < max_subset) {
+        max_subset = max_results - totalResults;
+      }
+
       let remoteResults: FoodSearchResultsV3 = null;
       // if source does not contain 'fatsecret', do not perform the execution here
       if (source.includes('fatsecret') || source === '' || source === undefined || source === null) {
@@ -246,16 +271,7 @@ export default class FoodController {
       } else {
         max_subset = max_results;
       }
-      let totalResults = remoteResults?.totalResults || 0;
-
-      const localResults: FoodEntry[] = await this.savedFoodClient.find(
-        {
-          name: { $regex: new RegExp(`.*${String(query)}.*`), $options: 'i' },
-        },
-        { limit: max_subset, skip: skip }
-      );
-
-      totalResults += localResults.length;
+      totalResults = remoteResults?.totalResults || 0;
 
       let actualResults = localResults.length + (remoteResults?.foods.length || 0);
 
@@ -309,9 +325,9 @@ export default class FoodController {
         totalPages,
         // combine remoteResults FoodEntry map with localResults
         [
+          ...localResults.map((localFood: FoodEntry) => formatNumericFields(localFood)), // include localResults
           ...aiResults.map((aiResult: FoodEntry) => formatNumericFields(aiResult)), // include aiResults
           ...remoteResults.foods.map((food: FSFood) => formatNumericFields(FoodEntry.fromFoodSearchResultV3(food))),
-          ...localResults.map((localFood: FoodEntry) => formatNumericFields(localFood)) // include localResults
         ]
       );
 
