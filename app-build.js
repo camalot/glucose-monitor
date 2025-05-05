@@ -3,8 +3,6 @@ const { execSync } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
-const SRC_DIR = path.resolve(__dirname, 'src');
-
 // Helper function to execute shell commands
 function runCommand (command, description) {
   try {
@@ -66,36 +64,39 @@ runCommand('npx tsc', 'compile TypeScript');
 
 // Copy migrations data
 runCommand(
-  `npx copyfiles -u 4 ${SRC_DIR}/libs/migrations/data/* ${appDir}/libs/migrations/data/`,
+  `npx copyfiles -u 4 ./src/libs/migrations/data/* ${appDir}/libs/migrations/data/`,
   'copy migrations data'
 );
 
 // Copy assets
 runCommand(
-  `npx copyfiles -u 2 ${SRC_DIR}/assets/* ${appDir}/assets/`,
-  'copy assets'
+  `npx copyfiles -u 2 ./src/assets/* ${appDir}/assets/`,
+  `copy ./src/assets/* => ${appDir}/assets/`
 );
 runCommand(
-  `npx copyfiles -u 2 ${SRC_DIR}/assets/**/* ${appDir}/assets/`,
-  'copy assets'
+  `npx copyfiles -u 2 ./src/assets/**/* ${appDir}/assets/`,
+  `copy ./src/assets/**/* => ${appDir}/assets/`
 );
+runCommand(`ls ${appDir}/assets`, `list ${appDir}/assets`);
+
 
 // Copy views
 runCommand(
-  `npx copyfiles -u 2 ${SRC_DIR}/views/* ${appDir}/views/`,
-  'copy views'
+  `npx copyfiles -u 2 ./src/views/* ${appDir}/views/`,
+  `copy ./src/views/* => ${appDir}/views/`
 );
 runCommand(
-  `npx copyfiles -u 2 ${SRC_DIR}/views/**/* ${appDir}/views/`,
-  'copy views'
+  `npx copyfiles -u 2 ./src/views/**/* ${appDir}/views/`,
+  `copy ./src/views/**/* => ${appDir}/views/`
 );
+runCommand(`ls ${appDir}/views`, `list ${appDir}/views`);
 
 // only copy .env if it exists
 // Copy .env file
 if (fs.existsSync('.env')) {
   runCommand(
     `npx copyfiles -u 0 .env ${appDir}/`,
-    'copy .env file'
+    `copy .env => ${appDir}/`
   );
 }
 
