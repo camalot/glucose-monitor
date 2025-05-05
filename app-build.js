@@ -64,7 +64,7 @@ runCommand('npx tsc', 'compile TypeScript');
 
 // Copy migrations data
 runCommand(
-  `npx copyfiles -u 4 ./src/libs/migrations/data/* ${appDir}/libs/migrations/data/`,
+  `npx copyfiles -u 4 ${SRC_DIR}/libs/migrations/data/* ${appDir}/libs/migrations/data/`,
   'copy migrations data'
 );
 
