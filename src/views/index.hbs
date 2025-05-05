@@ -16,16 +16,19 @@
                 <div class="xcontainer">
                   <div class="row">
                     <div class="col-lg-3">
-                      {{> a1c-card }}
+                      {{> base-card title="HbA1c" cardClass="a1c" tooltip="Calculated in real time off the selected time frame." }}
                     </div>
                     <div class="col-lg-3">
-                      {{> glucose-card }}
+                      {{> base-card title="Glucose" cardClass="glucose" tooltip="Current glucose level." }}
+                      {{!-- {{> glucose-card }} --}}
                     </div>
                     <div class="col-lg-3">
-                      {{> carbs-card }}
+                      {{> base-card title="Carbs" cardClass="carbs" tooltip="Data represented is for today." }}
+                      {{!-- {{> carbs-card }} --}}
                     </div>
                     <div class="col-lg-3">
-                      {{> calories-card }}
+                      {{> base-card title="Calories" cardClass="calories" tooltip="Data represented is for today." }}
+                      {{!-- {{> calories-card }} --}}
                     </div>
 
                   </div>

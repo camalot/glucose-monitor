@@ -1,4 +1,4 @@
-class Configuration {
+export class Configuration {
   log: LogConfiguration;
   mongo: MongoConfiguration;
   ui: UiConfiguration;
@@ -13,14 +13,14 @@ class Configuration {
   }
 }
 
-class LogConfiguration {
+export class LogConfiguration {
   level: LogLevelConfiguration;
   constructor(level?: LogLevelConfiguration) {
     this.level = level || new LogLevelConfiguration();
   }
 }
 
-class LogLevelConfiguration {
+export class LogLevelConfiguration {
   db: LogLevel = LogLevel.WARN;
   console: LogLevel = LogLevel.DEBUG;
   
@@ -30,7 +30,7 @@ class LogLevelConfiguration {
   }
 }
 
-class MongoConfiguration {
+export class MongoConfiguration {
   url: string;
   database: string;
 
@@ -40,7 +40,7 @@ class MongoConfiguration {
   }
 }
 
-class UiConfiguration {
+export class UiConfiguration {
   enabled: boolean;
   allow: string[];
   refreshList: string[];
@@ -54,7 +54,7 @@ class UiConfiguration {
   }
 }
 
-class FatSecretConfiguration {
+export class FatSecretConfiguration {
   clientId: string;
   clientSecret: string;
   scopes: ("basic" | "premier" | "barcode" | "localization")[];
@@ -67,7 +67,7 @@ class FatSecretConfiguration {
   }
 }
 
-enum LogLevel {
+export enum LogLevel {
   INFO = "INFO",
   WARN = "WARN",
   ERROR = "ERROR",
@@ -80,6 +80,7 @@ export default {
   Configuration,
   LogConfiguration,
   LogLevelConfiguration,
-  LogLevel,
-  
+  MongoConfiguration,
+  UiConfiguration,
+  FatSecretConfiguration,
 }

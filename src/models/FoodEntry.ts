@@ -89,7 +89,7 @@ export default class FoodEntry {
     this.json = JSON.stringify(
       Object.keys(this).reduce((result, key) => {
         if (key !== 'json') {
-          result[key] = this[key];
+          result[key] = (this as Record<string, any>)[key];
         }
         return result;
       }, {} as Record<string, any>)
@@ -105,7 +105,7 @@ export default class FoodEntry {
 
   static empty(): FoodEntry {
     return new FoodEntry(
-       undefined, // name
+       "", // name
        undefined, // brand
        undefined, // description
        undefined, // serving
@@ -137,10 +137,10 @@ export default class FoodEntry {
     const firstServing = data.servings?.[0] || undefined;
 
     return new FoodEntry(
-      data.name,
+      data.name || "",
       data.brandName,
       firstServing?.description || undefined,
-      firstServing?.metricServingAmount?.toString() !== 'NaN' ? firstServing.metricServingAmount.toString() : undefined,
+      firstServing?.metricServingAmount?.toString() !== 'NaN' ? firstServing?.metricServingAmount?.toString() : undefined,
       0,
       'g',
       parseFloat(firstServing?.calories?.toString() || '0'),

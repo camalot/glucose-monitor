@@ -176,14 +176,6 @@ ul.dropdown-menu.autocomplete-suggestions {
   margin-right: 20px;
 }
 
-div.nutrition_facts {
-  background-color: #fff;
-  border: 2px solid #bcbcbc;
-  font-family: Arial, sans-serif;
-  padding: 15px 9px 24px;
-  text-align: left;
-}
-
 @keyframes fadein {
   0% { opacity: 0; }
   100% { opacity: 1; }

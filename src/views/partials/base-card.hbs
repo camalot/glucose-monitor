@@ -1,0 +1,13 @@
+<div class="{{cardClass}} reading-entry card bg-dark mb-3 placeholder-glow" aria-hidden="true" data-timeframe="timeframeRate">
+  <div class="card-body pt-1">
+    <h5 
+      class="card-title reading-entry-label object-fit-fill placeholder placeholder-field text-uppercase"
+      >{{title}}{{#if tooltip}}<i 
+        class="fs-6 ms-2 fa fa-circle-info align-top" 
+        data-bs-toggle="tooltip" 
+        data-bs-placement="auto" 
+        data-bs-title="{{tooltip}}"></i>{{/if}}
+    </h5>
+    <div class="card-text" data-container="value-card"></div>
+  </div>
+</div>
