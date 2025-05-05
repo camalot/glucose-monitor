@@ -35,6 +35,7 @@ export default class FoodController {
         if (req.body.hasOwnProperty(key)) {
           switch (key) { 
             case "recordedAt": 
+            case "time":
               foodEntry.timestamp = moment(String(req.body[key])).unix();
               continue;
             case "calories":
@@ -51,9 +52,6 @@ export default class FoodController {
                 foodEntry[key] = undefined;
               }
               break;
-            // case "source_id":
-            //   foodEntry.source_id = req.body[key] || Identity.generate(foodEntry);
-            //   break;
             default: 
               foodEntry[key] = req.body[key];
               break;
@@ -64,6 +62,10 @@ export default class FoodController {
       if (!foodEntry.name) {
         await resp.status(400).json({ message: 'Name is required' });
         return;
+      }
+
+      if (!foodEntry.quantity) {
+        foodEntry.quantity = 1; // assume 1 if not found.
       }
 
       if (!foodEntry.timestamp) {
@@ -103,7 +105,11 @@ export default class FoodController {
     try {
       const entries = await this.foodClient.getToday();
       // get total calories per entry, multiply by the quantity and add to the sum
-      const totalCalories = entries.reduce((sum, entry) => sum + ((entry.calories || 0) * (entry.quantity || 0)), 0);
+      let totalCalories = 0; 
+      for (const entry of entries) {
+        totalCalories += ((entry.calories || 0) * (entry.quantity || 1));
+      }
+      // const totalCalories = entries.reduce((sum, entry) => sum + ((entry.calories || 0) * (entry.quantity || 0)), 0);
       const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
       const unit = UnitType.KCAL;
       await resp.json({ value: totalCalories, unit: unit, timestamp: latestTimestamp });
@@ -118,7 +124,11 @@ export default class FoodController {
     try {
       const entries = await this.foodClient.getToday();
       // get total carbs per entry, multiply by the quantity and add to the sum
-      const totalCarbs = entries.reduce((sum, entry) => sum + ((entry.carbs || 0) * (entry.quantity || 0)), 0);
+      let totalCarbs = 0;
+      for (const entry of entries) {
+        totalCarbs += ((entry.carbs || 0) * (entry.quantity || 1));
+      }
+      // const totalCarbs = entries.reduce((sum, entry) => sum + ((entry.carbs || 0) * (entry.quantity || 0)), 0);
       const unit = UnitType.G;
       const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
       await resp.json({ value: totalCarbs, unit: unit, timestamp: latestTimestamp });

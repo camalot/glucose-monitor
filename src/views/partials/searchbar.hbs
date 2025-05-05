@@ -1,0 +1,59 @@
+<div role="search">
+  <div class="float-end">
+    <a href="https://www.fatsecret.com" title="powered by FatSecret">
+      <img src="https://platform.fatsecret.com/api/static/images/powered_by_fatsecret.svg" border="0" />
+    </a>
+  </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" title="{{placeholder}}"><i class="fa-solid fa-utensils"></i></span>
+
+    <div class="form-floating">
+      <button 
+        type="button" 
+        class="z-1 float-end btn-close me-1 mt-3 position-absolute end-0" 
+        data-target="[data-results='{{fieldId}}']" 
+        data-clear="#{{fieldId}}"
+        role="close" 
+        aria-label="Clear" 
+        title="Clear"></button>
+      <input
+        name="{{name}}"
+        data-autocomplete="/api/v1/food/autocomplete" 
+        data-autocomplete-param="q" 
+        type="text"
+        id="{{fieldId}}"
+        class="form-control me-3"
+        placeholder="{{placeholder}}"
+        aria-label="{{placeholder}}"
+        aria-describedby="{{fieldId}}-button"
+        list="{{fieldId}}-suggestions" />
+      <label for="{{fieldId}}">{{placeholder}}</label>
+
+
+
+    </div>
+    <button 
+      data-search="/api/v1/food/search"
+      data-search-param="q"
+      data-search-field="{{fieldId}}" 
+      class="btn btn-primary" 
+      type="button" 
+      id="{{fieldId}}-button"><i class="fa-solid fa-magnifying-glass"></i><span 
+      class="spinner-grow text-dark d-none" role="status">
+        <span class="visually-hidden">Loading...</span></span></button>
+  </div>
+
+  <ul 
+    id="{{fieldId}}-suggestions" 
+    data-autocomplete-list="{{fieldId}}" 
+    class="autocomplete-suggestions dropdown-menu w-100 d-none mt-6"></ul>
+
+  <div 
+    class="{{fieldId}}-results bg-dark rounded-2 border border-1 mb-2" 
+    role="search-results" 
+    data-results="{{fieldId}}" 
+    data-result-template="{{resultTemplate}}">
+    {{!-- add close button to remove --}}
+    <ul class="list-group list-group-flush" data-reset="{{fieldId}}-form"></ul>
+  </div>
+</div>

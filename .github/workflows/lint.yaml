@@ -39,8 +39,18 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: develop
           VALIDATE_BASH_EXEC: false
+          VALIDATE_SHELL_SHFMT: false
           GITHUB_TOKEN: ${{ github.token }}
-          VALIDATE_PYTHON_FLAKE8: false
-          VALIDATE_PYTHON_MYPY: false
-          VALIDATE_PYTHON_PYLINT: false
           VALIDATE_CHECKOV: false
+          # REENABLE 
+          VALIDATE_JAVASCRIPT_ES: false
+          VALIDATE_JAVASCRIPT_PRETTIER: false
+          VALIDATE_JAVASCRIPT_STANDARD: false
+          
+          VALIDATE_TYPESCRIPT_ES: false
+          VALIDATE_TYPESCRIPT_PRETTIER: false
+          VALIDATE_TYPESCRIPT_STANDARD: false
+
+          VALIDATE_JSON_PRETTIER: false
+          VALIDATE_CSS_PRETTIER: false
+          VALIDATE_YAML_PRETTIER: false

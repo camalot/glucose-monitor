@@ -1,6 +1,15 @@
 
 
         <div class="inner cover">
+
+          <div class="row">
+            <div class="col"></div>
+            <div class="col" data-role="search-container">
+              {{> searchbar fieldId="search" placeholder="Food Search..." resultTemplate="foodItem" name="search" }}
+            </div>
+            <div class="col"></div>
+          </div>
+
           <div class="xcontainer">
             <div class="row">
               <div class="col-lg-8">
@@ -52,6 +61,8 @@
         {{> weight-dialog }}
 
         {{> value-card-template }}
+        {{> food-suggestion-template }}
+        {{> food-item-template }}
 
         {{#section "head"}}
         <script src="https://cdn.jsdelivr.net/npm/chart.js?path=dist"></script>

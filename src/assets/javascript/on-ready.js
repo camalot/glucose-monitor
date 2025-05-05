@@ -1,7 +1,5 @@
 $(() => {
-
-  const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-  const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+  BootstrapInitializer.initialize();
 
   const dataLoader = new DataLoader();
   dataLoader.loadData();
@@ -14,12 +12,20 @@ $(() => {
 
   const autocomplete = new AutocompleteLoader();
   autocomplete.initialize();
-  const foodSearch = new FoodSearchLoader();
-  foodSearch.initialize();
+
+  FoodSearchLoader.initialize();
+
   const unitDropdown = new UnitDropdownInitializer();
   unitDropdown.initialize();
 
 });
+
+class BootstrapInitializer {
+  static initialize() {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+  }
+}
 
 class FoodSearchResultInitializer {
   static initialize(target) {
@@ -43,9 +49,8 @@ class FoodSearchResultInitializer {
           }
         }
 
-        $(".fatsecret-search-results ul").empty();
+        $form.find('[role="close"]').trigger('click');
       }
-      console.log(foodItem);
     });
   }
 }
@@ -154,27 +159,24 @@ class UnitDropdownInitializer {
 }
 
 class FoodSearchLoader {
-  initialize() {
-    const fsrContainer = $(".fatsecret-search-results");
-    fsrContainer.addClass("d-none");
-    $("ul", fsrContainer).empty();
+  static initialize() {
+    FoodSearchLoader.expanderInitialize();
+    FoodSearchLoader.clearButtonInitialize();
+    FoodSearchLoader.searchButtonInitialize();
+  }
 
-    $("#searchFoodButton").on("click", (event) => {
+  static searchButtonInitialize() {
+    $("button[data-search]").on("click", (event) => {
       const target = $(event.currentTarget);
 
       const searchField = target.data("search-field");
-      const searchValue = $(searchField).val();
-
+      const searchValue = $(`#${searchField}`).val();
 
       const searchUrl = target.data("search");
       const searchParam = target.data("search-param");
 
-      // perform search. 
-      // populate fsrContainer.ul
-      // - setup click on each item.
-      // - hide fsrContainer on item click
-      // ensure fsrContainer visible
-
+      const resultsContainer = $(`[role='search-results'][data-results='${searchField}']`);
+      const resultsList = $(resultsContainer).find("ul.list-group");
 
       // update the search button to show a bootstrap spinner and disable the button
       target.prop('disabled', true).find('i').addClass('d-none');
@@ -183,9 +185,11 @@ class FoodSearchLoader {
       // once success (of failure) of the search request, revert back to show the <i class="fa fa-search"></i> and enable
 
       $.ajax({
-        url: `${searchUrl}?${searchParam}=${searchValue}`,
+        url: `${searchUrl}`,
         method: 'GET',
-        data: {},
+        data: {
+          [searchParam]: searchValue
+        },
         success: (data) => {
 
           target.prop('disabled', false).find('i').removeClass('d-none');
@@ -193,24 +197,18 @@ class FoodSearchLoader {
 
           // find the form
           const form = target.closest("form");
-
-          // foodItem template
-
-          // .fatsecret-search-results
-          const fsrContainer = $(".fatsecret-search-results");
-          const fsrList = $("ul.list-group", fsrContainer);
-          fsrList.empty();
+          resultsList.empty();
 
           for (const item of data.results) {
             item.description = item.description || item.serving || '';
             // remove `${item.name}\s?-\s?` from the description
             item.description = item.description.replace(new RegExp(`${item.name}\\s?-\\s?`, 'g'), '');
-            const renderedItem = Templates.render(fsrList, 'foodItem', item);
+            const renderedItem = Templates.render(resultsList, 'foodItem', item);
 
             FoodSearchResultInitializer.initialize(renderedItem);
           }
 
-          fsrContainer.removeClass("d-none");
+          resultsContainer.removeClass("d-none");
         },
         error: (error) => {
           target.prop('disabled', false).find('i').removeClass('d-none');
@@ -221,19 +219,71 @@ class FoodSearchLoader {
       });
     });
   }
+
+  static expanderInitialize() {
+    // role="expand" data-expand="food-search" data-expand-class="col-9"
+    const expander = $('[role="expand"]');
+    const fieldId = expander.data('expand');
+    const field = expander.find(`input#${fieldId}`);
+    const targetClass = expander.data('expand-class');
+
+    const toggles = {
+      expand: () => {
+        expander.addClass(targetClass);
+      },
+      collapse: () => {
+        expander.removeClass(targetClass);
+      }
+    };
+
+    field.on('focus', (event) => {
+      console.log('Expander focused');
+      toggles.expand();
+    }).on('blur', (event) => {
+      const val = field.val();
+      console.log(field);
+      console.log(`value: ${val}`);
+      if (val === "") {
+        console.log('Expander blur');
+        toggles.collapse();
+      }
+    }).trigger('blur');
+    expander.on('click', (event) => {
+      field.focus();
+    });
+  }
+
+  static clearButtonInitialize() {
+    $("button[role='close'][data-target]").on("click", (event) => {
+      const $this = $(event.currentTarget);
+      const target = $this.data("target");
+      $(target).addClass("d-none");
+      $("ul", target).empty();
+
+      const clearTarget = $this.data("clear");
+      console.log(`clearTarget = ${clearTarget}`);
+      if (clearTarget) {
+        console.log(`clearing ${clearTarget}`);
+        $(`${clearTarget}`).val('');
+      }
+    }).trigger("click");
+  }
 }
 
 class AutocompleteLoader {
   initialize() {
-    $('[list][data-autocomplete]').each((item) => {
+
+    // bind the change event of the autocomplete input
+    const autocompleteInput = $("[list][data-autocomplete]");
+    autocompleteInput.each((item) => {
       const dlId = $(item).attr('list');
       const dl = $(`#${dlId}`);
       dl.off("change").on('change', (event) => {
-
         const selectedValue = $(event.target).val();
       });
     });
 
+    // when you click somewhere else, clear the list
     $(document).on("click", (event) => {
       const target = $("[data-autocomplete-list]");
       if (target.length) {
@@ -241,9 +291,10 @@ class AutocompleteLoader {
       }
     });
 
+    // for the autocomplete field
     $("[data-autocomplete]")
-      .off("input focus active")
-      // on tab key, if suggestion list is visible, tab the results into the input field
+      // remove the event handlers
+      .off("keydown")
       .on("keydown", (event) => {
         if (event.key === "Tab") {
           const target = $(event.target);
@@ -256,15 +307,16 @@ class AutocompleteLoader {
             if (firstSuggestion.length) {
               const selectedValue = firstSuggestion.text().trim();
               target.val(selectedValue);
-              suggestions.addClass("d-none").removeClass("d-block mt-5");
+              suggestions.addClass("d-none").removeClass("d-block mt-1");
               suggestions.empty();
               $(event.target).focus();
             }
           }
         }
       })
-      .on("input focus active", (event) => {
-        const field = $(event.target);
+      .on("input", (event) => {
+        const field = $(event.currentTarget);
+        const fieldId = field.attr('id');
         const query = field.val().toLowerCase();
         const dataListId = field.attr('list');
         const suggestions = $(`#${dataListId}`);
@@ -288,24 +340,21 @@ class AutocompleteLoader {
           data: { [qParam]: query },
           success: (data) => {
             if (data.length > 0) {
-              suggestions.removeClass("d-none").addClass("d-block mt-5");
+              suggestions.removeClass("d-none").addClass("d-block mt-1");
             }
             suggestions.empty();
             data.forEach(item => {
               const listItem = Templates.render(suggestions, 'foodSuggestions', item);
               listItem.on("click", (event) => {
                 const selectedValue = $(event.currentTarget).find('[data-bind="value"]').text();
-                $("#FoodName").val(selectedValue);
-                suggestions.addClass("d-none").removeClass("d-block mt-5");
+                field.val(selectedValue);
+                suggestions.addClass("d-none").removeClass("d-block mt-1");
                 suggestions.empty();
                 field.focus();
               });
-              // const option = document.createElement('option');
-              // option.value = item.value;
-              // suggestions.append(option);
             });
             if (data.length === 0) {
-              suggestions.addClass("d-none").removeClass("d-block mt-5");
+              suggestions.addClass("d-none").removeClass("d-block mt-1");
             }
           }
         });

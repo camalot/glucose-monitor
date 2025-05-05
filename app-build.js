@@ -6,7 +6,7 @@ const fs = require('fs');
 const SRC_DIR = path.resolve(__dirname, 'src');
 
 // Helper function to execute shell commands
-function runCommand(command, description) {
+function runCommand (command, description) {
   try {
     console.log(`\n[INFO] ${description}`);
     execSync(command, { stdio: 'inherit' });
@@ -28,7 +28,7 @@ if (!fs.existsSync(tsconfigPath)) {
 const tsconfigContent = fs.readFileSync(tsconfigPath, 'utf8');
 const tsconfig = JSON.parse(tsconfigContent);
 if (!tsconfig.compilerOptions) {
-  console.error(`[ERROR] Invalid tsconfig.json: missing compilerOptions`);
+  console.error('[ERROR] Invalid tsconfig.json: missing compilerOptions');
   process.exit(1);
 }
 
@@ -66,31 +66,29 @@ runCommand('npx tsc', 'compile TypeScript');
 
 // Copy migrations data
 runCommand(
-  `npx copyfiles -u 4 ./src/libs/migrations/data/* ${appDir}/libs/migrations/data/`,
+  `npx copyfiles -u 4 ${SRC_DIR}/libs/migrations/data/* ${appDir}/libs/migrations/data/`,
   'copy migrations data'
 );
 
 // Copy assets
 runCommand(
-  `npx copyfiles -u 2 ./src/assets/* ${appDir}/assets/`,
+  `npx copyfiles -u 2 ${SRC_DIR}/assets/* ${appDir}/assets/`,
   'copy assets'
 );
 runCommand(
-  `npx copyfiles -u 2 ./src/assets/**/* ${appDir}/assets/`,
+  `npx copyfiles -u 2 ${SRC_DIR}/assets/**/* ${appDir}/assets/`,
   'copy assets'
 );
-runCommand(`ls ${appDir}/assets`, 'list assets directory');
 
 // Copy views
 runCommand(
-  `npx copyfiles -u 2 ./src/views/* ${appDir}/views/`,
+  `npx copyfiles -u 2 ${SRC_DIR}/views/* ${appDir}/views/`,
   'copy views'
 );
 runCommand(
-  `npx copyfiles -u 2 ./src/views/**/* ${appDir}/views/`,
+  `npx copyfiles -u 2 ${SRC_DIR}/views/**/* ${appDir}/views/`,
   'copy views'
 );
-runCommand(`ls ${appDir}/views`, 'list views directory');
 
 // only copy .env if it exists
 // Copy .env file
