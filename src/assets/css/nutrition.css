@@ -1,126 +1,158 @@
 div.nutrition-facts {
-    background-color: var(--bs-body-bglor);
-    border: 2px solid var(--bs-border-color);
-    font-family: "Arial";
-    padding: 15px 9px 24px;
-    text-align: left;
+  background-color: var(--bs-body-bglor);
+  border: 2px solid var(--bs-border-color);
+  font-family: Arial, sans-serif;
+  padding: 15px 9px 24px;
+  text-align: left;
 }
+
 div.nutrition-facts table {
-    border-collapse: collapse;
-    border-spacing: 0px;
-    width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
 }
+
 div.nutrition-facts .black {
-    font-weight: 900;
+  font-weight: 900;
 }
+
 div.nutrition-facts .heading {
-    font-size: 22px;
-    line-height: 22px;
-    padding-bottom: 10px;
+  font-size: 22px;
+  line-height: 22px;
+  padding-bottom: 10px;
 }
+
 div.nutrition-facts .left {
-    float: left;
+  float: left;
 }
+
 div.nutrition-facts .right {
-    float: right;
+  float: right;
 }
+
 div.nutrition-facts .tRight {
-    text-align: right;
+  text-align: right;
 }
+
 div.nutrition-facts .divider {
-    border-bottom: solid rgba(0, 0, 0, 0.38);
-    clear: both;
+  border-bottom: solid rgba(0, 0, 0, 0.38);
+  clear: both;
 }
+
 div.nutrition-facts .divider.thin {
-    border-width: 1px;
+  border-width: 1px;
 }
+
 div.nutrition-facts .divider.medium {
-    border-width: 4px;
+  border-width: 4px;
 }
+
 div.nutrition-facts .divider.thick {
-    border-width: 11px;
+  border-width: 11px;
 }
+
 div.nutrition-facts .serving-size {
-    font-size: 13px;
-    line-height: 15px;
+  font-size: 13px;
+  line-height: 15px;
 }
+
 div.nutrition-facts .serving-size.serving-size-label {
-    padding-top:8px;
+  padding-top: 8px;
 }
+
 div.nutrition-facts .serving-size.serving-size-value {
-    padding: 6px 0px 11px;
-    text-align: right;
+  padding: 6px 0 11px;
+  text-align: right;
 }
+
 div.nutrition-facts .per-serve::first-letter {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
+
 div.nutrition-facts .nutrient {
-    font-size: 11px;
-    line-height: 11px;
-    padding: 4px 0px;
+  font-size: 11px;
+  line-height: 11px;
+  padding: 4px 0;
 }
+
 div.nutrition-facts .nutrient.header {
-    padding: 8px 0px;
+  padding: 8px 0;
 }
+
 div.nutrition-facts .nutrient.sub {
-    text-indent: 11px;
+  text-indent: 11px;
 }
+
 div.nutrition-facts .nutrient.value {
-    padding-left:8px;
+  padding-left: 8px;
 }
+
 div.nutrition-facts .footnote {
-    font-size: 9px;
-    line-height: 11px;
-    padding-top: 10px;
+  font-size: 9px;
+  line-height: 11px;
+  padding-top: 10px;
 }
+
 /* Start USA */
 div.nutrition-facts.us .serving-size {
-    padding: 8px 0px 10px;
+  padding: 8px 0 10px;
 }
+
 div.nutrition-facts.us .serving-size.serving-size-label {
-    vertical-align: bottom;
+  vertical-align: bottom;
 }
+
 div.nutrition-facts .hero-label {
-    font-size: 19px;
-    line-height: 22px;
-    padding-bottom: 5px;
+  font-size: 19px;
+  line-height: 22px;
+  padding-bottom: 5px;
 }
+
 div.nutrition-facts .hero-value {
-    font-size: 26px;
-    line-height: 28px;
-    padding: 11px 0px 5px;
+  font-size: 26px;
+  line-height: 28px;
+  padding: 11px 0 5px;
 }
+
 /* End USA */
 /* Start EU*/
 div.nutrition-facts.eu .serving-size.serving-size-label {
-    float: left;
+  float: left;
 }
+
 div.nutrition-facts.eu .serving-size.serving-size-value {
-    float:right
+  float: right;
 }
+
 div.nutrition-facts.eu .nutrient.sub {
-    text-indent: 0px;
-    margin-right: -11px;
-    padding-left: 11px;
+  text-indent: 0;
+  margin-right: -11px;
+  padding-left: 11px;
 }
+
 div.nutrition-facts .nutrient.w1 {
-    width: 55%;
+  width: 55%;
 }
+
 div.nutrition-facts .nutrient.w2 {
-    width: 25%;
+  width: 25%;
 }
+
 div.nutrition-facts .nutrient.w1p2 {
-    width: 80%;
+  width: 80%;
 }
+
 div.nutrition-facts .nutrient.w3 {
-    width: 20%;
+  width: 20%;
 }
+
 /* End EU*/
 /* Start International */
 div.nutrition-facts.international .serving-size.serving-size-label {
-    float: left;
+  float: left;
 }
+
 div.nutrition-facts.international .serving-size.serving-size-value {
-    float:right
+  float: right;
 }
 /* End International*/
