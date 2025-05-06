@@ -35,7 +35,7 @@ div.nutrition-facts .tRight {
 }
 
 div.nutrition-facts .divider {
-  border-bottom: solid rgba(0, 0, 0, 0.38);
+  border-bottom: solid rgba(0 0 0 38%);
   clear: both;
 }
 
@@ -115,7 +115,8 @@ div.nutrition-facts .hero-value {
 }
 
 /* End USA */
-/* Start EU*/
+
+/* Start EU */
 div.nutrition-facts.eu .serving-size.serving-size-label {
   float: left;
 }
@@ -146,7 +147,8 @@ div.nutrition-facts .nutrient.w3 {
   width: 20%;
 }
 
-/* End EU*/
+/* End EU */
+
 /* Start International */
 div.nutrition-facts.international .serving-size.serving-size-label {
   float: left;
@@ -155,4 +157,5 @@ div.nutrition-facts.international .serving-size.serving-size-label {
 div.nutrition-facts.international .serving-size.serving-size-value {
   float: right;
 }
-/* End International*/
+
+/* End International */
