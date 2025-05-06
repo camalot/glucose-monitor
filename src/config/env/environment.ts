@@ -1,6 +1,10 @@
 import * as dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
 
 dotenv.config();
+
+const appPackage = JSON.parse(fs.readFileSync(getPackageJsonPath(), 'utf-8'));
 
 function stripQuotes(str: string): string {
   return str.replace(/^"(.*)"$/, '$1');
@@ -64,9 +68,23 @@ function getEnvVarInt(envVar: string, defaultValue: number): number {
   return defaultValue;
 }
 
+function getPackageJsonPath(): string {
+  return path.resolve(__dirname, '../../package.json');
+}
+
+function getPackageVar(key: string, defaultValue: string): string {
+  return appPackage[key] || defaultValue;
+}
+
 const uiEnabled = getEnvVarBooleanDefault('GM_UI_ENABLED', true);
 
 const config = {
+  app: {
+    version: getPackageVar('version', '1.0.0'),
+    buildSha: getPackageVar('buildSha', 'unknown'),
+    buildRef: getPackageVar('buildRef', 'unknown'),
+    buildDate: getPackageVar('buildDate', 'unknown'),
+  },
   log: {
     level: {
       db: getEnvVarString('GM_LOG_LEVEL', 'WARN').toUpperCase(),
