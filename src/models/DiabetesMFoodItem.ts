@@ -1,3 +1,5 @@
+import Identity from '../libs/Identity';
+import { UnitType } from '../libs/Units';
 import FoodEntry from './FoodEntry';
 
 export class DiabetesMFoodItem {
@@ -22,32 +24,32 @@ export class DiabetesMFoodItem {
     categoryId: number,
     name: string,
     description: string,
-    serving: string, // need to split by <space> go get size and unit
-    weight: number,
-    carbs: number,
-    protein: number,
-    calories: number,
-    timestamp: number
+    timestamp: number,
+    serving?: string, // need to split by <space> go get size and unit
+    weight?: number,
+    carbs?: number,
+    protein?: number,
+    calories?: number,
   ) {
 
     this.categoryId = categoryId;
     this.name = name || description;
     this.description = description;
     this.serving = serving;
-    this.weight = weight * 1000; // convert weight to grams
-    this.weight_unit = 'g';
+    this.weight = weight ? weight * 1000 : undefined; // convert weight to grams
+    this.weight_unit = weight ? UnitType.G : undefined;
     this.carbs = carbs;
-    this.carbs_unit = 'g'; // assuming carbs are in grams
+    this.carbs_unit = carbs ? UnitType.G : undefined; // assuming carbs are in grams
     this.protein = protein;
-    this.protein_unit = 'g'; // assuming protein is in grams
+    this.protein_unit = protein ? UnitType.G : undefined; // assuming protein is in grams
     this.calories = calories;
-    this.calories_unit = 'kcal'; // assuming calories are in kilocalories
+    this.calories_unit = calories ? UnitType.KCAL : undefined; // assuming calories are in kilocalories
     this.timestamp = timestamp;
     this.upc = this.findUpcCode();
     this.id = this.validateId(id);
   }
 
-  private findUpcCode(): string {
+  private findUpcCode(): string | undefined {
     if (this.name) {
       const upcMatch = this.name.match(/UPC:\s?([0-9]+)/);
       if (upcMatch) {
@@ -66,7 +68,7 @@ export class DiabetesMFoodItem {
         if (this.timestamp) {
           return this.timestamp.toString();
         } else {
-          return undefined;
+          return Identity.random();
         }
       }
     } else {
@@ -76,30 +78,31 @@ export class DiabetesMFoodItem {
 
   toFoodEntry() {
     return new FoodEntry(
-      this.name,
-      undefined,
-      this.description,
-      this.serving.trim(),
-      this.weight,
-      this.weight_unit,
-      this.calories,
-      this.calories_unit,
-      this.carbs,
-      this.carbs_unit,
-      this.timestamp,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      1,
-      this.upc,
-      'Diabetes:M',
-      this.id
+      this.name, // name
+      undefined, // brand
+      this.description, // description
+      this.serving?.trim(), // serving
+      this.weight, // weight
+      this.weight_unit, // weight unit
+      this.calories, // calories
+      this.calories_unit, // calories unit
+      this.carbs, // carbs
+      this.carbs_unit, // carbs unit
+      this.timestamp, // timestamp
+      undefined, // fat
+      undefined, // fat unit
+      undefined, // protein
+      undefined, // protein unit
+      undefined, // sodium
+      undefined, // sodium unit
+      undefined, // cholesterol
+      undefined, // cholesterol unit
+      undefined, // notes
+      1, // quantity
+      this.upc, // upc
+      undefined, // info_url
+      'Diabetes:M', // source name
+      this.id // source id
     );
   }
 }

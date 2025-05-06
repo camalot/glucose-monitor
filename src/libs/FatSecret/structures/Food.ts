@@ -1,4 +1,4 @@
-import valueToArray from "../utility/valueToArray";
+import ArrayUtility from "../../Array";
 import Serving from "./Serving";
 import * as math from "mathjs";
 
@@ -87,7 +87,7 @@ export default class Food {
       url,
 
       // map servings to instance of Serving
-      servings: valueToArray(servings)
+      servings: ArrayUtility.wrap(servings)
         .map((serving) => Serving.fromJSON(serving))
     });
   }
@@ -113,7 +113,7 @@ export default class Food {
       url,
 
       // map servings to instance of Serving
-      servings: valueToArray(servings)
+      servings: ArrayUtility.wrap(servings)
         .map((serving) => Serving.fromResponse(serving))
     });
   }

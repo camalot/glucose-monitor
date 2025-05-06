@@ -1,5 +1,5 @@
 import Food from "../../structures/Food";
-import valueToArray from "../../utility/valueToArray";
+import ArrayUtility from "../../../Array";
 import { APIError, APIErrorCode } from "../APIError";
 import BaseClient from "../BaseClient"
 
@@ -27,7 +27,7 @@ export function getAutocompleteFactory(client: BaseClient) {
       if (!suggestions) return;
 
       // return suggestions transformed into array
-      return valueToArray(suggestions);
+      return ArrayUtility.wrap(suggestions);
     } catch (err: unknown) {
       // else, rethrow error
       throw err;

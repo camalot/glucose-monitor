@@ -1,4 +1,20 @@
+import * as mathjs from "mathjs";
+// define the calorie
+mathjs.createUnit({
+  calorie: {
+    definition: "4.184J",
+    prefixes: "short",
+    aliases: ["cal", "kcal", "calories"]
+  },
+  // mmol/L
+  // mmoll: {
 
+  //   definition: "1mmol/L = 18.015g/L",
+  //   prefixes: "short",
+  //   aliases: ["mmol", "millimoles"]
+  // },
+  // mg/dL
+});
 type ConversionTable = Record<UnitType, Record<UnitType, number | undefined>>;
 
 export enum UnitType {
@@ -7,6 +23,7 @@ export enum UnitType {
   KG = "kg",    // Kilograms
   G = "g",     // Grams
   MG = "mg",   // Milligrams
+  UG = "ug",   // microgram
   LB = "lb",    // Pounds
   OZ = "oz",    // Ounces
 
@@ -24,6 +41,7 @@ export enum UnitName {
   KG = "kg",
   KILOGRAMS = "kg",
   G = "g",
+  UG = "ug",
   GRAMS = "g",
   MILLIGRAMS = "mg",
   MG = "mg",
@@ -37,9 +55,23 @@ export enum UnitName {
   ["%"] = "%"
 }
 
+export namespace UnitNameUtils {
+  export function fromName(name: string): UnitName | undefined {
+    return UnitName[name.toUpperCase() as keyof typeof UnitName] || undefined;
+  }
+}
+
 type StringConversionTable = Record<string, UnitType>;
 
 export class Units {
+
+  static toUnit(unitType: UnitType, n?: number): math.Unit | undefined { 
+    if (!unitType || !mathjs) {
+      return undefined;
+    }
+    return n ? mathjs.unit(n, unitType.valueOf()) : undefined; 
+  }
+
   static convert(value: number, sourceUnit: UnitType, targetUnit: UnitType) {
     const conversionFactor = Units.getConversionFactor(sourceUnit, targetUnit);
     if (conversionFactor === undefined) {
@@ -65,6 +97,7 @@ export class Units {
         [UnitType.LB]: 0.00220462,
         [UnitType.OZ]: 0.035274,
         [UnitType.MG]: 1000,
+        [UnitType.UG]: 1000000,
         [UnitType.ML]: undefined,
         [UnitType.MMOLL]: undefined,
         [UnitType.MGDL]: undefined,
@@ -76,6 +109,8 @@ export class Units {
         [UnitType.KG]: 1,
         [UnitType.G]: 1000,
         [UnitType.MG]: 1e+6,
+        [UnitType.UG]: 1e+9,
+        
         [UnitType.LB]: 2.20462,
         [UnitType.OZ]: 35.274,
         [UnitType.ML]: undefined,
@@ -85,10 +120,29 @@ export class Units {
         [UnitType.KCAL]: undefined,
         [UnitType.PERCENT]: undefined,
       },
+      [UnitType.LB]: {
+        [UnitType.LB]: 1,
+        [UnitType.OZ]: 16.000269140320000361,
+        [UnitType.G]: 453.5999999997256964,
+
+        [UnitType.KG]: 0.45359237,
+        [UnitType.MG]: 453599.9999997257255,
+        [UnitType.UG]: 453599999.99972569942,
+
+        [UnitType.ML]: undefined,
+        [UnitType.MMOLL]: undefined,
+        [UnitType.MGDL]: undefined,
+
+        [UnitType.KCAL]: undefined,
+        [UnitType.PERCENT]: undefined,
+
+      },
       [UnitType.MG]: {
         [UnitType.MG]: 1,
         [UnitType.G]: 0.001,
         [UnitType.KG]: 1e-6,
+
+        [UnitType.UG]: 0.001,
         [UnitType.LB]: 0.00000220462,
         [UnitType.OZ]: 0.000035274,
         [UnitType.ML]: undefined,
@@ -98,12 +152,13 @@ export class Units {
         [UnitType.KCAL]: undefined,
         [UnitType.PERCENT]: undefined,
       },
-      [UnitType.LB]: {
-        [UnitType.G]: 453.592,
-        [UnitType.KG]: 0.453592,
-        [UnitType.MG]: 453592,
-        [UnitType.LB]: 1,
-        [UnitType.OZ]: 16,
+      [UnitType.UG]: {
+        [UnitType.UG]: 1,
+        [UnitType.G]: 0.000001,
+        [UnitType.KG]: 1e-9,
+        [UnitType.MG]: 0.001,
+        [UnitType.LB]: 2.20462e-9,
+        [UnitType.OZ]: 3.5274e-8,
         [UnitType.ML]: undefined,
         [UnitType.MMOLL]: undefined,
         [UnitType.MGDL]: undefined,
@@ -115,6 +170,7 @@ export class Units {
         [UnitType.OZ]: 1,
         [UnitType.G]: 28.3495,
         [UnitType.MG]: 28349.5,
+        [UnitName.UG]: 28349999.99998286,
         [UnitType.KG]: 0.0283495,
         [UnitType.LB]: 0.0625,
         [UnitType.ML]: undefined,
@@ -131,6 +187,7 @@ export class Units {
         [UnitType.LB]: 0.00220462,
         [UnitType.OZ]: 0.035274,
         [UnitType.MG]: undefined,
+        [UnitType.UG]: undefined,
         [UnitType.MMOLL]: undefined,
         [UnitType.MGDL]: undefined,
 
@@ -141,6 +198,7 @@ export class Units {
         [UnitType.MMOLL]: 1,
         [UnitType.G]: undefined,
         [UnitType.MG]: undefined,
+        [UnitType.UG]: undefined,
         [UnitType.KG]: undefined,
         [UnitType.LB]: undefined,
         [UnitType.OZ]: undefined,
@@ -154,6 +212,7 @@ export class Units {
         [UnitType.MGDL]: 1,
         [UnitType.G]: undefined,
         [UnitType.MG]: undefined,
+        [UnitType.UG]: undefined,
         [UnitType.KG]: undefined,
         [UnitType.LB]: undefined,
         [UnitType.OZ]: undefined,
@@ -170,6 +229,7 @@ export class Units {
         [UnitType.MGDL]: undefined,
         [UnitType.G]: undefined,
         [UnitType.MG]: undefined,
+        [UnitType.UG]: undefined,
         [UnitType.KG]: undefined,
         [UnitType.LB]: undefined,
         [UnitType.OZ]: undefined,
@@ -185,14 +245,13 @@ export class Units {
         [UnitType.MGDL]: undefined,
         [UnitType.G]: undefined,
         [UnitType.MG]: undefined,
+        [UnitType.UG]: undefined,
         [UnitType.KG]: undefined,
         [UnitType.LB]: undefined,
         [UnitType.OZ]: undefined,
         [UnitType.ML]: undefined,
         [UnitType.MMOLL]: undefined,
       },
-
-
     };
 
 

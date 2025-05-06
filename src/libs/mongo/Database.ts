@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MongoClient, Db, Collection } from 'mongodb';
 import config from '../../config/env';
 
@@ -6,7 +7,7 @@ class DatabaseMongoClient<T> {
   private url: string;
   private client: MongoClient | null;
   protected db: Db | null;
-  protected collection: Collection<T>;
+  protected collection: Collection<T> | null;
   protected collectionName: string;
 
   constructor() {

@@ -11,7 +11,7 @@ async function getHealth(req: Request, res: Response ) {
     await settingsClient.list();
     await settingsClient.close();
     res.status(200).json({ status: 'ok' });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({ status: 'error', message: err.message });
   }
 }

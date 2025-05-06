@@ -1,7 +1,7 @@
 import config from '../../../config';
 import * as FatSecret from '../../../libs/FatSecret';
 import Reflection from '../../../libs/Reflection';
-import {Units, UnitName, UnitType} from '../../../libs/Units'
+import {Units, UnitName, UnitType, UnitNameUtils} from '../../../libs/Units'
 import { Request, Response, NextFunction } from 'express';
 import SavedFoodMongoClient from '../../../libs/mongo/SavedFoods';
 import FoodMongoClient from '../../../libs/mongo/Food';
@@ -38,6 +38,9 @@ export default class FoodController {
             case "time":
               foodEntry.timestamp = moment(String(req.body[key])).unix();
               continue;
+            case "search": 
+            case "json":
+              continue;
             case "calories":
             case "carbs":
             case "fat":
@@ -52,8 +55,15 @@ export default class FoodController {
                 foodEntry[key] = undefined;
               }
               break;
+            case "notes":
+              foodEntry.notes = req.body[key].replace(/\\r\\n/g, '\\n');
+              break;
             default: 
-              foodEntry[key] = req.body[key];
+              // does food entry have the property?
+              const empty = FoodEntry.empty();
+              if (empty.hasOwnProperty(key)) {
+                foodEntry[key] = req.body[key];
+              }
               break;
           }
         }
@@ -74,6 +84,11 @@ export default class FoodController {
       }
 
       await this.foodClient.record(foodEntry);
+
+      // save as a saved food as well.
+      // before we do so, set the quantity to 1
+      foodEntry.quantity = 1; // set quantity to 1 before saving
+      await this.savedFoodClient.record(foodEntry);
       
       const entryWord = entryQuantity > 1 ? 'entries' : 'entry';
       await resp.status(201).json({
@@ -94,7 +109,7 @@ export default class FoodController {
       // console.log(entries);
       
       await resp.json(entries);
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
     }
@@ -112,8 +127,12 @@ export default class FoodController {
       // const totalCalories = entries.reduce((sum, entry) => sum + ((entry.calories || 0) * (entry.quantity || 0)), 0);
       const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
       const unit = UnitType.KCAL;
-      await resp.json({ value: totalCalories, unit: unit, timestamp: latestTimestamp });
-    } catch (error) {
+      await resp.json({ 
+        value: Math.round(totalCalories), 
+        unit: unit, 
+        timestamp: latestTimestamp 
+      });
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
     }
@@ -131,8 +150,12 @@ export default class FoodController {
       // const totalCarbs = entries.reduce((sum, entry) => sum + ((entry.carbs || 0) * (entry.quantity || 0)), 0);
       const unit = UnitType.G;
       const latestTimestamp = entries.length > 0 ? Math.max(...entries.map(entry => entry.timestamp)) : moment().unix();
-      await resp.json({ value: totalCarbs, unit: unit, timestamp: latestTimestamp });
-    } catch (error) {
+      await resp.json({ 
+        value: Math.round(totalCarbs),
+        unit: unit, 
+        timestamp: latestTimestamp 
+      });
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
     }
@@ -170,7 +193,7 @@ export default class FoodController {
     try {
       const response = await client.getFood({ foodId: String(foodId) });
       await resp.json(response);
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
 
@@ -208,16 +231,17 @@ export default class FoodController {
     }
   }
 
-  private async aiSearch(req: Request, resp: Response, next: NextFunction): Promise<FoodEntry> {
+  private async aiSearch(req: Request, resp: Response, next: NextFunction): Promise<FoodEntry | null> {
     if (resp.locals?.geoLocation) {
       const query = req.query?.q;
       const geoLocation = resp.locals?.geoLocation;
       const nutritionFacts = await NutritionFacts.getNutritionFacts(String(query), geoLocation);
-      if (nutritionFacts) {
+      if (nutritionFacts && !FoodEntry.isEmpty(nutritionFacts)) {
         await this.savedFoodClient.record(nutritionFacts);
       }
       return nutritionFacts;
     }
+    return null;
   }
 
   async search(req: Request, resp: Response, next: NextFunction): Promise<void> {
@@ -234,7 +258,24 @@ export default class FoodController {
       // if fatsecret not included, then the max_subset = max_results
       let max_subset = Math.floor(max_results / 2);
 
-      let remoteResults: FoodSearchResultsV3 = null;
+
+      const localResults: FoodEntry[] = await this.savedFoodClient.find(
+        {
+          $or: [
+            { name: { $regex: new RegExp(`.*${String(query)}.*`), $options: 'i' } },
+            { brand: { $regex: new RegExp(`.*${String(query)}.*`), $options: 'i' } }
+          ]
+        },
+        { limit: max_subset, skip: skip }
+      );
+
+      let totalResults = localResults.length;
+
+      if (totalResults < max_subset) {
+        max_subset = max_results - totalResults;
+      }
+
+      let remoteResults: FoodSearchResultsV3 = new FoodSearchResultsV3({});
       // if source does not contain 'fatsecret', do not perform the execution here
       if (source.includes('fatsecret') || source === '' || source === undefined || source === null) {
         remoteResults = await client.getFoodSearchV3({
@@ -246,18 +287,9 @@ export default class FoodController {
       } else {
         max_subset = max_results;
       }
-      let totalResults = remoteResults?.totalResults || 0;
+      totalResults = remoteResults.totalResults || 0;
 
-      const localResults: FoodEntry[] = await this.savedFoodClient.find(
-        {
-          name: { $regex: new RegExp(`.*${String(query)}.*`), $options: 'i' },
-        },
-        { limit: max_subset, skip: skip }
-      );
-
-      totalResults += localResults.length;
-
-      let actualResults = localResults.length + (remoteResults?.foods.length || 0);
+      let actualResults = localResults.length + (remoteResults.foods?.length || 0);
 
       const totalPages = Math.ceil(totalResults / max_results);
 
@@ -280,7 +312,7 @@ export default class FoodController {
         return formattedFood;
       };
 
-      const aiResults = [await this.aiSearch(req, resp, next)].filter(result => result !== null);
+      const aiResults: FoodEntry[] = [await this.aiSearch(req, resp, next)].filter(result => result !== null);
       if (aiResults && aiResults[0]) {
         // increase the counts 
         totalResults += aiResults.length;
@@ -293,7 +325,7 @@ export default class FoodController {
         for (const key in aiResult) {
           if (aiResult.hasOwnProperty(key)) {
             if (key.match(/_unit$/)) {
-              const unitName: UnitName = UnitName[key.toUpperCase()];
+              const unitName: UnitName | undefined = UnitNameUtils.fromName(key);
               if (unitName) {
                 aiResult[key] = Units.nameConversion(unitName);
               }
@@ -309,9 +341,9 @@ export default class FoodController {
         totalPages,
         // combine remoteResults FoodEntry map with localResults
         [
+          ...localResults.map((localFood: FoodEntry) => formatNumericFields(localFood)), // include localResults
           ...aiResults.map((aiResult: FoodEntry) => formatNumericFields(aiResult)), // include aiResults
-          ...remoteResults.foods.map((food: FSFood) => formatNumericFields(FoodEntry.fromFoodSearchResultV3(food))),
-          ...localResults.map((localFood: FoodEntry) => formatNumericFields(localFood)) // include localResults
+          ...(remoteResults.foods || []).map((food: FSFood) => formatNumericFields(FoodEntry.fromFoodSearchResultV3(food))),
         ]
       );
 

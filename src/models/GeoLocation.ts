@@ -1,5 +1,5 @@
 
-// {"status":"success","country":"United States","countryCode":"US","region":"TX","regionName":"Texas","city":"Waco","zip":"76710","lat":31.5338,"lon":-97.1923,"timezone":"America/Chicago","isp":"AT\u0026T Enterprises, LLC","org":"AT\u0026T Internet Services","as":"AS7018 AT\u0026T Enterprises, LLC","query":"99.47.179.117"}
+// {"status":"success","country":"United States","countryCode":"US","region":"TX","regionName":"Texas","city":"Waco","zip":"76710","lat":31.559814,"lon":-97.141800,"timezone":"America/Chicago","isp":"AT\u0026T Enterprises, LLC","org":"AT\u0026T Internet Services","as":"AS7018 AT\u0026T Enterprises, LLC","query":"1.1.1.1"}
 // {"status":"fail","message":"SSL unavailable for this endpoint, order a key at https://members.ip-api.com/"}
 export default class GeoLocation {
   status: "success" | "fail";
