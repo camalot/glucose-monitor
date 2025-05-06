@@ -35,14 +35,30 @@ class FoodSearchResultInitializer {
       const $t = $(event.currentTarget);
       const template = $t.closest('[data-template="foodItem"]');
       const $data = $("data[data-bind='json']", template);
-      if (!$data) {
-        // need to generate the json
+      let foodItem = {};
+      if (!$data || $data.text() === '') {
+        // get all elements that have data-bind (except json)
+        const bound = $('[data-bind]', template);
+        bound.each((index, element) => {
+          const $element = $(element);
+          const key = $element.data('bind');
+          switch (key) {
+            case "json":
+              break;
+            case "info_url":
+              if ($element.attr('href')) {
+                foodItem[key] = $element.attr('href');
+              }
+              break;
+            default:
+              foodItem[key] = $element.text();
+          }
+        });
+      } else {
+        // if $data.text() is wrapped in quotes, remove the quotes
+        const foodDataText = $data.text().replace(/^\s*"|\s*"$/g, '');
+        foodItem = JSON.parse(foodDataText);
       }
-      // if $data.text() is wrapped in quotes, remove the quotes
-      const foodDataText = $data.text().replace(/^\s*"|\s*"$/g, '');
-      console.log(foodDataText);
-      const foodItem = JSON.parse(foodDataText);
-
       const $form = $t.closest("form");
       if ($form.get(0)) {
         for(const key in foodItem) {

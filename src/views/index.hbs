@@ -19,7 +19,14 @@
                       {{> base-card title="HbA1c" cardClass="a1c" tooltip="Calculated in real time off the selected time frame." }}
                     </div>
                     <div class="col-lg-3">
-                      {{> base-card title="Glucose" cardClass="glucose" tooltip="Current glucose level." }}
+                      <div class="position-relative">
+                        <button type="button" 
+                          class="btn-card-top-right btn btn-secondary btn-sm rounded-circle position-absolute top-0 end-0 m-2" 
+                          data-bs-toggle="modal" data-bs-target="#addReadingModal" title="Add Glucose Entry">
+                          <i class="fa-solid fa-plus"></i>
+                        </button>
+                        {{> base-card title="Glucose" cardClass="glucose" tooltip="Current glucose level." }}
+                      </div>
                       {{!-- {{> glucose-card }} --}}
                     </div>
                     <div class="col-lg-3">

@@ -38,6 +38,9 @@ export default class FoodController {
             case "time":
               foodEntry.timestamp = moment(String(req.body[key])).unix();
               continue;
+            case "search": 
+            case "json":
+              continue;
             case "calories":
             case "carbs":
             case "fat":
@@ -52,8 +55,15 @@ export default class FoodController {
                 foodEntry[key] = undefined;
               }
               break;
+            case "notes":
+              foodEntry.notes = req.body[key].replace(/\\r\\n/g, '\\n');
+              break;
             default: 
-              foodEntry[key] = req.body[key];
+              // does food entry have the property?
+              const empty = FoodEntry.empty();
+              if (empty.hasOwnProperty(key)) {
+                foodEntry[key] = req.body[key];
+              }
               break;
           }
         }
@@ -74,6 +84,11 @@ export default class FoodController {
       }
 
       await this.foodClient.record(foodEntry);
+
+      // save as a saved food as well.
+      // before we do so, set the quantity to 1
+      foodEntry.quantity = 1; // set quantity to 1 before saving
+      await this.savedFoodClient.record(foodEntry);
       
       const entryWord = entryQuantity > 1 ? 'entries' : 'entry';
       await resp.status(201).json({
@@ -221,7 +236,7 @@ export default class FoodController {
       const query = req.query?.q;
       const geoLocation = resp.locals?.geoLocation;
       const nutritionFacts = await NutritionFacts.getNutritionFacts(String(query), geoLocation);
-      if (nutritionFacts) {
+      if (nutritionFacts && !FoodEntry.isEmpty(nutritionFacts)) {
         await this.savedFoodClient.record(nutritionFacts);
       }
       return nutritionFacts;
@@ -297,7 +312,7 @@ export default class FoodController {
         return formattedFood;
       };
 
-      const aiResults = [await this.aiSearch(req, resp, next)].filter(result => result !== null);
+      const aiResults: FoodEntry[] = [await this.aiSearch(req, resp, next)].filter(result => result !== null);
       if (aiResults && aiResults[0]) {
         // increase the counts 
         totalResults += aiResults.length;
