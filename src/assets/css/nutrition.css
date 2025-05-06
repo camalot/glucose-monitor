@@ -35,7 +35,7 @@ div.nutrition-facts .tRight {
 }
 
 div.nutrition-facts .divider {
-  border-bottom: solid rgba(0 0 0 38%);
+  border-bottom: solid var(--bs-border-color);
   clear: both;
 }
 
