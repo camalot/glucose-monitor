@@ -3,6 +3,7 @@
     "fadein",
     "fatsecret",
     "glyphicon",
+    "MGDL",
     "Raleway"
   ],
   "stylelint.configFile": ".github/linters/.stylelintrc.json"

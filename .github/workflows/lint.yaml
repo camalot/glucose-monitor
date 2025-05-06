@@ -70,9 +70,11 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests
-        run: npm test
+        run: npm test && cat coverage/lcov.info
       - name: Setup LCOV
         uses: hrishikesh-kadam/setup-lcov@v1
+      - name: test output
+        run: genhtml coverage/lcov.info --ignore-errors source
       - name: Report code coverage
         uses: zgosalvez/github-actions-report-lcov@v4
         with:
