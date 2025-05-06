@@ -20,21 +20,6 @@ export enum Timeframe {
 export default class Time {
   static DEFAULT_TIMEZONE = config.timezone;
 
-  static toUnixTime(dateTime: Date): number {
-    let utcDateTime;
-    // check if dateTime is UTC
-    if (dateTime.getTimezoneOffset() !== 0) {
-      // convert dateTime to UTC time
-      utcDateTime = new Date(dateTime.toUTCString());
-    } else {
-      utcDateTime = dateTime;
-    }
-    return moment(utcDateTime).unix();
-  }
-  static fromUnixTime(unixTime: number): moment.Moment {
-    return moment.unix(unixTime);
-  }
-
   private static convertTimeframeToOffset(timeframe: Timeframe): number {
     switch (timeframe) {
       case Timeframe.TODAY:
@@ -62,27 +47,22 @@ export default class Time {
       case Timeframe.TWO_YEARS:
         return 730;
       case Timeframe.ALL_TIME:
-        return Time.totalDaysSinceEpoch();
+        return moment().diff(moment.unix(0), 'days');
       default:
         throw new Error('Invalid timeframe');
     }
   }
 
-  static totalDaysSinceEpoch() {
-    const daysSinceEpoch = moment().diff(moment.unix(0), 'days');
-    return daysSinceEpoch;
-  }
+  // static startOfDay(date: Date): moment.Moment {
+  //   return moment(date).startOf('day');
+  // }
 
-  static startOfDay(date: Date): moment.Moment {
-    return moment(date).startOf('day');
-  }
-
-  static endOfDay(date: Date): moment.Moment {
-    return moment(date).endOf('day');
-  }
+  // static endOfDay(date: Date): moment.Moment {
+  //   return moment(date).endOf('day');
+  // }
 
   static subtractTimeframe(timeframe: Timeframe, date: Date): moment.Moment {
     const offset = this.convertTimeframeToOffset(timeframe);
-    return Time.startOfDay(date).subtract(offset, 'days');
+    return moment(date).startOf('day').subtract(offset, 'days');
   }
 }

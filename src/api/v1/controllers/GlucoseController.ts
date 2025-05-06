@@ -39,7 +39,7 @@ export default class GlucoseController {
       }));
 
       await resp.json(data);
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, {
         stack: error.stack,
         headers: req.headers,
@@ -63,24 +63,10 @@ export default class GlucoseController {
 
       // push all values from entries to reduced. 
       const reduced: number[] = entries.map(e => e.value);
-      
-      // entries.forEach(entry => {
-      //   if (entry.value > 0) {
-      //     reduced.push(entry.value);
-      //     // store the date if it is the most recent compared to latestDate
-      //     if (moment.unix(entry.timestamp)
-      //       .tz(Time.DEFAULT_TIMEZONE)
-      //       .isAfter(moment(latestDate).tz(Time.DEFAULT_TIMEZONE))
-      //     ) {
-      //       latestDate = moment.unix(entry.timestamp)
-      //         .tz(Time.DEFAULT_TIMEZONE).toISOString();
-      //     }
-      //   }
-      // });
 
       const a1cValue: number = parseFloat(GlucoseUtils.calculateA1C(reduced).toFixed(2));
       resp.json(new A1C(a1cValue, latestTimestamp));
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, {
         stack: error.stack,
         headers: req.headers,
@@ -96,9 +82,9 @@ export default class GlucoseController {
     try {
       const db = new GlucoseMongoClient();
       await db.connect();
-      const data = await db.getLatest();      
+      const data: GlucoseEntry | null = await db.getLatest();
       await resp.json(data);
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, {
         stack: error.stack,
         headers: req.headers,

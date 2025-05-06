@@ -8,14 +8,22 @@ import FoodSearchResults from "./structures/FoodSearchResults";
 import Serving from "./structures/Serving";
 import { ICredentials } from "./client/BaseClient";
 
-// define the calorie
-createUnit({
-  calorie: {
-    definition: "4.184J",
-    prefixes: "short",
-    aliases: ["cal"]
-  }
-});
+// // define the calorie
+// createUnit({
+//   calorie: {
+//     definition: "4.184J",
+//     prefixes: "short",
+//     aliases: ["cal", "kcal", "calories"]
+//   },
+//   // mmol/L
+//   // mmoll: {
+
+//   //   definition: "1mmol/L = 18.015g/L",
+//   //   prefixes: "short",
+//   //   aliases: ["mmol", "millimoles"]
+//   // },
+//   // mg/dL
+// });
 
 export default {
   Client,

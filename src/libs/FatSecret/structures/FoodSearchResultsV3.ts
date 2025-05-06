@@ -1,4 +1,4 @@
-import valueToArray from "../utility/valueToArray";
+import ArrayUtility from "../../Array";
 import Food from "./Food";
 import Serving from "./Serving";
 
@@ -32,10 +32,10 @@ export default class FoodSearchResultsV3 {
     object = object || {}
 
     // extract properties
-    const maxResults = parseInt(object["max_results"], 10);
-    const pageNumber = parseInt(object["page_number"], 10);
-    const totalResults = parseInt(object["total_results"], 10);
-    const foods = (object['results']['food']) || [];
+    const maxResults = parseInt(object.max_results, 10);
+    const pageNumber = parseInt(object.page_number, 10);
+    const totalResults = parseInt(object.total_results, 10);
+    const foods = (object['results']?.['food']) || [];
 
     // return instance of FoodSearchResultsV3
     return new FoodSearchResultsV3({
@@ -44,7 +44,7 @@ export default class FoodSearchResultsV3 {
       totalResults,
 
       // map servings to instance of Serving
-      foods: valueToArray(foods)
+      foods: ArrayUtility.wrap(foods)
         .map((serving) => Food.fromResponse(serving))
     });
   }
