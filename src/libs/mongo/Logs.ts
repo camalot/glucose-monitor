@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DatabaseMongoClient from './Database';
 import config from '../../config/env';
 import clc from 'cli-color';

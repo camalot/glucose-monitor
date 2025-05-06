@@ -1,4 +1,5 @@
 import * as math from "mathjs";
+import { Units, UnitType } from "../../Units";
 
 interface IOptions {
   /* serving metadata */
@@ -123,29 +124,29 @@ export default class Serving {
     }
 
     // create function to convert provided nutrition number to units
-    const toUnit = (unit: string, n?: number) => n ? math.unit(n, unit) : null;
+    // const toUnit = (unit: string, n?: number) => n ? math.unit(n, unit) : undefined;
 
     // TODO: Make this look cleaner :3
     // convert nutritional information as math.js units
-    this.calories = toUnit("kcal", options.calories);
-    this.carbohydrate = toUnit("g", options.carbohydrate);
-    this.protein = toUnit("g", options.protein);
-    this.fat = toUnit("g", options.fat);
-    this.saturatedFat = toUnit("g", options.saturatedFat);
-    this.polyunsaturatedFat = toUnit("g", options.polyunsaturatedFat);
-    this.monounsaturatedFat = toUnit("g", options.monounsaturatedFat);
-    this.transFat = toUnit("g", options.transFat);
-    this.cholesterol = toUnit("mg", options.cholesterol);
-    this.sodium = toUnit("mg", options.sodium);
-    this.potassium = toUnit("mg", options.potassium);
-    this.fiber = toUnit("g", options.fiber);
-    this.sugar = toUnit("g", options.sugar);
-    this.addedSugars = toUnit("g", options.addedSugars);
-    this.vitaminD = toUnit("ug", options.vitaminD);
-    this.vitaminA = toUnit("ug", options.vitaminA);
-    this.vitaminC = toUnit("mg", options.vitaminC);
-    this.calcium = toUnit("mg", options.calcium);
-    this.iron = toUnit("mg", options.iron);
+    this.calories = Units.toUnit(UnitType.KCAL, options.calories);
+    this.carbohydrate = Units.toUnit(UnitType.G, options.carbohydrate);
+    this.protein = Units.toUnit(UnitType.G, options.protein);
+    this.fat = Units.toUnit(UnitType.G, options.fat);
+    this.saturatedFat = Units.toUnit(UnitType.G, options.saturatedFat);
+    this.polyunsaturatedFat = Units.toUnit(UnitType.G, options.polyunsaturatedFat);
+    this.monounsaturatedFat = Units.toUnit(UnitType.G, options.monounsaturatedFat);
+    this.transFat = Units.toUnit(UnitType.G, options.transFat);
+    this.cholesterol = Units.toUnit(UnitType.MG, options.cholesterol);
+    this.sodium = Units.toUnit(UnitType.MG, options.sodium);
+    this.potassium = Units.toUnit(UnitType.MG, options.potassium);
+    this.fiber = Units.toUnit(UnitType.G, options.fiber);
+    this.sugar = Units.toUnit(UnitType.G, options.sugar);
+    this.addedSugars = Units.toUnit(UnitType.G, options.addedSugars);
+    this.vitaminD = Units.toUnit(UnitType.UG, options.vitaminD);
+    this.vitaminA = Units.toUnit(UnitType.UG, options.vitaminA);
+    this.vitaminC = Units.toUnit(UnitType.UG, options.vitaminC);
+    this.calcium = Units.toUnit(UnitType.UG, options.calcium);
+    this.iron = Units.toUnit(UnitType.UG, options.iron);
   }
 
   /**

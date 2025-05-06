@@ -4,7 +4,7 @@ import BaseClient from "../BaseClient";
 export function getFoodSearchV3Factory(client: BaseClient) {
   // return function to send request
   return async (params: {
-    searchExpression?: string;
+    searchExpression: string;
     pageNumber?: number;
     maxResults?: number;
     region?: string;

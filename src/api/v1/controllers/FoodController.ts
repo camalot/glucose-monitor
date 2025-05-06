@@ -1,7 +1,7 @@
 import config from '../../../config';
 import * as FatSecret from '../../../libs/FatSecret';
 import Reflection from '../../../libs/Reflection';
-import {Units, UnitName, UnitType} from '../../../libs/Units'
+import {Units, UnitName, UnitType, UnitNameUtils} from '../../../libs/Units'
 import { Request, Response, NextFunction } from 'express';
 import SavedFoodMongoClient from '../../../libs/mongo/SavedFoods';
 import FoodMongoClient from '../../../libs/mongo/Food';
@@ -94,7 +94,7 @@ export default class FoodController {
       // console.log(entries);
       
       await resp.json(entries);
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
     }
@@ -117,7 +117,7 @@ export default class FoodController {
         unit: unit, 
         timestamp: latestTimestamp 
       });
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
     }
@@ -140,7 +140,7 @@ export default class FoodController {
         unit: unit, 
         timestamp: latestTimestamp 
       });
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
     }
@@ -178,7 +178,7 @@ export default class FoodController {
     try {
       const response = await client.getFood({ foodId: String(foodId) });
       await resp.json(response);
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, { stack: error.stack });
       await next(error);
 
@@ -216,7 +216,7 @@ export default class FoodController {
     }
   }
 
-  private async aiSearch(req: Request, resp: Response, next: NextFunction): Promise<FoodEntry> {
+  private async aiSearch(req: Request, resp: Response, next: NextFunction): Promise<FoodEntry | null> {
     if (resp.locals?.geoLocation) {
       const query = req.query?.q;
       const geoLocation = resp.locals?.geoLocation;
@@ -226,6 +226,7 @@ export default class FoodController {
       }
       return nutritionFacts;
     }
+    return null;
   }
 
   async search(req: Request, resp: Response, next: NextFunction): Promise<void> {
@@ -259,7 +260,7 @@ export default class FoodController {
         max_subset = max_results - totalResults;
       }
 
-      let remoteResults: FoodSearchResultsV3 = null;
+      let remoteResults: FoodSearchResultsV3 = new FoodSearchResultsV3({});
       // if source does not contain 'fatsecret', do not perform the execution here
       if (source.includes('fatsecret') || source === '' || source === undefined || source === null) {
         remoteResults = await client.getFoodSearchV3({
@@ -271,9 +272,9 @@ export default class FoodController {
       } else {
         max_subset = max_results;
       }
-      totalResults = remoteResults?.totalResults || 0;
+      totalResults = remoteResults.totalResults || 0;
 
-      let actualResults = localResults.length + (remoteResults?.foods.length || 0);
+      let actualResults = localResults.length + (remoteResults.foods?.length || 0);
 
       const totalPages = Math.ceil(totalResults / max_results);
 
@@ -309,7 +310,7 @@ export default class FoodController {
         for (const key in aiResult) {
           if (aiResult.hasOwnProperty(key)) {
             if (key.match(/_unit$/)) {
-              const unitName: UnitName = UnitName[key.toUpperCase()];
+              const unitName: UnitName | undefined = UnitNameUtils.fromName(key);
               if (unitName) {
                 aiResult[key] = Units.nameConversion(unitName);
               }
@@ -327,7 +328,7 @@ export default class FoodController {
         [
           ...localResults.map((localFood: FoodEntry) => formatNumericFields(localFood)), // include localResults
           ...aiResults.map((aiResult: FoodEntry) => formatNumericFields(aiResult)), // include aiResults
-          ...remoteResults.foods.map((food: FSFood) => formatNumericFields(FoodEntry.fromFoodSearchResultV3(food))),
+          ...(remoteResults.foods || []).map((food: FSFood) => formatNumericFields(FoodEntry.fromFoodSearchResultV3(food))),
         ]
       );
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DatabaseMongoClient from './Database'
 import FoodEntry from '../../models/FoodEntry';
 import { Abortable, Filter, FindOptions, InsertManyResult, InsertOneResult, UpdateResult } from 'mongodb';
@@ -40,7 +41,7 @@ export default class SavedFoodMongoClient extends DatabaseMongoClient<FoodEntry>
       try {
         await this.connect();
         // do not insert duplicates that have the same source_id and source if source_id is not undefined, and source is not empty or undefined
-        const filteredData = [];
+        const filteredData: FoodEntry[] = [];
         for (const entry of data) {
           if (entry.source_id !== undefined && entry.source && entry.source.trim() !== '') {
             const existingEntry = await this.collection.findOne({

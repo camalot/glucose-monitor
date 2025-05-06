@@ -4,13 +4,9 @@ import config from '../../config';
 import GeoLocation from '../../models/GeoLocation';
 
 export default class NutritionFacts {
-  private static readonly API_URL = config.chatgpt.apiUrl;
-  private static readonly MODEL = config.chatgpt.model; // Use the desired ChatGPT model
-  private static readonly API_KEY = config.chatgpt.apiKey; // Ensure this is set in your environment variables
-
-  static async getNutritionFacts(foodName: string, geo: GeoLocation): Promise<FoodEntry> {
-    if (!this.API_KEY) {
-      console.error('ChatGPT API key is not set in the environment variables.');
+  static async getNutritionFacts(foodName: string, geo: GeoLocation): Promise<FoodEntry | null> {
+    if (!config.chatgpt.apiKey) {
+      // console.error('ChatGPT API key is not set in the environment variables.');
       return null;
     }
 
@@ -58,9 +54,9 @@ export default class NutritionFacts {
 
       // Make a request to ChatGPT
       const response = await axios.post(
-        this.API_URL,
+        config.chatgpt.apiUrl,
         {
-          model: this.MODEL,
+          model: config.chatgpt.model,
           messages: [{ role: 'user', content: prompt }],
           temperature: 0.7,
         },
@@ -68,7 +64,7 @@ export default class NutritionFacts {
           timeout: 5000,
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${this.API_KEY}`,
+            Authorization: `Bearer ${config.chatgpt.apiKey}`,
           },
         }
       );
@@ -106,8 +102,8 @@ export default class NutritionFacts {
         foodEntryData.source_id
       );
       return foodEntry;
-    } catch (error) {
-      console.error('Error fetching nutrition facts from ChatGPT:', error);
+    } catch (error: any) {
+      // console.error('Error fetching nutrition facts from ChatGPT:', error);
       return null;
     }
   }

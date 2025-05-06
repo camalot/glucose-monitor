@@ -1,4 +1,4 @@
-import {Configuration, LogConfiguration, LogLevel, LogLevelConfiguration} from "../../models/Configuration";
+import {Configuration, LogConfiguration, LogLevel, LogLevelConfiguration, MongoConfiguration, UiConfiguration} from "../../models/Configuration";
 
 
 describe("Configuration Class", () => {
@@ -70,5 +70,91 @@ describe("Configuration Class", () => {
     expect(config.ui.allow).toEqual(["guest"]);
     expect(config.ui.refreshList).toEqual(["5s", "10s"]);
     expect(config.ui.defaultRefreshRate).toBe("5s");
+  });
+});
+
+describe("MongoConfiguration Class", () => {
+  it("should initialize with default values when no arguments are provided", () => {
+    const mongoConfig = new MongoConfiguration();
+
+    expect(mongoConfig.url).toBe("mongodb://localhost:27017");
+    expect(mongoConfig.database).toBe("mydatabase");
+  });
+
+  it("should initialize with provided values for url and database", () => {
+    const customUrl = "mongodb://customhost:27017";
+    const customDatabase = "customdatabase";
+    const mongoConfig = new MongoConfiguration(customUrl, customDatabase);
+
+    expect(mongoConfig.url).toBe(customUrl);
+    expect(mongoConfig.database).toBe(customDatabase);
+  });
+
+  it("should use the default url if only the database is provided", () => {
+    const customDatabase = "customdatabase";
+    const mongoConfig = new MongoConfiguration(undefined, customDatabase);
+
+    expect(mongoConfig.url).toBe("mongodb://localhost:27017");
+    expect(mongoConfig.database).toBe(customDatabase);
+  });
+
+  it("should use the default database if only the url is provided", () => {
+    const customUrl = "mongodb://customhost:27017";
+    const mongoConfig = new MongoConfiguration(customUrl);
+
+    expect(mongoConfig.url).toBe(customUrl);
+    expect(mongoConfig.database).toBe("mydatabase");
+  });
+});
+
+
+describe("UiConfiguration Class", () => {
+  it("should initialize with default values when no arguments are provided", () => {
+    const uiConfig = new UiConfiguration();
+
+    expect(uiConfig.enabled).toBe(true);
+    expect(uiConfig.allow).toEqual([]);
+    expect(uiConfig.refreshList).toEqual([]);
+    expect(uiConfig.defaultRefreshRate).toBe("30s");
+  });
+
+  it("should initialize with provided values for all properties", () => {
+    const customEnabled = false;
+    const customAllow = ["admin", "user"];
+    const customRefreshList = ["5s", "10s"];
+    const customDefaultRefreshRate = "5s";
+    const uiConfig = new UiConfiguration(customEnabled, customAllow, customRefreshList, customDefaultRefreshRate);
+
+    expect(uiConfig.enabled).toBe(customEnabled);
+    expect(uiConfig.allow).toEqual(customAllow);
+    expect(uiConfig.refreshList).toEqual(customRefreshList);
+    expect(uiConfig.defaultRefreshRate).toBe(customDefaultRefreshRate);
+  });
+
+  it("should use the default allow list if not provided", () => {
+    const uiConfig = new UiConfiguration(false);
+
+    expect(uiConfig.enabled).toBe(false);
+    expect(uiConfig.allow).toEqual([]);
+    expect(uiConfig.refreshList).toEqual([]);
+    expect(uiConfig.defaultRefreshRate).toBe("30s");
+  });
+
+  it("should use the default refreshList if not provided", () => {
+    const uiConfig = new UiConfiguration(false, ["admin"]);
+
+    expect(uiConfig.enabled).toBe(false);
+    expect(uiConfig.allow).toEqual(["admin"]);
+    expect(uiConfig.refreshList).toEqual([]);
+    expect(uiConfig.defaultRefreshRate).toBe("30s");
+  });
+
+  it("should use the default defaultRefreshRate if not provided", () => {
+    const uiConfig = new UiConfiguration(false, ["admin"], ["5s"]);
+
+    expect(uiConfig.enabled).toBe(false);
+    expect(uiConfig.allow).toEqual(["admin"]);
+    expect(uiConfig.refreshList).toEqual(["5s"]);
+    expect(uiConfig.defaultRefreshRate).toBe("30s");
   });
 });

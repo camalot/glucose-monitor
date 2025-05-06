@@ -35,6 +35,9 @@ class FoodSearchResultInitializer {
       const $t = $(event.currentTarget);
       const template = $t.closest('[data-template="foodItem"]');
       const $data = $("data[data-bind='json']", template);
+      if (!$data) {
+        // need to generate the json
+      }
       // if $data.text() is wrapped in quotes, remove the quotes
       const foodDataText = $data.text().replace(/^\s*"|\s*"$/g, '');
       console.log(foodDataText);

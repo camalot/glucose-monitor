@@ -3,6 +3,7 @@ import Food from '../libs/FatSecret/structures/Food';
 import Identity from '../libs/Identity';
 
 export default class FoodEntry {
+  [key: string]: any;
   name: string;
   brand?: string;
   description?: string;
@@ -64,20 +65,20 @@ export default class FoodEntry {
     this.description = description;
     this.serving = serving || undefined;
     this.weight = weight || undefined;
-    this.weight_unit = weight ? weight_unit || undefined : undefined;
+    this.weight_unit = weight ? weight_unit : undefined;
     this.calories = calories || undefined;
-    this.calories_unit = calories ? calories_unit || undefined : undefined;
+    this.calories_unit = calories ? calories_unit : undefined;
     this.carbs = carbs || undefined;
-    this.carbs_unit = carbs ? carbs_unit || undefined : undefined;
+    this.carbs_unit = carbs ? carbs_unit : undefined;
     this.timestamp = timestamp || moment().unix();
     this.fat = fat || undefined;
-    this.fat_unit = fat ? fat_unit || undefined : undefined;
+    this.fat_unit = fat ? fat_unit : undefined;
     this.protein = protein || undefined;
-    this.protein_unit = protein ? protein_unit || undefined : undefined;
+    this.protein_unit = protein ? protein_unit : undefined;
     this.sodium = sodium || undefined;
-    this.sodium_unit = sodium ? sodium_unit || undefined : undefined;
+    this.sodium_unit = sodium ? sodium_unit : undefined;
     this.cholesterol = cholesterol || undefined;
-    this.cholesterol_unit = cholesterol ? cholesterol_unit || undefined : undefined;
+    this.cholesterol_unit = cholesterol ? cholesterol_unit : undefined;
     this.notes = notes || undefined;
     this.quantity = quantity || 1;
 
@@ -97,50 +98,50 @@ export default class FoodEntry {
   }
 
   static isEmpty(entry: FoodEntry): boolean {
-    return !entry || (
-        Object.keys(entry).length === 1 && 
-        (entry.name === '' || entry.name === null || entry.name === undefined)
-      ) || (Object.keys(entry).length === 0);
+    if (!entry || !entry.name) {
+      return true;
+    }
+
+    return false;
   }
 
   static empty(): FoodEntry {
     return new FoodEntry(
-       "", // name
-       undefined, // brand
-       undefined, // description
-       undefined, // serving
-       undefined, // weight
-       undefined, // weight_unit
-       undefined, // calories
-       undefined, // calories_unit
-       undefined, // carbs
-       undefined, // carbs_unit
-       undefined, // timestamp
-       undefined, // fat
-       undefined, // fat_unit
-       undefined, // protein
-       undefined, // protein_unit
-       undefined, // sodium
-       undefined, // sodium_unit
-       undefined, // cholesterol
-       undefined, // cholesterol_unit
-       undefined, // notes
-       1, // quantity
-       undefined, // upc
-       undefined, // info_url
-       undefined, // source
-       undefined, // source_id
+      "", // name
+      undefined, // brand
+      undefined, // description
+      undefined, // serving
+      undefined, // weight
+      undefined, // weight_unit
+      undefined, // calories
+      undefined, // calories_unit
+      undefined, // carbs
+      undefined, // carbs_unit
+      undefined, // timestamp
+      undefined, // fat
+      undefined, // fat_unit
+      undefined, // protein
+      undefined, // protein_unit
+      undefined, // sodium
+      undefined, // sodium_unit
+      undefined, // cholesterol
+      undefined, // cholesterol_unit
+      undefined, // notes
+      1, // quantity
+      undefined, // upc
+      undefined, // info_url
+      undefined, // source
+      undefined, // source_id
     );
   }
 
   static fromFoodSearchResultV3(data: Food): FoodEntry {
     const firstServing = data.servings?.[0] || undefined;
-
     return new FoodEntry(
       data.name || "",
       data.brandName,
       firstServing?.description || undefined,
-      firstServing?.metricServingAmount?.valueOf() !== 'NaN' ? firstServing?.metricServingAmount?.valueOf() : undefined,
+      firstServing?.metricServingAmount ? firstServing.metricServingAmount.valueOf() : undefined,
       0,
       'g',
       parseFloat(firstServing?.calories?.toString() || '0'),

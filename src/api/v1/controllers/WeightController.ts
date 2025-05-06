@@ -27,7 +27,7 @@ export default class WeightController {
         tz_offset: tzOffset
       }));
       resp.json(mapped);
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`${this.MODULE}.${METHOD}`, error.message, error);
       next(error);
     }

@@ -11,6 +11,7 @@ export default class FoodsFromMyDiabetesMMigration implements Migration {
     // Path to the JSON file  
     const JSON_FILE_PATH = path.join(__dirname, 'data', 'entries_table.json');
     let client: SavedFoodMongoClient;
+    client = new SavedFoodMongoClient();
 
     try {
       // Read and parse the JSON file
@@ -25,7 +26,6 @@ export default class FoodsFromMyDiabetesMMigration implements Migration {
       const entries: any[] = importData.rows;
 
       // Connect to MongoDB
-      client = new SavedFoodMongoClient();
       await client.connect();
 
       // Prepare the data for insertion
@@ -70,12 +70,12 @@ export default class FoodsFromMyDiabetesMMigration implements Migration {
           categoryId,
           name,
           description,
+          timestamp,
           serving,
           weight,
           carbs,
           protein,
           calories,
-          timestamp
         ).toFoodEntry();
       });
       // disabled because it was running multiple times.

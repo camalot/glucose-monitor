@@ -4,7 +4,7 @@
 **/.env.*
 **/.env/
 
-app/**
+app/
 !app/package.json
 
 # Logs

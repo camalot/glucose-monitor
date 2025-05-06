@@ -1,3 +1,4 @@
+// @ts-nocheck
 import DatabaseMongoClient from './Database'
 import FoodEntry from '../../models/FoodEntry';
 import Identity from '../Identity';

@@ -39,7 +39,7 @@ export default class GlucoseController {
       }));
 
       await resp.json(data);
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, {
         stack: error.stack,
         headers: req.headers,
@@ -66,7 +66,7 @@ export default class GlucoseController {
 
       const a1cValue: number = parseFloat(GlucoseUtils.calculateA1C(reduced).toFixed(2));
       resp.json(new A1C(a1cValue, latestTimestamp));
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, {
         stack: error.stack,
         headers: req.headers,
@@ -82,9 +82,9 @@ export default class GlucoseController {
     try {
       const db = new GlucoseMongoClient();
       await db.connect();
-      const data: GlucoseEntry = await db.getLatest();
+      const data: GlucoseEntry | null = await db.getLatest();
       await resp.json(data);
-    } catch (error) {
+    } catch (error: any) {
       await this.logger.error(`${this.MODULE}.${METHOD}`, error.message, {
         stack: error.stack,
         headers: req.headers,

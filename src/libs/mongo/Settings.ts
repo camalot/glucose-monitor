@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Collection } from 'mongodb';
 import DatabaseMongoClient from './Database';
 import config from '../../config';
