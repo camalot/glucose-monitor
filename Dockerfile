@@ -34,8 +34,9 @@ WORKDIR /app
 # Copy only the generated `app` directory from the builder stage
 COPY --from=builder /glucose-monitor/app /app
 
-# Install production dependencies
-RUN npm install --omit=dev
+# install curl for health checks
+RUN apk add --no-cache curl \
+  && npm install --omit=dev
 
 # Expose the port your app runs on (default example: 3000)
 EXPOSE 3000
