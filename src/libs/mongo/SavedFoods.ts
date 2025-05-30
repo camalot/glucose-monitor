@@ -23,6 +23,10 @@ export default class SavedFoodMongoClient extends DatabaseMongoClient<FoodEntry>
 
   async record(data: FoodEntry): Promise<UpdateResult<FoodEntry>> {
     try {
+      if (FoodEntry.isEmpty(data)) {
+        console.warn('Empty food entry data provided, skipping record.');
+        return { acknowledged: true, matchedCount: 0, modifiedCount: 0, upsertedId: null } as UpdateResult<FoodEntry>;
+      }
       await this.connect();
       const result = await this.collection.updateOne(
         { source_id: data.source_id },

@@ -16,5 +16,8 @@
   },
   "description": "Tracking for Calories/A1C/Glucose",
   "author": "Ryan Conrad <camalot@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "buildSha": "default-sha",
+  "buildDate": "2025-05-23T03:14:14.376Z",
+  "buildRef": "default-ref"
 }
