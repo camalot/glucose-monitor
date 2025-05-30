@@ -40,5 +40,8 @@ RUN npm install --omit=dev
 # Expose the port your app runs on (default example: 3000)
 EXPOSE 3000
 
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD curl --fail --silent http://localhost:3000/healthz || exit 1
+
 # Start the application
 CMD ["node", "www.js"]
