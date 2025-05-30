@@ -56,7 +56,7 @@ export default class NutritionFacts {
       const client = axios.create({
         httpsAgent: new https.Agent({
           // Allow self-signed certificates for local development
-          rejectUnauthorized: false
+          rejectUnauthorized: !config.chatgpt.verifySSL
         })
       });
 
