@@ -98,7 +98,18 @@ export default class FoodEntry {
   }
 
   static isEmpty(entry: FoodEntry): boolean {
+
     if (!entry || !entry.name) {
+      return true;
+    }
+
+    if ( (!entry.protein || entry.protein === 0)
+      && (!entry.fat || entry.fat === 0)
+      && (!entry.carbs || entry.carbs === 0)
+      && (!entry.calories || entry.calories === 0)
+      && (!entry.sodium || entry.sodium === 0)
+      && (!entry.cholesterol || entry.cholesterol === 0)
+      && (!entry.weight || entry.weight === 0)) {
       return true;
     }
 
