@@ -20,6 +20,9 @@ console.log(`Reading root package.json from ${rootPackagePath}`);
 const rootPackage = JSON.parse(fs.readFileSync(rootPackagePath, 'utf-8'));
 
 const BUILD_VERSION = process.env.BUILD_VERSION || rootPackage.version || '1.0.0-snapshot';
+const BUILD_REF = process.env.BUILD_REF || 'default-ref';
+const BUILD_SHA = process.env.BUILD_SHA || 'default-sha';
+const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString();
 
 if (!fs.existsSync(appPackagePath)) {
   console.log("App package does not exist");
@@ -39,6 +42,9 @@ appPackage.dependencies = {
 
 console.log(`Updating application version from ${appPackage.version} to ${BUILD_VERSION}`);
 appPackage.version = BUILD_VERSION;
+appPackage.buildSha = BUILD_SHA;
+appPackage.buildDate = BUILD_DATE;
+appPackage.buildRef = BUILD_REF;
 appPackage.name = `${rootPackage.name}-app`;
 appPackage.description = rootPackage.description;
 appPackage.author = rootPackage.author;

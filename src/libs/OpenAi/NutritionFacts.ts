@@ -1,4 +1,5 @@
 import axios from 'axios';
+import https from 'https';
 import FoodEntry from '../../models/FoodEntry';
 import config from '../../config';
 import GeoLocation from '../../models/GeoLocation';
@@ -52,8 +53,15 @@ export default class NutritionFacts {
         nutrition data. Set any property as null if necessary, except for 'name', 'source' and 'source_id'.
       `;
 
+      const client = axios.create({
+        httpsAgent: new https.Agent({
+          // Allow self-signed certificates for local development
+          rejectUnauthorized: !config.chatgpt.verifySSL
+        })
+      });
+
       // Make a request to ChatGPT
-      const response = await axios.post(
+      const response = await client.post(
         config.chatgpt.apiUrl,
         {
           model: config.chatgpt.model,
