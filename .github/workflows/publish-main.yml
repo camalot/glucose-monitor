@@ -41,6 +41,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: version
     steps:
+      - name: Setup ROOT CA File
+        run: |
+          if [[ -z "${{ secrets.ROOT_CA_FILE }}" ]]; then
+            echo "No ROOT_CA_FILE secret found, skipping.";
+          else
+            echo "${{ secrets.ROOT_CA_FILE }}" > files/certificates/root-ca.pem;
+          fi
+
       - name: Prepare
         id: prep
         run: |
