@@ -34,9 +34,20 @@ WORKDIR /app
 # Copy only the generated `app` directory from the builder stage
 COPY --from=builder /glucose-monitor/app /app
 
-# install curl for health checks
-RUN apk add --no-cache curl \
-  && npm install --omit=dev
+# Copy all .pem files if any exist
+COPY files/certificates/*.pem /tmp/ca-certificates/
+
+# Append all .pem files to the system CA bundle if any exist
+RUN set -e; \
+    apk --no-cache add ca-certificates curl; \
+    if ls /tmp/ca-certificates/*.pem 1> /dev/null 2>&1; then \
+      cat /tmp/ca-certificates/*.pem >> /etc/ssl/certs/ca-certificates.crt; \
+      cp /tmp/ca-certificates/*.pem /usr/local/share/ca-certificates/; \
+      fi; \
+    update-ca-certificates; \
+    npm install --omit=dev; \
+    rm -rf /var/cache/apk/*
+
 
 # Expose the port your app runs on (default example: 3000)
 EXPOSE 3000

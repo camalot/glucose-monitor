@@ -59,7 +59,7 @@ export default class NutritionFacts {
           rejectUnauthorized: !config.chatgpt.verifySSL
         })
       });
-
+      console.log(`Sending request to ${config.chatgpt.apiUrl} with model: ${config.chatgpt.model}`);
       // Make a request to ChatGPT
       const response = await client.post(
         config.chatgpt.apiUrl,
@@ -69,7 +69,7 @@ export default class NutritionFacts {
           temperature: 0.7,
         },
         {
-          timeout: 5000,
+          timeout: config.chatgpt.timeout,
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${config.chatgpt.apiKey}`,
