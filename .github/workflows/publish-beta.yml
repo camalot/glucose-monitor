@@ -46,6 +46,15 @@ jobs:
             echo "BUILD_TAGS=${TAGSZ}"
             echo "BUILD_DATE=${BUILD_DATEZ}"
           } >> "$GITHUB_ENV";
+
+      - name: DEBUG
+        run: |
+          echo "IMAGE_ORG=${IMAGE_ORG}";
+          echo "IMAGE_NAME=${IMAGE_NAME}";
+          echo "GHCR_IMAGE=${GHCR_IMAGE}";
+          echo "BUILD_TAGS=${{ env.BUILD_TAGS }}";
+          echo "BUILD_DATE=${{ env.BUILD_DATE }}";
+          ls -lFA ${{ github.workspace }}/files/certificates/;
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx

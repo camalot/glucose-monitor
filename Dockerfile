@@ -34,8 +34,8 @@ WORKDIR /app
 # Copy only the generated `app` directory from the builder stage
 COPY --from=builder /glucose-monitor/app /app
 
-# Copy all .pem files if any exist
-COPY files/certificates/*.pem /tmp/ca-certificates/
+# Copy all files if any exist
+COPY files/certificates/ /tmp/ca-certificates/
 
 # Append all .pem files to the system CA bundle if any exist
 RUN set -e; \
