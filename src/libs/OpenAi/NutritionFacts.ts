@@ -111,7 +111,7 @@ export default class NutritionFacts {
       );
       return foodEntry;
     } catch (error: any) {
-      // console.error('Error fetching nutrition facts from ChatGPT:', error);
+      console.error('Error fetching nutrition facts from ChatGPT:', error);
       return null;
     }
   }
