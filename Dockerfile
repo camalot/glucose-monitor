@@ -41,9 +41,12 @@ COPY files/certificates/ /tmp/ca-certificates/
 RUN set -e; \
     apk --no-cache add ca-certificates curl; \
     if ls /tmp/ca-certificates/*.pem 1> /dev/null 2>&1; then \
+      echo "Adding custom CA certificates..."; \
+      mkdir -p /etc/ssl/certs; \
+      mkdir -p /usr/local/share/ca-certificates; \
       cat /tmp/ca-certificates/*.pem >> /etc/ssl/certs/ca-certificates.crt; \
       cp /tmp/ca-certificates/*.pem /usr/local/share/ca-certificates/; \
-      fi; \
+    fi; \
     update-ca-certificates; \
     npm install --omit=dev; \
     rm -rf /var/cache/apk/*

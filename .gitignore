@@ -4,9 +4,8 @@
 **/.env.*
 **/.env/
 
-# files/certificates/
+files/certificates/
 !files/certificates/.gitkeep
-files/certificates/*.pem
 
 app/
 !app/package.json

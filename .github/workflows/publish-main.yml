@@ -95,6 +95,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
+          context: ${{ github.workspace }}
           build-args: |
             PROJECT_NAME=${{ env.IMAGE_NAME }}
             BUILD_VERSION=${{ needs.version.outputs.app_version }}
