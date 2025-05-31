@@ -50,8 +50,9 @@ jobs:
           if [[ -z "${{ secrets.ROOT_CA_FILE }}" == "" ]]; then
             echo "No ROOT_CA_FILE secret found, skipping.";
           else
-            mkdir -p files/certificates;
-            echo "${{ secrets.ROOT_CA_FILE }}" > files/certificates/root-ca.pem;
+            echo "Setting up ROOT CA File in ${{ github.workspace }}/files/certificates/";
+            mkdir -p ${{ github.workspace }}/files/certificates;
+            echo "${{ secrets.ROOT_CA_FILE }}" > ${{ github.workspace }}/files/certificates/root-ca.pem;
           fi
 
       - name: Prepare
