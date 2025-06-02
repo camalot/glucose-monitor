@@ -28,6 +28,8 @@ export default class SettingsMongoClient extends DatabaseMongoClient<Setting> {
     } catch (err: any) {
       await logger.error(`${MODULE}.${method}`, err.message, { stack: err.stack });
       return [];
+    } finally {
+      await this.close();
     }
   }
 
@@ -42,6 +44,8 @@ export default class SettingsMongoClient extends DatabaseMongoClient<Setting> {
     } catch (err: any) {
       await logger.error(`${MODULE}.${METHOD}`, err.message, { stack: err.stack });
       return defaultValue;
+    } finally {
+      await this.close();
     }
   }
 
@@ -60,6 +64,8 @@ export default class SettingsMongoClient extends DatabaseMongoClient<Setting> {
     } catch (err: any) {
       await logger.error(`${MODULE}.${METHOD}`, err.message, { stack: err.stack });
       return false;
+    } finally {
+      await this.close();
     }
   }
 
