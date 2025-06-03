@@ -80,6 +80,8 @@ export default class SavedFoodMongoClient extends DatabaseMongoClient<FoodEntry>
       } catch (error) {
         console.error('Error recording multiple food entries:', error);
         throw error;
+      } finally {
+        await this.close();
       }
     }
 }

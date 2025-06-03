@@ -34,11 +34,29 @@ WORKDIR /app
 # Copy only the generated `app` directory from the builder stage
 COPY --from=builder /glucose-monitor/app /app
 
-# Install production dependencies
-RUN npm install --omit=dev
+# Copy all files if any exist
+COPY files/certificates/ /tmp/ca-certificates/
+
+# Append all .pem files to the system CA bundle if any exist
+RUN set -e; \
+    apk --no-cache add ca-certificates curl; \
+    if ls /tmp/ca-certificates/*.pem 1> /dev/null 2>&1; then \
+      echo "Adding custom CA certificates..."; \
+      mkdir -p /etc/ssl/certs; \
+      mkdir -p /usr/local/share/ca-certificates; \
+      cat /tmp/ca-certificates/*.pem >> /etc/ssl/certs/ca-certificates.crt; \
+      cp /tmp/ca-certificates/*.pem /usr/local/share/ca-certificates/; \
+    fi; \
+    update-ca-certificates; \
+    npm install --omit=dev; \
+    rm -rf /var/cache/apk/*
+
 
 # Expose the port your app runs on (default example: 3000)
 EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD curl --fail --silent http://localhost:3000/healthz || exit 1
 
 # Start the application
 CMD ["node", "www.js"]

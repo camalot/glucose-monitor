@@ -4,6 +4,10 @@
 **/.env.*
 **/.env/
 
+.data/
+files/certificates/
+!files/certificates/.gitkeep
+
 app/
 !app/package.json
 

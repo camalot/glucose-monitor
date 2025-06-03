@@ -25,6 +25,8 @@ export default class MigrationsMongoClient extends DatabaseMongoClient<Migration
     } catch (error) {
       console.error(`Error recording migration for ID: ${id}`, error);
       return null;
+    } finally {
+      await this.close();
     }
   }
 
@@ -38,6 +40,8 @@ export default class MigrationsMongoClient extends DatabaseMongoClient<Migration
     } catch (error) {
       console.error(`Error fetching migration for ID: ${id}`, error);
       return null;
+    } finally {
+      await this.close();
     }
   }
 
@@ -51,6 +55,8 @@ export default class MigrationsMongoClient extends DatabaseMongoClient<Migration
     } catch (error) {
       console.error(`Error checking migration status for ID: ${id}`, error);
       return false;
+    } finally {
+      await this.close();
     }
   }
 
