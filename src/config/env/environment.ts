@@ -99,6 +99,8 @@ const config = {
     apiKey: getEnvVarString('GM_OPENAI_API_KEY', ''),
     apiUrl: getEnvVarString('GM_OPENAI_API_URL', 'https://api.openai.com/v1/chat/completions'),
     model: getEnvVarString('GM_OPENAI_MODEL', 'gpt-4o'),
+    verifySSL: getEnvVarBooleanDefault('GM_OPENAI_VERIFY_SSL', true),
+    timeout: getEnvVarInt('GM_OPENAI_TIMEOUT_SECONDS', 5) * 1000, // Convert seconds to milliseconds
   },
   ui: {
     enabled: uiEnabled,

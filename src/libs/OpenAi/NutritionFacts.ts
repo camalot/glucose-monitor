@@ -1,4 +1,5 @@
 import axios from 'axios';
+import https from 'https';
 import FoodEntry from '../../models/FoodEntry';
 import config from '../../config';
 import GeoLocation from '../../models/GeoLocation';
@@ -52,8 +53,15 @@ export default class NutritionFacts {
         nutrition data. Set any property as null if necessary, except for 'name', 'source' and 'source_id'.
       `;
 
+      const client = axios.create({
+        httpsAgent: new https.Agent({
+          // Allow self-signed certificates for local development
+          rejectUnauthorized: !config.chatgpt.verifySSL
+        })
+      });
+      console.log(`Sending request to ${config.chatgpt.apiUrl} with model: ${config.chatgpt.model}`);
       // Make a request to ChatGPT
-      const response = await axios.post(
+      const response = await client.post(
         config.chatgpt.apiUrl,
         {
           model: config.chatgpt.model,
@@ -61,7 +69,7 @@ export default class NutritionFacts {
           temperature: 0.7,
         },
         {
-          timeout: 5000,
+          timeout: config.chatgpt.timeout,
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${config.chatgpt.apiKey}`,
@@ -103,7 +111,7 @@ export default class NutritionFacts {
       );
       return foodEntry;
     } catch (error: any) {
-      // console.error('Error fetching nutrition facts from ChatGPT:', error);
+      console.error('Error fetching nutrition facts from ChatGPT:', error);
       return null;
     }
   }

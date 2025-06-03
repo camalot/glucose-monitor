@@ -20,6 +20,8 @@ export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> 
       await this.collection.insertOne(entry);
     } catch(error) {
       console.error("Error recording weight entry:", error);
+    } finally {
+      await this.close();
     }
 
   }
@@ -33,6 +35,8 @@ export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> 
       } catch (error) {
         console.error('Error recording multiple weight entries:', error);
         throw error;
+      } finally {
+        await this.close();
       }
     }
 
@@ -46,6 +50,8 @@ export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> 
     } catch (error) {
       console.error("Error fetching weight entries:", error);
       throw error;
+    } finally {
+      await this.close();
     }
   }
 
@@ -58,6 +64,8 @@ export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> 
       } catch (error) {
         console.error("Error fetching weight entries:", error);
         throw error;
+      } finally {
+        await this.close();
       }
     }
 
@@ -68,6 +76,8 @@ export default class WeightMongoClient extends DatabaseMongoClient<WeightEntry> 
     } catch(error) {
       console.error("Error retrieving weight entries:", error);
       return [];
+    } finally {
+      await this.close();
     }
   }
 
