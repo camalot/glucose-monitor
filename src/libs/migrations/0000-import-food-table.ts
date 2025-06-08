@@ -118,12 +118,6 @@ export default class FoodTableMyDiabetesMMigration implements Migration {
       console.log(`${result.insertedCount} records inserted into the saved foods collection`);
     } catch (error) {
       console.error('Error importing foods data:', error);
-    } finally {
-      // Close the MongoDB connection
-      if (client) {
-        await client.close();
-        console.log('MongoDB connection closed');
-      }
     }
   }
 }

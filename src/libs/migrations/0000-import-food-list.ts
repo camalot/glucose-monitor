@@ -48,7 +48,7 @@ export default class FoodsFromMyDiabetesMMigration implements Migration {
         // 639|12|Air Popped Popcorn|Air Popped Popcorn - 2.0 cup|cup|0.8|12.0|2.0|62.0
         // id|category_id|name|description|serving|weight|carbohydrates|protein|calories
         // take the item_entry and split it by |
-        
+
         const itemDetails = item_entry.split('|');
         const id = parseInt(itemDetails[0]);
         const categoryId = parseInt(itemDetails[1]);
@@ -85,12 +85,6 @@ export default class FoodsFromMyDiabetesMMigration implements Migration {
       // console.log(`${result.insertedCount} records inserted into the saved foods collection`);
     } catch (error) {
       console.error('Error importing foods data:', error);
-    } finally {
-      // Close the MongoDB connection
-      if (client) {
-        await client.close();
-        console.log('MongoDB connection closed');
-      }
     }
   }
 }
