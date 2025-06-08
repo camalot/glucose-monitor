@@ -2,6 +2,9 @@
 import { MongoClient, Db, Collection } from 'mongodb';
 import config from '../../config/env';
 
+let mongoClientInstance: MongoClient | null = null;
+let mongoDbInstance: Db | null = null;
+
 class DatabaseMongoClient<T> {
   private database: string;
   private url: string;
@@ -20,24 +23,30 @@ class DatabaseMongoClient<T> {
   }
 
   async connect(): Promise<void> {
-    if (this.client && this.db) {
+    if (mongoClientInstance && mongoDbInstance) {
+      this.client = mongoClientInstance;
+      this.db = mongoDbInstance;
+      this.collection = this.db.collection(this.collectionName);
       return;
     }
     console.log("Connecting to MongoDB...");
     this.client = await MongoClient.connect(this.url, {});
-
-    console.log("Connected to MongoDB");
     this.db = this.client.db(this.database);
+    mongoClientInstance = this.client;
+    mongoDbInstance = this.db;
     this.collection = this.db.collection(this.collectionName);
+    console.log("Connected to MongoDB");
     console.log("Database selected:", this.database);
     console.log("Connection established successfully.");
   }
 
   async close(): Promise<void> {
-    if (!this.client) {
+    if (!mongoClientInstance) {
       return;
     }
-    await this.client.close();
+    await mongoClientInstance.close();
+    mongoClientInstance = null;
+    mongoDbInstance = null;
     this.client = null;
     this.db = null;
   }
