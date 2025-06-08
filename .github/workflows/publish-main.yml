@@ -41,6 +41,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: version
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup ROOT CA File
+        run: |
+          # if the ROOT_CA_FILE secret is set, write it to a file
+          if [[ -z "${{ secrets.ROOT_CA_FILE }}" ]]; then
+            echo "No ROOT_CA_FILE secret found, skipping.";
+          else
+            echo "Setting up ROOT CA File in ${{ github.workspace }}/files/certificates/";
+            mkdir -p ${{ github.workspace }}/files/certificates;
+            echo "${{ secrets.ROOT_CA_FILE }}" > ${{ github.workspace }}/files/certificates/root-ca.pem;
+          fi
+
       - name: Prepare
         id: prep
         run: |
@@ -81,6 +95,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
+          context: ${{ github.workspace }}
           build-args: |
             PROJECT_NAME=${{ env.IMAGE_NAME }}
             BUILD_VERSION=${{ needs.version.outputs.app_version }}

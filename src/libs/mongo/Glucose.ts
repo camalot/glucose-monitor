@@ -51,6 +51,7 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
 
   async getLatest(): Promise<GlucoseEntry | null> {
     try {
+      await this.connect();
       const latestEntry = await this.collection.find({}, { projection: { _id: 0 }, sort: { timestamp: -1 } }).limit(1).toArray();
       if (latestEntry.length > 0) {
         return latestEntry[0];

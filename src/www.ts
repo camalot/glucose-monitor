@@ -129,6 +129,21 @@ app.listen(port, async () => {
 //   }
 // });
 
+// Graceful shutdown
+const shutdown = async () => {
+  console.log('Shutting down server...');
+  try {
+    await logger.info('glucose_monitor.www', 'Server shutting down, closing DB connections');
+    await logger.close(); // Close MongoDB connection
+  } catch (err) {
+    console.error('Error during shutdown:', err);
+  }
+  process.exit(0);
+};
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
+
 process.on('uncaughtException', async (error: NodeJS.ErrnoException) => {
   if (error.syscall !== 'listen') {
     throw error;

@@ -8,16 +8,16 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.3",
-    "glucose-monitor": "file:..",
     "mathjs": "^14.4.0",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.48",
-    "mongodb": "^6.16.0"
+    "mongodb": "^6.16.0",
+    "glucose-monitor": "file:.."
   },
   "description": "Tracking for Calories/A1C/Glucose",
   "author": "Ryan Conrad <camalot@gmail.com>",
   "license": "MIT",
   "buildSha": "default-sha",
-  "buildDate": "2025-05-23T03:14:14.376Z",
+  "buildDate": "2025-05-31T17:37:51.366Z",
   "buildRef": "default-ref"
 }

@@ -62,12 +62,6 @@ export default class WeightFromMyDiabetesMMigration implements Migration {
       // console.log(`${result.insertedCount} records inserted into the weight collection`);
     } catch (error) {
       console.error('Error importing weight data:', error);
-    } finally {
-      // Close the MongoDB connection
-      if (client) {
-        await client.close();
-        console.log('MongoDB connection closed');
-      }
     }
   }
 }
