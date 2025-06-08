@@ -27,8 +27,6 @@ export default class FoodMongoClient extends DatabaseMongoClient<FoodEntry> {
       } catch (error) {
         console.error("Error fetching food entries:", error);
         throw error;
-      } finally {
-        await this.close();
       }
     }
 
@@ -79,8 +77,6 @@ export default class FoodMongoClient extends DatabaseMongoClient<FoodEntry> {
     } catch (error) {
       console.error(clc.red('Error recording food entry:'), error);
       throw error;
-    } finally {
-      await this.close();
     }
   }
 

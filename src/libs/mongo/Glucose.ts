@@ -22,8 +22,6 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
     } catch (error) {
       console.error("Error fetching glucose entries:", error);
       throw error;
-    } finally {
-      await this.close();
     }
   }
 
@@ -36,8 +34,6 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
     } catch (error) {
       console.error("Error fetching glucose entries:", error);
       throw error;
-    } finally {
-      await this.close();
     }
   }
 
@@ -50,8 +46,6 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
     } catch (error) {
       console.error("Error fetching glucose entries:", error);
       throw error;
-    } finally {
-      await this.close();
     }
   }
 
@@ -67,8 +61,6 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
 
       console.error("Error fetching latest glucose entry:", error);
       throw error;
-    } finally {
-      await this.close();
     }
   }
 
@@ -81,8 +73,6 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
     } catch (error) {
       console.error(clc.red('Error recording glucose entry:'), error);
       throw error;
-    } finally {
-      await this.close();
     }
   }
 
@@ -95,8 +85,6 @@ class GlucoseMongoClient extends DatabaseMongoClient<GlucoseEntry> {
     } catch (error) {
       console.error('Error recording multiple glucose entries:', error);
       throw error;
-    } finally {
-      await this.close();
     }
   }
 }
