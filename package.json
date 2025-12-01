@@ -19,7 +19,7 @@
     "body-parser": "^2.2.0",
     "cli-color": "^2.0.4",
     "dotenv": "^16.5.0",
-    "express": "^5.1.0",
+    "express": "^5.2.0",
     "express-handlebars": "^8.0.3",
     "mathjs": "^14.4.0",
     "moment": "^2.30.1",
